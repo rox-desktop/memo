@@ -106,7 +106,7 @@ class EditBox(g.Dialog):
 		text.set_scroll_adjustments(None, adj)
 		hbox.pack_start(scrollbar, FALSE, TRUE, 0)
 
-		text.set_size_request(200, -1)
+		text.set_size_request(200, 200)
 
 		self.text = text
 

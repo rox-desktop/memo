@@ -2,6 +2,14 @@
 			Reminds you about things
 			by Thomas Leonard
 
+TODO:
+- Option/button to speak the time
+
+07-Aug-2002
+~~~~~~~~~~~
+Text box for memo message now scrolls correctly (instead of just getting
+larger and larger!).
+
 13-Jul-2002 (Release 1.9.0)
 ~~~~~~~~~~~
 Turned on word-wrapping in the editor dialog.
