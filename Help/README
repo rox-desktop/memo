@@ -1,0 +1,79 @@
+			Memo
+			Reminds you about things
+			by Thomas Leonard
+
+		*** NOTE: This program is not finished! ***
+
+Brief
+~~~~~
+Memo is a small utility which you can use to store appointments and 'TODO'
+items. It displays the next few entries in a small window, and can also be
+instructed to beep and bring up a window with a message later.
+
+It's written in python, so you don't need to compile it before using it, but
+you will require the 'pygtk' (or 'gnome-python') package.
+
+	http://rox.sourceforge.net
+
+To run, click on its icon in a filer window.
+
+No installation is required, but you can copy it anywhere you want using
+the filer...
+
+
+Instructions
+~~~~~~~~~~~~
+When run, a small window appears displaying the current time and a list of
+the next few memos below.
+
+Right-click for a menu.
+
+To create a new memo:
+
+- Click on the button displaying the time - the 'Create memo:' window
+  appears.
+
+- Type in a message to yourself in the large white square.
+
+- Use the calendar display to select a date for the memo.
+
+- You can also specify a time for the memo by clicking on the 'At...'
+  check box. Use the arrows that appear to set the time.
+
+  Memos with a time are alarms and will cause a box to appear when they go
+  off.
+
+- Click OK to add the memo to the list.
+
+To edit or remove a memo, click on it in the list.
+
+
+Timezones
+~~~~~~~~~
+All times are displayed and input in your local time, but stored internally
+as seconds since a fixed date.
+
+Therefore, if you set an alarm for 7pm and then change timezones, the alarm
+may now appear to have changed time. It will go off when the time is 7pm IN
+THE ZONE WHERE YOU SET THE MEMO.
+
+TODO: Does BST affect things?
+
+
+Conditions
+~~~~~~~~~~
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+Please report any bugs to me, <tal197@users.sourceforge.net>.

@@ -1,0 +1,41 @@
+#! /usr/bin/env python
+# vi: set syntax=python : */
+
+from gtk import *
+import GDK
+from TimeDisplay import *
+from memos import *
+import menus
+
+window = GtkWindow(WINDOW_TOPLEVEL)
+window.set_wmclass("Memo", "Memo")
+window.set_title("Memo")
+window.set_default_size(200, 100)
+
+vbox = GtkVBox(homogeneous = FALSE, spacing = 0)
+window.add(vbox)
+
+time_button = GtkButton()
+time_button.add(TimeDisplay())
+vbox.pack_start(time_button, expand = FALSE)
+vbox.pack_start(memo_list, expand = TRUE)
+
+def button_press(widget, event):
+	if event.type != GDK.BUTTON_PRESS:
+		return
+	elif event.button == 2 or event.button == 3:
+		menus.show_menu(event)
+	return 1
+
+def time_clicked(widget):
+	new_memo()
+
+window.add_events(GDK.BUTTON_PRESS_MASK)
+window.connect("button-press-event", button_press)
+time_button.connect("button-press-event", button_press)
+time_button.connect("clicked", time_clicked)
+
+window.show_all()
+window.connect("destroy", mainquit)
+
+mainloop()
