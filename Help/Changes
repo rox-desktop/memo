@@ -2,6 +2,10 @@
 			Reminds you about things
 			by Thomas Leonard
 
+19-Jan-2001
+~~~~~~~~~~~
+Main window widgets don't grab the focus (looks better).
+
 13-Jan-2001
 ~~~~~~~~~~~
 Started.

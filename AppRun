@@ -17,8 +17,10 @@ window.add(vbox)
 
 time_button = GtkButton()
 time_button.add(TimeDisplay())
+time_button.unset_flags(CAN_FOCUS)
 vbox.pack_start(time_button, expand = FALSE)
 vbox.pack_start(memo_list, expand = TRUE)
+memo_list.unset_flags(CAN_FOCUS)
 
 def button_press(widget, event):
 	if event.type != GDK.BUTTON_PRESS:
