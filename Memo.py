@@ -11,8 +11,10 @@ def memo_from_node(node):
 
 	def flag(attr):
 		v = node.getAttribute(attr)
+		if v == 'True': return True
+		if v == 'False': return False
 		try:
-			return int(v)
+			return bool(int(v))
 		except:
 			return 0
 

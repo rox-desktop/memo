@@ -5,6 +5,10 @@
 TODO:
 - Option/button to speak the time
 
+18-Sep-2003
+~~~~~~~~~~~
+Bugfix: 'at' got turned off when loading with Python 2.3.
+
 26-Jul-2003 (Release 1.9.3)
 ~~~~~~~~~~~
 Try to access ROX-Lib through Zero Install, if possible.

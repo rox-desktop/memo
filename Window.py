@@ -185,4 +185,4 @@ class Window(g.Window):
 		if delay > 60 * 60 * 24:
 			delay = 60 * 60 * 24
 
-		self.timeout = g.timeout_add(1000 * delay, self.timeout_cb)
+		self.timeout = g.timeout_add(int(1000 * delay), self.timeout_cb)
