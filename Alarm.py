@@ -1,72 +1,43 @@
-import memos
-from gtk import *
-from support import *
+from rox import g
+import time
 
-current_alarm = None
-alarms = []
+from memos import memo_list
 
-def show_alarm(memo):
-	def process_next(widget = None, process_next = None):
-		if len(alarms) > 0:
-			current_alarm = Alarm(alarms[0])
-			del alarms[0]
-			current_alarm.connect('destroy', process_next)
-			memos.memo_list.save()
-			gdk_beep()
-			gdk_flush()
-			from time import sleep
-			sleep(1)
-			gdk_beep()
-			current_alarm.show()
-	alarms.append(memo)
-	if current_alarm == None:
-		process_next(process_next = process_next)
+DELETE = 1
+EDIT = 2
 
-class Alarm(GtkWindow):
+class Alarm(g.MessageDialog):
 	def __init__(self, memo):
-		GtkWindow.__init__(self, WINDOW_DIALOG)
+		g.MessageDialog.__init__(self, None, g.DIALOG_MODAL,
+					 g.MESSAGE_INFO, g.BUTTONS_NONE,
+					 'Alarm set for %s:\n%s' %
+					 (time.ctime(memo.time), memo.message))
+		self.add_button(g.STOCK_DELETE, DELETE)
+		self.add_button(g.STOCK_PROPERTIES, EDIT)
+		self.add_button(g.STOCK_OK, g.RESPONSE_OK)
+
 		self.set_title('Memo:')
-		self.set_modal(TRUE)
-		self.set_position(WIN_POS_CENTER)
-		self.set_border_width(2)
+		self.set_modal(g.TRUE)
+		self.set_position(g.WIN_POS_CENTER)
 		memo.silent = 1
 		self.memo = memo
-
-		vbox = GtkVBox(FALSE, 0)
-		self.add(vbox)
-
-		message = GtkLabel(memo.message)
-		message.set_line_wrap(TRUE)
-		text_container = GtkEventBox()
-		text_container.set_border_width(40)
-		text_container.add(message)
-		vbox.pack_start(text_container, TRUE, TRUE, 0)
-
-		action_area = GtkHBox(TRUE, 5)
-		action_area.set_border_width(2)
-		vbox.pack_start(GtkHSeparator(), FALSE, TRUE, 2)
-		vbox.pack_start(action_area, FALSE, TRUE, 0)
-
-		default_button = None
-		for b in ['Remove', 'Silence', 'Edit']:
-			label = GtkLabel(b)
-			label.set_padding(16, 2)
-			button = GtkButton()
-			button.add(label)
-			button.set_flags(CAN_DEFAULT)
-			action_area.pack_start(button, TRUE, TRUE, 0)
-			button.connect('clicked', self.button, b)
-			default_button = button
 		
-		default_button.grab_focus()
-		default_button.grab_default()
-		action_area.set_focus_child(default_button)
-
-		vbox.show_all()
+		self.connect('response', self.response)
+		self.set_default_response(g.RESPONSE_OK)
 	
-	def button(self, button, text):
+	def response(self, widget, response):
+		if response == g.RESPONSE_OK:
+			pass
+		elif response == DELETE:
+			memo_list.delete(self.memo)
+			memo_list.save()
+			pass
+		elif response == EDIT:
+			from EditBox import EditBox
+			EditBox(self.memo).show()
+		elif response == g.RESPONSE_DELETE_EVENT:
+			return
+		else:
+			print "Unknown response", response
+			return
 		self.destroy()
-		if text == 'Remove':
-			memos.memo_list.delete(self.memo)
-		elif text == 'Edit':
-			memos.edit_memo(self.memo)

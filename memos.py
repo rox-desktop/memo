@@ -1,85 +1,87 @@
-from gtk import *
-from time import *
+from __future__ import generators
+
+import rox, gobject
+from rox import g, choices
+
+import time
 import os
-import string
-from rox import choices
-from rox import support
-from xmllib import *
-from support import *
-from TimeDisplay import month_name
 
-from Memo import Memo
-from Alarm import *
-from EditBox import EditBox
+from Memo import Memo, memo_from_node
 
-memo_box = None
+# Columns
+TIME = 0
+BRIEF = 1
+MEMO = 2
 
-def new_memo():
-	edit_memo(None)
-
-def edit_memo(memo = None):
-	global memo_box
-	if memo_box:
-		memo_box.destroy()
-	memo_box = EditBox(memo)
-	memo_box.show()
-
-class MemoList(GtkCList):
+class MemoList(g.ListStore):
 	def __init__(self):
-		global memo_list
-		memo_list = self
-
-		GtkCList.__init__(self, 2)
-		self.set_shadow_type(SHADOW_NONE)
-		self.set_column_auto_resize(0, TRUE)
-		self.set_column_justification(0, JUSTIFY_RIGHT)
-		self.memos = []
-		self.timeout = 0
+		g.ListStore.__init__(self, gobject.TYPE_STRING,	# Time
+					gobject.TYPE_STRING,	# Brief
+					gobject.TYPE_OBJECT)	# Memo
+		self.watchers = []
 
 		path = choices.load('Memo', 'Entries')
 		if path:
-			self.loading = TRUE
 			try:
-				l = Loader(self, path)
-				f = open(path, 'rb')
-				l.feed(f.read())
-				l.close()
+				from xml.dom import minidom, Node
+				doc = minidom.parse(path)
 			except:
-				support.report_exception()
-		self.loading = FALSE
+				rox.report_exception()
 
-		self.connect('select-row', self.select_row)
+			errors = 0
+			for node in doc.documentElement.childNodes:
+				if node.nodeType == Node.ELEMENT_NODE:
+					try:
+						memo = memo_from_node(node)
+						self.add(memo)
+					except:
+						if not errors:
+							rox.report_exception()
+							errors = 1
+	
+	def __iter__(self):
+		"When used as a python iterator, return a list of TreeIters"
+		iter = self.get_iter_first()
+		while iter:
+			yield iter
+			if not self.iter_next(iter):
+				iter = None
+	
+	def delete(self, memo, update = 1):
+		for iter in self:
+			m = self.get_value(iter, MEMO)
+			if m is memo:
+				self.remove(iter)
+				if update:
+					map(apply, self.watchers)
+					self.save()
+				return
+		
+		raise Exception('Memo %s not found!' % memo)
+	
+	def add(self, memo):
+		assert isinstance(memo, Memo)
 
-		self.prime()
-	
-	def select_row(self, list, row, col, bev):
-		list.unselect_row(row, col)
-		memo = self.memos[row]
-		edit_memo(memo)
-	
-	def add(self, memo, remove = None):
-		if remove:
-			self.delete(remove, save = FALSE)
-			
-		i = 0
-		for m in self.memos:
+		for iter in self:
+			m = self.get_value(iter, MEMO)
 			if m.comes_after(memo):
 				break
-			i = i + 1
-		self.insert(i, (memo.str_when() + ':', memo.brief))
-		self.memos.insert(i, memo)
+		else:
+			iter = None
 
-		if not self.loading:
-			self.save()
-			self.prime()
-	
-	def delete(self, memo, save = TRUE):
-		i = self.memos.index(memo)
-		del self.memos[i]
-		self.remove(i)
-		if save:
-			self.save()
-			self.prime()
+		if iter:
+			new = self.insert_before(iter)
+		else:
+			# PyGtk bug
+			new = self.append()
+		
+		self.set(new,
+			 TIME, memo.str_when(),
+			 BRIEF, memo.brief,
+			 MEMO, memo)
+
+		map(apply, self.watchers)
+		self.save()
 	
 	def save(self):
   		path = choices.save('Memo', 'Entries.new')
@@ -88,92 +90,52 @@ class MemoList(GtkCList):
 				"Memo: Saving disabled by CHOICESPATH\n")
 			return
 		try:
-			f = None
-			try:
-				f = os.open(path,
-					    os.O_CREAT | os.O_WRONLY,
-					    0600)
-				os.write(f, '<?xml version="1.0"?>\n<memos>\n')
-				for m in self.memos:
-					m.save(f)
-				os.write(f, '</memos>\n')
-			finally:
-				if f != None:
-					os.close(f)
+			from xml.dom import minidom
+			doc = minidom.Document()
+
+			root = doc.createElement('memos')
+			doc.appendChild(root)
+			for iter in self:
+				m = self.get_value(iter, MEMO)
+				m.save(root)
+
+			f = os.open(path, os.O_CREAT | os.O_WRONLY,
+				    0600)
+			stream = os.fdopen(f, 'w')
+			doc.writexml(stream)
+			stream.close()
+
 			real_path = choices.save('Memo', 'Entries')
 			os.rename(path, real_path)
 		except:
-  			support.report_exception()
+  			rox.report_exception()
 	
-	# Deal with any missed alarms
-	# Set a timeout for the next alarm
-	def prime(self):
-		for m in self.memos[:]:
+	def get_memo_by_path(self, path):
+		iter = memo_list.get_iter(path)
+		return self.get_memo_by_iter(iter)
+	
+	def get_memo_by_iter(self, iter):
+		return memo_list.get_value(iter, MEMO)
+
+	def catch_up(self):
+		"Returns a list of alarms to go off, and the time until the "
+		"next alarm (in seconds) or None."
+		
+		missed = []
+		now = time.time()
+
+		for iter in self:
+			m = self.get_value(iter, MEMO)
+
 			if m.silent or not m.at:
 				continue
-			delay = m.time - time()
+
+			delay = m.time - now
 
 			if delay <= 0:
-				show_alarm(m)
+				missed.append(m)
 			else:
-				self.schedule(delay)
-				return
-
-	def timeout_cb(self):
-		timeout_remove(self.timeout)
-		self.timeout = 0
-		self.prime()
-		return 0
+				return (missed, delay)
+		return (missed, None)
 	
-	def schedule(self, delay):
-		if self.timeout:
-			timeout_remove(self.timeout)
-
-		# Avoid overflows - don't resched more than a day ahead
-		if delay > 60 * 60 * 24:
-			delay = 60 * 60 * 24
-
-		self.timeout = timeout_add(1000 * delay, self.timeout_cb)
-
-class Loader(XMLParser):
-	def __init__(self, list, path):
-		XMLParser.__init__(self)
-		self.list = list
-		f = open(path, 'rb')
-		self.elements = {
-			'memo': (self.start_memo, self.end_memo),
-			'time': (self.start_time, None),
-			'message': (self.start_message, None)
-		}
-		self.attributes = {
-			'memo' : {'at': '0', 'silent': '0'}
-		}
-		self.data_tag = None
-	
-	def start_memo(self, attribs):
-		self.time = ''
-		self.message = ''
-		self.at = int(attribs['at'])
-		self.silent = int(attribs['silent'])
-	
-	def end_memo(self):
-		m = Memo(int(self.time), self.message, self.at, self.silent)
-		self.list.add(m)
-	
-	def start_message(self, attribs):
-		self.data_tag = 'message'
-		self.message = ''
-	
-	def start_time(self, attribs):
-		self.data_tag = 'time'
-		self.time = ''
-	
-	def unknown_endtag(self, tag):
-		self.data_tag = None
-	
-	def handle_data(self, d):
-		if not self.data_tag:
-			return
-		setattr(self, self.data_tag, getattr(self, self.data_tag) + d)
-
-MemoList()
+memo_list = MemoList()

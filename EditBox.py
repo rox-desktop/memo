@@ -1,120 +1,163 @@
-from gtk import *
-from time import *
+from rox import g, FALSE, TRUE
+import time
 
 from Arrow import Arrow
 from Memo import Memo
 import memos
-from support import *
 
-class EditBox(GtkWindow):
-	def __init__(self, memo):
-		GtkWindow.__init__(self, WINDOW_DIALOG)
+from pretty_time import str_time
+
+DELETE = 1
+
+class EditBox(g.Dialog):
+	def __init__(self, memo = None):
+		g.Dialog.__init__(self)
+		self.set_has_separator(FALSE)
+
+		if memo:
+			self.add_button(g.STOCK_DELETE, DELETE)
+
+		self.add_button(g.STOCK_CANCEL, g.RESPONSE_CANCEL)
+		self.add_button(g.STOCK_OK, g.RESPONSE_OK)
+
 		self.memo = memo
 		if memo:
 			self.set_title("Edit memo:")
+			t = time.localtime(memo.time)
 		else:
 			self.set_title("Create memo:")
+			t = time.localtime(time.time() + 5 * 60)
 			
-		self.set_border_width(2)
-
-		vbox = GtkVBox(FALSE, 0)
-		self.add(vbox)
-
-		hbox = GtkHBox(FALSE, 0)
-		vbox.pack_start(hbox, FALSE, TRUE, 0)
-
-		if memo:
-			t = localtime(memo.time)
-		else:
-			t = localtime(time() + 5 * 60)
 		year, month, day, hour, minute, second,	weekday, julian, dst = t
 		self.hour = hour
 		self.min = minute
 
-		self.cal = GtkCalendar()
-		hbox.pack_start(self.cal, FALSE, TRUE, 4)
+		self.cal = g.Calendar()
 		self.cal.select_month(month - 1, year)
 		self.cal.select_day(day)
 
-		self.text = GtkText()
-		self.text.set_editable(TRUE)
+		at_box = self.make_at_box()
+
+		text_frame = self.make_text_view()
+
+		# Time/Date on the left, Text on the right
+		hbox = g.HBox(FALSE, 0)
+		self.vbox.pack_start(hbox, TRUE, TRUE, 0)
+
+		# Date above time
+		vbox = g.VBox(FALSE, 0)
+		hbox.pack_start(vbox, FALSE, TRUE, 0)
+		vbox.set_border_width(4)
+		vbox.pack_start(self.cal, FALSE, TRUE, 0)
+
+		spacer = g.Alignment()
+		vbox.pack_start(spacer, FALSE, TRUE, 2)
+
+		vbox.pack_start(at_box, FALSE, TRUE, 0)
+
+		hbox.pack_start(text_frame, TRUE, TRUE, 0)
+
+		self.vbox.show_all()
+
 		if memo:
-			self.text.insert_defaults(memo.message)
-		hbox.pack_start(self.text, TRUE, TRUE, 0)
-		scrollbar = GtkVScrollbar(self.text.get_vadjustment())
+			buffer = self.text.get_buffer()
+			buffer.insert_at_cursor(memo.message, -1)
+		if memo and memo.at:
+			self.at.set_active(TRUE)
+		if memo == None or memo.at == 0:
+			self.at_box.hide()
+
+		self.connect('response', self.response)
+		self.text.grab_focus()
+		self.set_default_response(g.RESPONSE_OK)
+
+	def make_text_view(self):
+		# The TextView / time of day settings
+		vbox = g.VBox(FALSE, 0)
+		l = g.Label('Message:')
+		l.set_alignment(0, 1)
+		l.set_padding(0, 4)
+		vbox.pack_start(l, FALSE, TRUE, 0)
+
+		frame = g.Frame()
+		vbox.pack_start(frame, TRUE, TRUE, 0)
+		frame.set_shadow_type(g.SHADOW_IN)
+
+		hbox = g.HBox(FALSE, 0)
+		frame.add(hbox)
+
+		text = g.TextView()
+		hbox.pack_start(text, TRUE, TRUE, 0)
+
+		scrollbar = g.VScrollbar()
+		adj = scrollbar.get_adjustment()
+		text.set_scroll_adjustments(None, adj)
 		hbox.pack_start(scrollbar, FALSE, TRUE, 0)
 
-		hbox = GtkHBox(FALSE, 0)
-		vbox.pack_start(hbox, FALSE, TRUE, 0)
+		text.set_size_request(200, -1)
 
+		self.text = text
 
-		at = GtkCheckButton('At...')
-		hbox.pack_start(at, FALSE, TRUE, 4)
-		if memo and memo.at:
-			at.set_active(TRUE)
-		at.connect('toggled', self.at_toggled)
+		return vbox
 
-		at_box = GtkHBox(FALSE, 0)
+	def make_at_box(self):
+		# The time of day setting
+		hbox = g.HBox(FALSE, 0)
+
+		self.at = g.CheckButton('At...')
+		hbox.pack_start(self.at, FALSE, TRUE, 4)
+		self.at.connect('toggled', self.at_toggled)
+
+		at_box = g.HBox(FALSE, 0)
 		self.at_box = at_box
 		hbox.pack_start(at_box, FALSE, TRUE, 0)
 
-		arrow = Arrow(ARROW_LEFT, self.adj_time, -60)
-		at_box.pack_start(arrow, FALSE, TRUE, 4)
-		arrow = Arrow(ARROW_RIGHT, self.adj_time, 60)
-		at_box.pack_start(arrow, FALSE, TRUE, 4)
+		arrow = Arrow(g.ARROW_LEFT, self.adj_time, -60)
+		at_box.pack_start(arrow, FALSE, TRUE, 0)
+		arrow = Arrow(g.ARROW_RIGHT, self.adj_time, 60)
+		at_box.pack_start(arrow, FALSE, TRUE, 0)
 
-		self.time_display = GtkLabel(str_time(self.hour, self.min))
+		self.time_display = g.Label(str_time(self.hour, self.min))
 		self.time_display.set_padding(4, 0)
-		frame = GtkFrame()
+		frame = g.Frame()
 		frame.add(self.time_display)
 		at_box.pack_start(frame, FALSE, TRUE, 0)
 
-		arrow = Arrow(ARROW_LEFT, self.adj_time, -1)
-		at_box.pack_start(arrow, FALSE, TRUE, 4)
-		arrow = Arrow(ARROW_RIGHT, self.adj_time, 1)
-		at_box.pack_start(arrow, FALSE, TRUE, 4)
+		arrow = Arrow(g.ARROW_LEFT, self.adj_time, -1)
+		at_box.pack_start(arrow, FALSE, TRUE, 0)
+		arrow = Arrow(g.ARROW_RIGHT, self.adj_time, 1)
+		at_box.pack_start(arrow, FALSE, TRUE, 0)
 
-		
-		hbox = GtkHBox(FALSE, 0)
-		vbox.pack_start(hbox, FALSE, TRUE, 0)
-
-		hbox = GtkHBox(TRUE, 0)
-		vbox.pack_start(hbox, FALSE, TRUE, 2)
-
-		button = GtkButton("OK")
-		hbox.pack_start(button, TRUE, TRUE, 30)
-		button.set_flags(CAN_DEFAULT)
-		button.grab_default()
-		button.connect('clicked', self.ok_clicked)
-
-		button = GtkButton("Remove")
-		hbox.pack_start(button, TRUE, TRUE, 30)
-		button.set_flags(CAN_DEFAULT)
-		button.connect('clicked', self.remove_clicked)
-		if not self.memo:
-			button.set_sensitive(FALSE)
-
-		button = GtkButton("Cancel")
-		hbox.pack_start(button, TRUE, TRUE, 30)
-		button.set_flags(CAN_DEFAULT)
-		button.connect('clicked', lambda w, win: win.destroy(), self)
-		
-		vbox.show_all()
-		if memo == None or memo.at == 0:
-			at_box.hide()
-		self.text.grab_focus()
+		return hbox
 	
-	def remove_clicked(self, button):
-		memos.memo_list.delete(self.memo)
+	def response(self, widget, response):
+		if response == DELETE:
+			memos.memo_list.delete(self.memo)
+			self.destroy()
+		elif response == g.RESPONSE_OK:
+			self.add()
+		elif response == g.RESPONSE_CANCEL:
+			pass
+		elif response == g.RESPONSE_DELETE_EVENT:
+			return
+		else:
+			print "Unknown response", response
+			return
 		self.destroy()
 	
-	def ok_clicked(self, button):
-		(y, m ,d) = self.cal.get_date()
-		t = mktime((y, m + 1, d, self.hour, self.min, 0, -1, -1, -1))
-		at = self.at_box.flags() & VISIBLE
-		memo = Memo(t, self.text.get_chars(0, -1), at = at)
-		memos.memo_list.add(memo, remove = self.memo)
-		self.destroy()
+	def add(self):
+		(y, m, d) = self.cal.get_date()
+		t = time.mktime((y, m + 1, d, self.hour, self.min,
+				 0, -1, -1, -1))
+		at = self.at_box.flags() & g.VISIBLE
+		buffer = self.text.get_buffer()
+		start = buffer.get_start_iter()
+		end = buffer.get_end_iter()
+		message = buffer.get_text(start, end, TRUE)
+		memo = Memo(t, message, at = at != 0)
+		if self.memo:
+			memos.memo_list.delete(self.memo, update = 0)
+		memos.memo_list.add(memo)
 	
 	def adj_time(self, increment):
 		min = self.min + increment
