@@ -127,8 +127,7 @@ class MasterList(MemoList):
 		app_options.add_notify(self.update_visible)
 	
 	def toggle_hidden(self, path):
-		iter = self.get_iter_first()
-		self.get_iter_from_string(iter, path)
+		iter = self.get_iter_from_string(path)
 		memo = self.get_memo_by_iter(iter)
 		self.set_hidden(memo, not memo.hidden)
 	

@@ -5,6 +5,10 @@
 TODO:
 - Option/button to speak the time
 
+10-Sep-2002
+~~~~~~~~~~~
+Toggle hidden had stopped working with new pygtk.
+
 07-Aug-2002
 ~~~~~~~~~~~
 Text box for memo message now scrolls correctly (instead of just getting

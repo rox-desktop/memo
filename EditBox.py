@@ -143,23 +143,25 @@ class EditBox(g.Dialog):
 		return hbox
 	
 	def response(self, widget, response):
-		if response == DELETE:
-			memo_list.delete(self.memo)
-		elif response == HIDE:
-			self.add(hide = 1)
-		elif response == g.RESPONSE_YES:
-			self.add()
-		elif response == g.RESPONSE_HELP:
-			from rox import filer
-			filer.open_dir(rox.app_dir + '/Help')
-			return
-		elif response == g.RESPONSE_CANCEL:
-			pass
-		elif response == g.RESPONSE_DELETE_EVENT:
-			return
-		else:
-			print "Unknown response", response
-			return
+		try:
+			if response == DELETE:
+				memo_list.delete(self.memo)
+			elif response == HIDE:
+				self.add(hide = 1)
+			elif response == g.RESPONSE_YES:
+				self.add()
+			elif response == g.RESPONSE_HELP:
+				from rox import filer
+				filer.open_dir(rox.app_dir + '/Help')
+				return
+			elif response == g.RESPONSE_CANCEL:
+				pass
+			elif response == g.RESPONSE_DELETE_EVENT:
+				return
+			else:
+				raise Exception("Unknown response: %d" % response)
+		except:
+			rox.report_exception()
 		self.destroy()
 	
 	def add(self, hide = 0):
