@@ -5,6 +5,10 @@
 TODO:
 - Option/button to speak the time
 
+04-Jul-2003
+~~~~~~~~~~~
+Added italian translation in AppInfo.xml (Yuri Bongiorno)
+
 01-Jul-2003
 ~~~~~~~~~~~
 Bugfix: Dates didn't change format at midnight (eg 1 Jul -> Today)
