@@ -2,6 +2,11 @@
 			Reminds you about things
 			by Thomas Leonard
 
+17-Jul-2001
+~~~~~~~~~~~
+Beep and wait a second before showing an alarm. Otherwise, if an alarm
+appears while you're typing you can lose it.
+
 30-May-2001
 ~~~~~~~~~~~
 Switched to using ROX-Lib.

@@ -13,6 +13,10 @@ def show_alarm(memo):
 			current_alarm.connect('destroy', process_next)
 			memos.memo_list.save()
 			gdk_beep()
+			gdk_flush()
+			from time import sleep
+			sleep(1)
+			gdk_beep()
 			current_alarm.show()
 	alarms.append(memo)
 	if current_alarm == None:
@@ -59,7 +63,7 @@ class Alarm(GtkWindow):
 		default_button.grab_default()
 		action_area.set_focus_child(default_button)
 
-		self.show_all(vbox)
+		vbox.show_all()
 	
 	def button(self, button, text):
 		self.destroy()
