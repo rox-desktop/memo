@@ -1,0 +1,22 @@
+<?xml version='1.0'?>
+<options>
+  <section title='Memo'>
+    <frame label='Time display format'>
+      <radio-group name='time_format'>
+	<radio value='digital' label='12 hour digital clock and date'/>
+	<radio value='text' label='Rough textual description'>For people who take a more relaxed approach to time</radio>
+      </radio-group>
+    </frame>
+    
+    <frame label='Main window list display'>
+      <numentry name='max_visible' label='Try to show at least'
+      	   min='0' max='100' unit='memos'>
+  This is the number of memos that will normally be shown under the time in the main window. However, only memos more than 24 hours in the future will ever be hidden, so the list can still get quite long.
+      </numentry>
+      <numentry name='max_future' label='Only show memos within the next'
+      	      min='1' max='100' unit='months'>
+  Any memos set for further in the future than this will never be shown in the main window.
+      </numentry>
+    </frame>
+  </section>
+</options>
