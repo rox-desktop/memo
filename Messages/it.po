@@ -1,0 +1,330 @@
+# Memo Italian Translation.
+# Copyright @ 2003 Free Software Foundation, Inc.
+# Current translator: Yuri Bongiorno http://yuri.webhop.org, 2003.
+msgid ""
+msgstr ""
+"Project-Id-Version: Memo 1.9.4\n"
+"POT-Creation-Date: Sun Dec  7 21:37:23 2003\n"
+"PO-Revision-Date: 2003-12-07 18:40+0200\n"
+"Last-Translator: Yuri Bongiorno http://yuri.webhop.org\n"
+"Language-Team: Italian <tp@lists.linux.it>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+#: Alarm.py:12
+msgid ""
+"Alarm set for %s:\n"
+"%s"
+msgstr ""
+"Sveglia per %s:\n"
+"%s"
+
+#: Alarm.py:15
+msgid "_Hide memo"
+msgstr "_Nascondi promemoria"
+
+#: Alarm.py:20 ShowAll.py:120
+msgid "_Edit"
+msgstr "_Modifica"
+
+#: EditBox.py:26
+msgid "_Hide"
+msgstr "_Nascondi"
+
+#: EditBox.py:32
+msgid "_Set"
+msgstr "Impo_sta"
+
+#: EditBox.py:38
+msgid "Edit memo:"
+msgstr "Modifica promemoria:"
+
+#: EditBox.py:41
+msgid "Create memo:"
+msgstr "Crea promemoria:"
+
+#: EditBox.py:96
+msgid "Message:"
+msgstr "Messaggio:"
+
+#: EditBox.py:127
+msgid "At..."
+msgstr "Alle..."
+
+#: Memo.py:62
+msgid "Today"
+msgstr "Oggi"
+
+#: ShowAll.py:11
+msgid "All memos"
+msgstr "Tutti i promemoria"
+
+#: ShowAll.py:35
+msgid "Hide"
+msgstr "Nascondi"
+
+#: ShowAll.py:41
+msgid "Time"
+msgstr "Ora"
+
+#: ShowAll.py:44
+msgid "Message"
+msgstr "Messaggio"
+
+#: ShowAll.py:89
+msgid "You need to select some memos first!"
+msgstr "Selezionare prima qualche promemoria."
+
+#: ShowAll.py:93
+msgid "Really delete memo '%s'?"
+msgstr "Eliminare veramente il promemoria «%s»?"
+
+#: ShowAll.py:95
+msgid "Really delete %d memos?"
+msgstr "Eliminare veramente %d promemoria?"
+
+#: ShowAll.py:116
+msgid "You need to select exactly one memo first!"
+msgstr "Selezionare solo un promemoria."
+
+#: Window.py:13
+msgid "/Add Memo..."
+msgstr "/Aggiungi promemoria..."
+
+#: Window.py:14
+msgid "/Show All..."
+msgstr "/Mostrali tutti"
+
+#: Window.py:16
+msgid "/Options..."
+msgstr "/Opzioni"
+
+#: Window.py:17
+msgid "/Help"
+msgstr "/Aiuto"
+
+#: Window.py:18
+msgid "/Quit"
+msgstr "/Esci"
+
+#: pretty_time.py:3
+msgid "Friday"
+msgstr "Venerdì"
+
+#: pretty_time.py:3
+msgid "Monday"
+msgstr "Lunedì"
+
+#: pretty_time.py:3
+msgid "Thursday"
+msgstr "Giovedì"
+
+#: pretty_time.py:3
+msgid "Tuesday"
+msgstr "Martedì"
+
+#: pretty_time.py:3
+msgid "Wednesday"
+msgstr "Mercoledì"
+
+#: pretty_time.py:4
+msgid "Saturday"
+msgstr "Sabato"
+
+#: pretty_time.py:4
+msgid "Sunday"
+msgstr "Domenica"
+
+#: pretty_time.py:6
+msgid "April"
+msgstr "Aprile"
+
+#: pretty_time.py:6
+msgid "February"
+msgstr "Febbraio"
+
+#: pretty_time.py:6
+msgid "January"
+msgstr "Gennaio"
+
+#: pretty_time.py:6
+msgid "March"
+msgstr "Marzo"
+
+#: pretty_time.py:7
+msgid "August"
+msgstr "Agosto"
+
+#: pretty_time.py:7
+msgid "July"
+msgstr "Luglio"
+
+#: pretty_time.py:7
+msgid "June"
+msgstr "Giugno"
+
+#: pretty_time.py:7
+msgid "May"
+msgstr "Maggio"
+
+#: pretty_time.py:8
+msgid "December"
+msgstr "Dicembre"
+
+#: pretty_time.py:8
+msgid "November"
+msgstr "Novembre"
+
+#: pretty_time.py:8
+msgid "October"
+msgstr "Ottobre"
+
+#: pretty_time.py:8
+msgid "September"
+msgstr "Settembre"
+
+#: pretty_time.py:10
+msgid "about"
+msgstr " "
+
+#: pretty_time.py:10
+msgid "just gone"
+msgstr "Poco dopo"
+
+#: pretty_time.py:10
+msgid "nearly"
+msgstr "Quasi"
+
+#: pretty_time.py:12
+msgid "a quarter past "
+msgstr "un quarto dopo "
+
+#: pretty_time.py:12
+msgid "five past "
+msgstr "cinque minuti dopo "
+
+#: pretty_time.py:12
+msgid "ten past "
+msgstr "dieci minuti dopo "
+
+#: pretty_time.py:13
+msgid "half past "
+msgstr "mezz'ora dopo "
+
+#: pretty_time.py:13
+msgid "twenty past "
+msgstr "venti minuti dopo "
+
+#: pretty_time.py:13
+msgid "twenty-five past "
+msgstr "venticinque minuti dopo "
+
+#: pretty_time.py:14
+msgid "a quarter to "
+msgstr "un quarto al"
+
+#: pretty_time.py:14
+msgid "twenty to "
+msgstr "venti al"
+
+#: pretty_time.py:14
+msgid "twenty-five to "
+msgstr "venticinque al"
+
+#: pretty_time.py:15
+msgid "five to "
+msgstr "cinque al"
+
+#: pretty_time.py:15
+msgid "ten to "
+msgstr "dieci al"
+
+#: pretty_time.py:17
+msgid "five"
+msgstr "le cinque"
+
+#: pretty_time.py:17
+msgid "four"
+msgstr "le quattro"
+
+#: pretty_time.py:17
+msgid "one"
+msgstr "l'una"
+
+#: pretty_time.py:17
+msgid "six"
+msgstr "le sei"
+
+#: pretty_time.py:17
+msgid "three"
+msgstr "le tre"
+
+#: pretty_time.py:17
+msgid "two"
+msgstr "le due"
+
+#: pretty_time.py:18
+msgid "eight"
+msgstr "le otto"
+
+#: pretty_time.py:18
+msgid "eleven"
+msgstr "le undici"
+
+#: pretty_time.py:18
+msgid "nine"
+msgstr "le nove"
+
+#: pretty_time.py:18
+msgid "seven"
+msgstr "le sette"
+
+#: pretty_time.py:18
+msgid "ten"
+msgstr "le dieci"
+
+#: pretty_time.py:24
+msgid "midnight"
+msgstr "la mezzanotte"
+
+#: pretty_time.py:26
+msgid "noon"
+msgstr " mezzogiorno"
+
+#: pretty_time.py:32 pretty_time.py:42
+msgid "%dth"
+msgstr "%d°"
+
+#: pretty_time.py:36
+msgid "%dst"
+msgstr "%d°"
+
+#: pretty_time.py:38
+msgid "%dnd"
+msgstr "%d°"
+
+#: pretty_time.py:40
+msgid "%drd"
+msgstr "%d°"
+
+#: pretty_time.py:55
+msgid " o'clock"
+msgstr " "
+
+#: pretty_time.py:59
+msgid "It's %s %s%s%s"
+msgstr "%s %s%s%s"
+
+#: pretty_time.py:72
+msgid "am"
+msgstr "am"
+
+#: pretty_time.py:74
+msgid "pm"
+msgstr "pm"
+
+#: pretty_time.py:75
+msgid "%s:%02d %s"
+msgstr "%s:%02d %s"
