@@ -30,8 +30,7 @@ class MemoList(g.ListStore):
 		iter = self.get_iter_first()
 		while iter:
 			yield iter
-			if not self.iter_next(iter):
-				iter = None
+			iter = self.iter_next(iter)
 	
 	def delete(self, memo, update = 1):
 		for iter in self:
