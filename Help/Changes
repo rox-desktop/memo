@@ -2,6 +2,10 @@
 			Reminds you about things
 			by Thomas Leonard
 
+25-Sep-2001
+~~~~~~~~~~~
+Bugfix: Messages with <, > or & characters didn't save correctly.
+
 17-Jul-2001
 ~~~~~~~~~~~
 Beep and wait a second before showing an alarm. Otherwise, if an alarm

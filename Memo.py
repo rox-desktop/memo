@@ -1,9 +1,22 @@
 import os
 import string
 from time import *
+import re
 
 from support import *
 from TimeDisplay import month_name
+
+def quote(str):
+	def qchar(match):
+		c = match.group()
+		if c == '&':
+			return '&amp;'
+		if c == '<':
+			return '&lt;'
+		if c == '>':
+			return '&gt;'
+		return c
+	return re.sub('[<>&]', qchar, str)
 
 class Memo:
 	# 'time' is seconds since epoch
@@ -40,5 +53,6 @@ class Memo:
 		os.write(stream, '  <memo at="%d" silent="%d">\n' %
 						(self.at, self.silent))
 		os.write(stream, '    <time>%d</time>\n' % self.time)
-		os.write(stream, '    <message>%s</message>\n' % self.message)
+		os.write(stream, '    <message>%s</message>\n' %
+					quote(self.message))
 		os.write(stream, '  </memo>\n')

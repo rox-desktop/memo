@@ -3,6 +3,7 @@ from time import *
 import os
 import string
 from rox import choices
+from rox import support
 from xmllib import *
 from support import *
 from TimeDisplay import month_name
@@ -44,7 +45,7 @@ class MemoList(GtkCList):
 				l.feed(f.read())
 				l.close()
 			except:
-				report_exception()
+				support.report_exception()
 		self.loading = FALSE
 
 		self.connect('select-row', self.select_row)
@@ -102,7 +103,7 @@ class MemoList(GtkCList):
 			real_path = choices.save('Memo', 'Entries')
 			os.rename(path, real_path)
 		except:
-  			report_exception()
+  			support.report_exception()
 	
 	# Deal with any missed alarms
 	# Set a timeout for the next alarm
