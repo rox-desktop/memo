@@ -7,10 +7,7 @@ import pretty_time, time
 from Alarm import Alarm
 
 time_format = Option('time_format', 'text')
-app_options.register(time_format)
-
 main_sticky = Option('main_sticky', 1)
-app_options.register(main_sticky)
 
 menu = Menu('main', [
                 ('/Add Memo...', 'new_memo',    ''),

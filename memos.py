@@ -9,10 +9,7 @@ import os
 from Memo import Memo, memo_from_node
 
 max_visible = options.Option('max_visible', 5)
-app_options.register(max_visible)
-
 max_future = options.Option('max_future', 6)
-app_options.register(max_future)
 
 # Columns
 TIME = 0
