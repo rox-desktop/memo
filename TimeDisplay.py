@@ -23,7 +23,7 @@ def hour_name(hour):
 	if hour == 0:
 		return "midnight"
 	elif hour == 12:
-		return "midday"
+		return "noon"
 	return number[hour % 12]
 
 def th(n):

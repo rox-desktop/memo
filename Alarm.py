@@ -1,4 +1,5 @@
 import memos
+from gtk import gdk_beep
 from support import *
 
 current_alarm = None
@@ -11,6 +12,7 @@ def show_alarm(memo):
 			del alarms[0]
 			current_alarm.connect('destroy', process_next)
 			memos.memo_list.save()
+			gdk_beep()
 			current_alarm.show()
 	alarms.append(memo)
 	if current_alarm == None:
