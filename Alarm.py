@@ -9,15 +9,15 @@ class Alarm(g.MessageDialog):
 	def __init__(self, memo):
 		g.MessageDialog.__init__(self, None, g.DIALOG_MODAL,
 					 g.MESSAGE_INFO, g.BUTTONS_NONE,
-					 'Alarm set for %s:\n%s' %
+					 _('Alarm set for %s:\n%s') %
 					 (time.ctime(memo.time), memo.message))
 
-		button = rox.ButtonMixed(g.STOCK_ZOOM_OUT, '_Hide memo')
+		button = rox.ButtonMixed(g.STOCK_ZOOM_OUT, _('_Hide memo'))
 		button.set_flags(g.CAN_DEFAULT)
 		self.add_action_widget(button, HIDE)
 		button.show()
 
-		button = rox.ButtonMixed(g.STOCK_PROPERTIES, '_Edit')
+		button = rox.ButtonMixed(g.STOCK_PROPERTIES, _('_Edit'))
 		button.set_flags(g.CAN_DEFAULT)
 		self.add_action_widget(button, EDIT)
 		button.show()

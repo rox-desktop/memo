@@ -59,7 +59,7 @@ class Memo(gobject.GObject):
 		if self.at:
 			return str_time(hour, min)
 
-		return 'Today'
+		return _('Today')
 	
 	def comes_after(self, other):
 		return self.time > other.time

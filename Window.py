@@ -10,12 +10,12 @@ time_format = Option('time_format', 'text')
 main_sticky = Option('main_sticky', 1)
 
 menu = Menu('main', [
-                ('/Add Memo...', 'new_memo',    ''),
-                ('/Show All...', 'show_all_memos', ''),
+                (_('/Add Memo...'), 'new_memo',    ''),
+                (_('/Show All...'), 'show_all_memos', ''),
 		('/',		 '',		'<Separator>'),
-                ('/Options...',  'show_options',''),
-                ('/Help',        'help',	''),
-                ('/Quit',        'destroy',     ''),
+                (_('/Options...'),  'show_options',''),
+                (_('/Help'),        'help',	''),
+                (_('/Quit'),        'destroy',     ''),
                 ])
 
 class Window(g.Window):

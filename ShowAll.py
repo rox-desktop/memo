@@ -8,7 +8,7 @@ import memos
 class ShowAll(g.Dialog):
 	def __init__(self):
 		g.Dialog.__init__(self)
-		self.set_title('All memos')
+		self.set_title(_('All memos'))
 		self.set_has_separator(FALSE)
 
 		self.add_button(g.STOCK_CLOSE, g.RESPONSE_CANCEL)
@@ -32,16 +32,16 @@ class ShowAll(g.Dialog):
 		text = g.CellRendererText()
 
 		toggle = g.CellRendererToggle()
-		column = g.TreeViewColumn('Hide', toggle,
+		column = g.TreeViewColumn(_('Hide'), toggle,
 					  active = memos.HIDDEN)
 		self.list.append_column(column)
 		toggle.connect('toggled',
 			lambda t, path: memo_list.toggle_hidden(path))
 
-		column = g.TreeViewColumn('Time', text, text = memos.TIME)
+		column = g.TreeViewColumn(_('Time'), text, text = memos.TIME)
 		self.list.append_column(column)
 		
-		column = g.TreeViewColumn('Message', text, text = memos.BRIEF)
+		column = g.TreeViewColumn(_('Message'), text, text = memos.BRIEF)
 		self.list.append_column(column)
 		
 		self.list.set_headers_visible(TRUE)
@@ -86,13 +86,13 @@ class ShowAll(g.Dialog):
 					m = memo_list.get_memo_by_iter(iter)
 					memos.append(m)
 			if not memos:
-				rox.alert('You need to select some memos first!')
+				rox.alert(_('You need to select some memos first!'))
 				return
 			l = len(memos)
 			if l == 1:
-				message = "Really delete memo '%s'?" % memos[0].brief
+				message = _("Really delete memo '%s'?") % memos[0].brief
 			else:
-				message = 'Really delete %d memos?' % l
+				message = _('Really delete %d memos?') % l
 
 			box = g.MessageDialog(None, 0, g.MESSAGE_QUESTION,
 						g.BUTTONS_CANCEL, message)
@@ -113,11 +113,11 @@ class ShowAll(g.Dialog):
 					m = memo_list.get_memo_by_iter(iter)
 					memos.append(m)
 			if len(memos) != 1:
-				rox.alert('You need to select exactly one memo first!')
+				rox.alert(_('You need to select exactly one memo first!'))
 				return
 			from EditBox import EditBox
 			EditBox(memos[0]).show()
-		button = rox.ButtonMixed(g.STOCK_PROPERTIES, '_Edit')
+		button = rox.ButtonMixed(g.STOCK_PROPERTIES, _('_Edit'))
 		actions.add(button)
 		button.connect('clicked', edit)
 		

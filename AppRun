@@ -3,6 +3,9 @@
 import findrox; findrox.version(1, 9, 8)
 import rox
 
+import sys, os
+__builtins__._ = rox.i18n.translation(os.path.join(rox.app_dir, 'Messages'))
+
 rox.setup_app_options('Memo')
 
 from rox.Menu import set_save_name

@@ -23,22 +23,22 @@ class EditBox(g.Dialog):
 		if memo:
 			self.add_button(g.STOCK_DELETE, DELETE)
 
-			button = rox.ButtonMixed(g.STOCK_ZOOM_OUT, '_Hide')
+			button = rox.ButtonMixed(g.STOCK_ZOOM_OUT, _('_Hide'))
 			button.set_flags(g.CAN_DEFAULT)
 			self.add_action_widget(button, HIDE)
 
 		self.add_button(g.STOCK_CANCEL, g.RESPONSE_CANCEL)
 
-		button = rox.ButtonMixed(g.STOCK_YES, '_Set')
+		button = rox.ButtonMixed(g.STOCK_YES, _('_Set'))
 		button.set_flags(g.CAN_DEFAULT)
 		self.add_action_widget(button, g.RESPONSE_YES)
 
 		self.memo = memo
 		if memo:
-			self.set_title("Edit memo:")
+			self.set_title(_("Edit memo:"))
 			t = time.localtime(memo.time)
 		else:
-			self.set_title("Create memo:")
+			self.set_title(_("Create memo:"))
 			t = time.localtime(time.time() + 5 * 60)
 			
 		year, month, day, hour, minute, second,	weekday, julian, dst = t
@@ -93,7 +93,7 @@ class EditBox(g.Dialog):
 	def make_text_view(self):
 		# The TextView / time of day settings
 		vbox = g.VBox(FALSE, 0)
-		l = g.Label('Message:')
+		l = g.Label(_('Message:'))
 		l.set_alignment(0, 1)
 		l.set_padding(0, 4)
 		vbox.pack_start(l, FALSE, TRUE, 0)
@@ -124,7 +124,7 @@ class EditBox(g.Dialog):
 		# The time of day setting
 		hbox = g.HBox(FALSE, 0)
 
-		self.at = g.CheckButton('At...')
+		self.at = g.CheckButton(_('At...'))
 		hbox.pack_start(self.at, FALSE, TRUE, 4)
 		self.at.connect('toggled', self.at_toggled)
 

@@ -5,6 +5,10 @@
 TODO:
 - Option/button to speak the time
 
+07-Dec-2003
+~~~~~~~~~~~
+Internationalization! Added italian translation (Yuri Bongiorno).
+
 18-Sep-2003 (Release 1.9.4)
 ~~~~~~~~~~~
 Bugfix: 'at' got turned off when loading with Python 2.3.
