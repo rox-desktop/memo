@@ -18,7 +18,9 @@ you will require the 'pygtk' (or 'gnome-python') package.
 To run, click on its icon in a filer window.
 
 No installation is required, but you can copy it anywhere you want using
-the filer...
+the filer.
+
+The time display was inspired by Jon Ribbens' RoughtTime clock.
 
 
 Instructions
