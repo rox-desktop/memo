@@ -3,8 +3,17 @@
 import findrox
 import rox
 
-import Window
+rox.setup_app_options('Memo')
 
-Window.Window()
+from rox.Menu import set_save_name	# XXX
+set_save_name('Memo')
+
+import Window, memos
+
+# All options must be registered by the time we get here
+rox.app_options.notify()
+
+memo_list = memos.MasterList()
+Window.Window(memo_list)
 
 rox.mainloop()

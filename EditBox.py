@@ -1,9 +1,10 @@
+import rox
 from rox import g, FALSE, TRUE
 import time
 
 from Arrow import Arrow
 from Memo import Memo
-import memos
+from __main__ import memo_list
 
 from pretty_time import str_time
 
@@ -18,7 +19,10 @@ class EditBox(g.Dialog):
 			self.add_button(g.STOCK_DELETE, DELETE)
 
 		self.add_button(g.STOCK_CANCEL, g.RESPONSE_CANCEL)
-		self.add_button(g.STOCK_OK, g.RESPONSE_OK)
+
+		button = rox.ButtonMixed(g.STOCK_YES, 'Set')
+		button.set_flags(g.CAN_DEFAULT)
+		self.add_action_widget(button, g.RESPONSE_YES)
 
 		self.memo = memo
 		if memo:
@@ -69,7 +73,7 @@ class EditBox(g.Dialog):
 
 		self.connect('response', self.response)
 		self.text.grab_focus()
-		self.set_default_response(g.RESPONSE_OK)
+		self.set_default_response(g.RESPONSE_YES)
 
 	def make_text_view(self):
 		# The TextView / time of day settings
@@ -132,9 +136,9 @@ class EditBox(g.Dialog):
 	
 	def response(self, widget, response):
 		if response == DELETE:
-			memos.memo_list.delete(self.memo)
+			memo_list.delete(self.memo)
 			self.destroy()
-		elif response == g.RESPONSE_OK:
+		elif response == g.RESPONSE_YES:
 			self.add()
 		elif response == g.RESPONSE_CANCEL:
 			pass
@@ -156,8 +160,8 @@ class EditBox(g.Dialog):
 		message = buffer.get_text(start, end, TRUE)
 		memo = Memo(t, message, at = at != 0)
 		if self.memo:
-			memos.memo_list.delete(self.memo, update = 0)
-		memos.memo_list.add(memo)
+			memo_list.delete(self.memo, update = 0)
+		memo_list.add(memo)
 	
 	def adj_time(self, increment):
 		min = self.min + increment

@@ -1,7 +1,6 @@
 from rox import g
+import rox
 import time
-
-from memos import memo_list
 
 DELETE = 1
 EDIT = 2
@@ -12,7 +11,12 @@ class Alarm(g.MessageDialog):
 					 g.MESSAGE_INFO, g.BUTTONS_NONE,
 					 'Alarm set for %s:\n%s' %
 					 (time.ctime(memo.time), memo.message))
-		self.add_button(g.STOCK_DELETE, DELETE)
+
+		button = rox.ButtonMixed(g.STOCK_DELETE, '_Hide memo')
+		button.set_flags(g.CAN_DEFAULT)
+		self.add_action_widget(button, DELETE)
+		button.show()
+
 		self.add_button(g.STOCK_PROPERTIES, EDIT)
 		self.add_button(g.STOCK_OK, g.RESPONSE_OK)
 
@@ -20,6 +24,10 @@ class Alarm(g.MessageDialog):
 		self.set_modal(g.TRUE)
 		self.set_position(g.WIN_POS_CENTER)
 		memo.silent = 1
+		
+		from __main__ import memo_list
+		memo_list.notify_changed()
+
 		self.memo = memo
 		
 		self.connect('response', self.response)
@@ -29,9 +37,8 @@ class Alarm(g.MessageDialog):
 		if response == g.RESPONSE_OK:
 			pass
 		elif response == DELETE:
-			memo_list.delete(self.memo)
-			memo_list.save()
-			pass
+			from __main__ import memo_list
+			memo_list.set_hidden(self.memo, 1)
 		elif response == EDIT:
 			from EditBox import EditBox
 			EditBox(self.memo).show()
