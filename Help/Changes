@@ -2,6 +2,18 @@
 			Reminds you about things
 			by Thomas Leonard
 
+03-Jul-2002
+~~~~~~~~~~~
+Upgraded to Gtk+-2.0 and ROX-Lib2. New features:
+
+- Dialog style for window.
+- Options window (Sticky, Time style and Limits on which messages to display).
+- When an alarm goes off, offer to hide the memo rather than delete it.
+- Double-beep before showing alarm.
+- Show All feature so you can see memos that are hidden or too far in the
+  future.
+- Delete multiple memos at once (from Show All box).
+
 09-Nov-2001
 ~~~~~~~~~~~
 Make 'Edit' the default button when an alarm appears, not 'Remove'.

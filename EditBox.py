@@ -9,18 +9,26 @@ from __main__ import memo_list
 from pretty_time import str_time
 
 DELETE = 1
+HIDE = 2
 
 class EditBox(g.Dialog):
 	def __init__(self, memo = None):
 		g.Dialog.__init__(self)
 		self.set_has_separator(FALSE)
+		self.set_modal(TRUE)
+
+		self.add_button(g.STOCK_HELP, g.RESPONSE_HELP)
 
 		if memo:
 			self.add_button(g.STOCK_DELETE, DELETE)
 
+			button = rox.ButtonMixed(g.STOCK_ZOOM_OUT, '_Hide')
+			button.set_flags(g.CAN_DEFAULT)
+			self.add_action_widget(button, HIDE)
+
 		self.add_button(g.STOCK_CANCEL, g.RESPONSE_CANCEL)
 
-		button = rox.ButtonMixed(g.STOCK_YES, 'Set')
+		button = rox.ButtonMixed(g.STOCK_YES, '_Set')
 		button.set_flags(g.CAN_DEFAULT)
 		self.add_action_widget(button, g.RESPONSE_YES)
 
@@ -137,9 +145,14 @@ class EditBox(g.Dialog):
 	def response(self, widget, response):
 		if response == DELETE:
 			memo_list.delete(self.memo)
-			self.destroy()
+		elif response == HIDE:
+			self.add(hide = 1)
 		elif response == g.RESPONSE_YES:
 			self.add()
+		elif response == g.RESPONSE_HELP:
+			from rox import filer
+			filer.open_dir(rox.app_dir + '/Help')
+			return
 		elif response == g.RESPONSE_CANCEL:
 			pass
 		elif response == g.RESPONSE_DELETE_EVENT:
@@ -149,7 +162,7 @@ class EditBox(g.Dialog):
 			return
 		self.destroy()
 	
-	def add(self):
+	def add(self, hide = 0):
 		(y, m, d) = self.cal.get_date()
 		t = time.mktime((y, m + 1, d, self.hour, self.min,
 				 0, -1, -1, -1))
@@ -158,10 +171,11 @@ class EditBox(g.Dialog):
 		start = buffer.get_start_iter()
 		end = buffer.get_end_iter()
 		message = buffer.get_text(start, end, TRUE)
-		memo = Memo(t, message, at = at != 0)
+		memo = Memo(t, message, at = at != 0, hidden = hide)
 		if self.memo:
 			memo_list.delete(self.memo, update = 0)
 		memo_list.add(memo)
+		memo_list.warn_if_not_visible(memo)
 	
 	def adj_time(self, increment):
 		min = self.min + increment

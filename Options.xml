@@ -1,6 +1,11 @@
 <?xml version='1.0'?>
 <options>
   <section title='Memo'>
+    <frame label='Window'>
+      <toggle name='main_sticky' label='Stick to screen'>
+        If you have multiple workspaces or viewports set up then this option can be used to make the Memo window follow you around (as if it was stuck to the screen).
+Requires a compliant window manager.</toggle>
+    </frame>
     <frame label='Time display format'>
       <radio-group name='time_format'>
 	<radio value='digital' label='12 hour digital clock and date'/>

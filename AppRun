@@ -5,7 +5,7 @@ import rox
 
 rox.setup_app_options('Memo')
 
-from rox.Menu import set_save_name	# XXX
+from rox.Menu import set_save_name
 set_save_name('Memo')
 
 import Window, memos

@@ -9,6 +9,9 @@ from Alarm import Alarm
 time_format = Option('time_format', 'text')
 app_options.register(time_format)
 
+main_sticky = Option('main_sticky', 1)
+app_options.register(main_sticky)
+
 menu = Menu('main', [
                 ('/Add Memo...', 'new_memo',    ''),
                 ('/Show All...', 'show_all_memos', ''),
@@ -26,6 +29,9 @@ class Window(g.Window):
 		self.set_resizable(FALSE)
 		self.set_type_hint(g.gdk.WINDOW_TYPE_HINT_DIALOG)
 
+		if main_sticky.int_value:
+			self.stick()
+
 		self.memo_list = memo_list
 
 		vbox = g.VBox(FALSE, 0)
@@ -42,11 +48,14 @@ class Window(g.Window):
 		self.list.unset_flags(g.CAN_FOCUS)
 
 		cell = g.CellRendererText()
-		# the text in the column comes from column 0
 		column = g.TreeViewColumn('Time', cell, text = 0)
+		cell.set_property('xalign', 1)
 		self.list.append_column(column)
+
+		cell = g.CellRendererText()
 		column = g.TreeViewColumn('Message', cell, text = 1)
 		self.list.append_column(column)
+
 		self.list.set_headers_visible(FALSE)
 		
 		sel = self.list.get_selection()
@@ -75,18 +84,26 @@ class Window(g.Window):
 		self.timeout = None	# For next alarm
 		self.alert_box = None
 		self.show_all_box = None
+		self.save_box = None
 		self.prime()
 
 		# If we had more than one window, we'd need a remove too...
 		memo_list.watchers.append(self.prime)
-		app_options.add_notify(self.update)
+		app_options.add_notify(self.options_changed)
 		
 		self.show_all()
-
-		self.show_all_memos()
 	
 	def show_options(self):
 		rox.edit_options()
+	
+	def options_changed(self):
+		if time_format.has_changed:
+			self.update()
+			
+		if main_sticky.int_value:
+			self.stick()
+		else:
+			self.unstick()
 	
 	def update(self):
 		if time_format.value == 'text':

@@ -6,10 +6,10 @@ Brief
 ~~~~~
 Memo is a small utility which you can use to store appointments and 'TODO'
 items. It displays the next few entries in a small window, and can also be
-instructed to beep and bring up a window with a message later.
+instructed to beep and bring up alert windows at set times.
 
 It's written in python, so you don't need to compile it before using it, but
-you will require the 'pygtk' (or 'gnome-python') package, and ROX-Lib:
+you will require the 'pygtk' (or 'gnome-python') package, and ROX-Lib2:
 
 	http://rox.sourceforge.net
 
@@ -24,7 +24,7 @@ The time display was inspired by Jon Ribbens' RoughtTime clock.
 Instructions
 ~~~~~~~~~~~~
 When run, a small window appears displaying the current time and a list of
-the next few memos below.
+the next few memos (if any) below.
 
 Right-click for a menu.
 
@@ -33,7 +33,8 @@ To create a new memo:
 - Click on the button displaying the time - the 'Create memo:' window
   appears.
 
-- Type in a message to yourself in the large white square.
+- Type in a message to yourself in the large white square. The first line
+  will be used to display a summary of the memo.
 
 - Use the calendar display to select a date for the memo.
 
@@ -41,11 +42,58 @@ To create a new memo:
   check box. Use the arrows that appear to set the time.
 
   Memos with a time are alarms and will cause a box to appear when they go
-  off.
+  off. If Memo is not running when the alarm goes off, it will be shown next
+  time Memo is run.
 
-- Click OK to add the memo to the list.
+  Memos without times are just TODO items. They are displayed under the time
+  until you get rid of them, but don't bring up an alert box.
 
-To edit or remove a memo, click on it in the list.
+- Click Set to add the memo to the list.
+
+Changes are automatically saved.
+
+If you set a time, then Memo will beep twice and display the message in
+a box when the time is up. The alert box that appears has three buttons:
+
+  Hide memo
+
+	Removes the message from the main window. You can still retrieve
+	it later.
+
+  Edit
+
+	Returns you to the box used to create the memo. You can use this to
+	move the memo to a later date (useful for repeating memos) or delete
+	it.
+
+  OK
+
+	The memo remains displayed in the main window until you get rid of it.
+	No futher alarm boxes will appear for it unless you edit it again.
+
+To edit (or hide or delete) a memo from the main window, double-click on it in
+the list.
+
+This brings up the editing box. When editing a memo (rather than creating a new
+one) there are two extra buttons. Hide works as in the alert box (described
+above), and Delete gets rid of the memo completely. There is no undelete;
+use Hide if you might want it back.
+
+Not all memos are display in the main window. Hidden memos aren't shown, and
+neither are memos far in the future. To see all memos, open the menu and
+choose 'Show All...'. This window displays a list of all memos that Memo
+knows about.
+
+You can click on the boxes in the 'Hide' column to hide or unhide memos.
+Hidden memos are never displayed in the main window and do not open alert
+boxes. Unhidden ones might or might not be displayed, depending on how far
+in the future they are and how full the main window is.
+
+Delete allows you to permanently remove a group of memos (select them first),
+and Edit works like double clicking.
+
+By choosing 'Options...' from the popup menu you can configure various
+things about Memo. Hold the pointer over an option to find out what it does.
 
 
 Timezones

@@ -93,7 +93,7 @@ class MemoList(g.ListStore):
 		for iter in self:
 			m = self.get_value(iter, MEMO)
 
-			if m.silent or not m.at:
+			if m.silent or m.hidden or not m.at:
 				continue
 
 			delay = m.time - now
@@ -149,25 +149,25 @@ class MasterList(MemoList):
 				"Memo: Saving disabled by CHOICESPATH\n")
 			return
 		try:
-			from xml.dom import minidom
-			doc = minidom.Document()
-
-			root = doc.createElement('memos')
-			doc.appendChild(root)
-			for iter in self:
-				m = self.get_value(iter, MEMO)
-				m.save(root)
-
-			f = os.open(path, os.O_CREAT | os.O_WRONLY,
-				    0600)
-			stream = os.fdopen(f, 'w')
-			doc.writexml(stream)
-			stream.close()
+			f = os.open(path, os.O_CREAT | os.O_WRONLY, 0600)
+			self.save_to_stream(os.fdopen(f, 'w'))
 
 			real_path = choices.save('Memo', 'Entries')
 			os.rename(path, real_path)
 		except:
   			rox.report_exception()
+
+	def save_to_stream(self, stream):
+		from xml.dom import minidom
+		doc = minidom.Document()
+
+		root = doc.createElement('memos')
+		doc.appendChild(root)
+		for iter in self:
+			m = self.get_value(iter, MEMO)
+			m.save(root)
+			root.appendChild(doc.createTextNode('\n'))
+		doc.writexml(stream)
 	
 	def notify_changed(self):
 		"Called after a Memo is added, removed or updated."
@@ -232,3 +232,14 @@ class MasterList(MemoList):
 			self.visible.add(m, update = 0)
 		self.visible.notify_changed()
 
+	def warn_if_not_visible(self, memo):
+		if memo.hidden:
+			return
+		for iter in self.visible:
+			m = self.visible.get_value(iter, MEMO)
+			if m is memo:
+				return
+		rox.info("This memo has been added, but is not shown in the main "
+			 "window. Use Show All from the popup menu to see it.\n\n"
+			 "You can use the Options window to control when memos "
+			 "are shown in the main window.")
