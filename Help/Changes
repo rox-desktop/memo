@@ -5,6 +5,10 @@
 TODO:
 - Option/button to speak the time
 
+26-Jul-2003 (Release 1.9.3)
+~~~~~~~~~~~
+Try to access ROX-Lib through Zero Install, if possible.
+
 04-Jul-2003
 ~~~~~~~~~~~
 Added italian translation in AppInfo.xml (Yuri Bongiorno)
