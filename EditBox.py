@@ -74,7 +74,10 @@ class EditBox(g.Dialog):
 
 		if memo:
 			buffer = self.text.get_buffer()
-			buffer.insert_at_cursor(memo.message, -1)
+			try:
+				buffer.insert_at_cursor(memo.message)
+			except TypeError:
+				buffer.insert_at_cursor(memo.message, -1)
 		if memo and memo.at:
 			self.at.set_active(TRUE)
 		if memo == None or memo.at == 0:

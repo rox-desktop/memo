@@ -24,7 +24,7 @@ class Window(g.Window):
 		self.set_wmclass('Memo', 'Memo')
 		self.set_title('Memo')
 		self.set_resizable(FALSE)
-		self.set_type_hint(g.gdk.WINDOW_TYPE_HINT_DIALOG)
+		#self.set_type_hint(g.gdk.WINDOW_TYPE_HINT_DIALOG)
 
 		if main_sticky.int_value:
 			self.stick()

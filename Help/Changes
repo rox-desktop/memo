@@ -5,6 +5,10 @@
 TODO:
 - Option/button to speak the time
 
+11-Feb-2003
+~~~~~~~~~~~
+Upgraded to cope with pygtk-1.99.15.
+
 20-Nov-2002 (Release 1.9.1)
 ~~~~~~~~~~~
 Hack around another pygtk reference counting bug.
