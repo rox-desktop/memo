@@ -9,11 +9,11 @@ items. It displays the next few entries in a small window, and can also be
 instructed to beep and bring up alert windows at set times.
 
 It's written in python, so you don't need to compile it before using it, but
-you will require the 'pygtk' (or 'gnome-python') package, and ROX-Lib2:
+you will require ROX-Lib2 (the Gtk+-2.0 version of ROX-Lib):
 
 	http://rox.sourceforge.net
 
-To run, click on its icon in a filer window.
+To run Memo, click on its icon in a filer window, or run the 'AppRun' script.
 
 No installation is required, but you can copy it anywhere you want using
 the filer.

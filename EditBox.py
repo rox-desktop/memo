@@ -99,6 +99,7 @@ class EditBox(g.Dialog):
 
 		text = g.TextView()
 		hbox.pack_start(text, TRUE, TRUE, 0)
+		text.set_wrap_mode(g.WRAP_WORD)
 
 		scrollbar = g.VScrollbar()
 		adj = scrollbar.get_adjustment()

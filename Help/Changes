@@ -2,6 +2,10 @@
 			Reminds you about things
 			by Thomas Leonard
 
+13-Jul-2002 (Release 1.9.0)
+~~~~~~~~~~~
+Turned on word-wrapping in the editor dialog.
+
 03-Jul-2002
 ~~~~~~~~~~~
 Upgraded to Gtk+-2.0 and ROX-Lib2. New features:
