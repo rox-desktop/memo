@@ -11,6 +11,8 @@ from pretty_time import str_time
 DELETE = 1
 HIDE = 2
 
+refleak_bug_workaround = []
+
 class EditBox(g.Dialog):
 	def __init__(self, memo = None):
 		g.Dialog.__init__(self)
@@ -81,6 +83,9 @@ class EditBox(g.Dialog):
 		self.connect('response', self.response)
 		self.text.grab_focus()
 		self.set_default_response(g.RESPONSE_YES)
+
+		self.connect('destroy', lambda w: refleak_bug_workaround.remove(self))
+		refleak_bug_workaround.append(self)
 
 	def make_text_view(self):
 		# The TextView / time of day settings

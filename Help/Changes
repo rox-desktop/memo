@@ -5,6 +5,11 @@
 TODO:
 - Option/button to speak the time
 
+28-Oct-2002
+~~~~~~~~~~~
+Support pygtk 1.99.12 (RedHat 8.0) as well as current versions.
+Hack around pygtk reference counting bug.
+
 10-Sep-2002
 ~~~~~~~~~~~
 Toggle hidden had stopped working with new pygtk.
