@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Memo 1.9.4\n"
-"POT-Creation-Date: Tue Dec  9 16:17:55 2003\n"
-"PO-Revision-Date: 2003-12-07 18:40+0200\n"
+"POT-Creation-Date: Wed Dec 10 21:09:03 2003\n"
+"PO-Revision-Date: 2003-12-10 18:40+0200\n"
 "Last-Translator: Yuri Bongiorno http://yuri.webhop.org\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -87,7 +87,7 @@ msgstr "Eliminare veramente %d promemoria?"
 
 #: ShowAll.py:116
 msgid "You need to select exactly one memo first!"
-msgstr "Selezionare solo un promemoria."
+msgstr "Selezionare esattamente un promemoria."
 
 #: Window.py:13
 msgid "/Add Memo..."
@@ -331,15 +331,15 @@ msgstr "%s:%02d %s"
 
 #: tips:1
 msgid "Memo"
-msgstr ""
+msgstr "Promemoria"
 
 #: tips:2
 msgid "Window"
-msgstr ""
+msgstr "Finestra"
 
 #: tips:3
 msgid "Stick to screen"
-msgstr ""
+msgstr "Incollato allo schermo"
 
 #: tips:4 tips:5
 msgid ""
@@ -348,35 +348,38 @@ msgid ""
 "screen).\n"
 "Requires a compliant window manager."
 msgstr ""
+"Se ci sono più aree di lavoro impostate, questa opzione fa "
+"apparire Memo anche altrove, come se fosse incollato allo schermo."
+"\n"
+"Necessita di un window manager compatibile."
 
 #: tips:6
 msgid "Time display format"
-msgstr ""
+msgstr "Formato di visualizzazione dell'ora"
 
 #: tips:7
 msgid "12 hour digital clock and date"
-msgstr ""
+msgstr "Data con orologio digitale di 12 ore"
 
 #: tips:8
 msgid "Rough textual description"
-msgstr ""
+msgstr "Descrizione letterale"
 
 #: tips:9 tips:10 tips:11
 msgid "For people who take a more relaxed approach to time"
-msgstr ""
+msgstr "Per persone con un approccio non rigido del tempo"
 
 #: tips:12
 msgid "Main window list display"
-msgstr ""
+msgstr "Visualizzazione elenco della finestra principale"
 
 #: tips:13
 msgid "Try to show at least"
-msgstr ""
+msgstr "Mostra almeno"
 
 #: tips:14
-#, fuzzy
 msgid "memos"
-msgstr "Tutti i promemoria"
+msgstr "promemoria"
 
 #: tips:15
 msgid ""
@@ -384,17 +387,22 @@ msgid ""
 "the main window. However, only memos more than 24 hours in the future will "
 "ever be hidden, so the list can still get quite long."
 msgstr ""
+"Questo è il numero di promemoria normalmente mostrato nella finestra "
+"principale. Solo quelli più in là di 24 ore nel futuro saranno nascosti, quindi "
+"l'elenco può essere lungo."
 
 #: tips:16
 msgid "Only show memos within the next"
-msgstr ""
+msgstr "Mostra solo i promemoria dei prossimi"
 
 #: tips:17
 msgid "months"
-msgstr ""
+msgstr "mesi"
 
 #: tips:18 tips:19 tips:20 tips:21
 msgid ""
 "Any memos set for further in the future than this will never be shown in the "
 "main window."
 msgstr ""
+"I promemoria più in là nel futuro di questo numero non vengono mostati "
+"nella finestra principale."
