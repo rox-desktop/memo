@@ -2,6 +2,10 @@
 			Reminds you about things
 			by Thomas Leonard
 
+30-May-2001
+~~~~~~~~~~~
+Switched to using ROX-Lib.
+
 29-May-2001 (Release 0.1.1)
 ~~~~~~~~~~~
 Added AppInfo file.

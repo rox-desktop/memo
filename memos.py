@@ -2,7 +2,7 @@ from gtk import *
 from time import *
 import os
 import string
-import choices
+from rox import choices
 from xmllib import *
 from support import *
 from TimeDisplay import month_name

@@ -1,41 +1,59 @@
-#! /usr/bin/env python
-# vi: set syntax=python : */
+#!/usr/bin/env python
+
+import findrox
 
 from gtk import *
 import GDK
 from TimeDisplay import *
 from memos import *
-import menus
 
-window = GtkWindow(WINDOW_TOPLEVEL)
-window.set_wmclass("Memo", "Memo")
-window.set_title("Memo")
-window.set_default_size(200, 100)
+from rox.Menu import Menu
 
-vbox = GtkVBox(homogeneous = FALSE, spacing = 0)
-window.add(vbox)
+menu = Menu('Memo', 'main', [
+                ('/Add Memo',    'new_memo',    ''),
+                ('/Help',        'help',	''),
+                ('/Quit',        'destroy',     ''),
+                ])
 
-time_button = GtkButton()
-time_button.add(TimeDisplay())
-time_button.unset_flags(CAN_FOCUS)
-vbox.pack_start(time_button, expand = FALSE)
-vbox.pack_start(memo_list, expand = TRUE)
-memo_list.unset_flags(CAN_FOCUS)
+class Window(GtkWindow):
+	def __init__(self):
+		GtkWindow.__init__(self)
+		self.set_wmclass("Memo", "Memo")
+		self.set_title("Memo")
+		self.set_default_size(200, 100)
 
-def button_press(widget, event):
-	if event.type != GDK.BUTTON_PRESS:
-		return
-	elif event.button == 2 or event.button == 3:
-		menus.show_menu(event)
-	return 1
+		vbox = GtkVBox(homogeneous = FALSE, spacing = 0)
+		self.add(vbox)
 
-def time_clicked(widget):
-	new_memo()
+		time_button = GtkButton()
+		time_button.add(TimeDisplay())
+		time_button.unset_flags(CAN_FOCUS)
+		vbox.pack_start(time_button, expand = FALSE)
+		vbox.pack_start(memo_list, expand = TRUE)
+		memo_list.unset_flags(CAN_FOCUS)
 
-window.add_events(GDK.BUTTON_PRESS_MASK)
-window.connect("button-press-event", button_press)
-time_button.connect("button-press-event", button_press)
-time_button.connect("clicked", time_clicked)
+		self.add_events(GDK.BUTTON_PRESS_MASK)
+		self.connect("button-press-event", self.button_press)
+		time_button.connect("button-press-event", self.button_press)
+		time_button.connect("clicked", lambda w: new_memo())
+
+		menu.attach(self, self)
+	
+	def new_memo(self):
+		new_memo()
+	
+	def help(self):
+		from rox import filer, support
+		filer.open_dir(support.app_dir + '/Help')
+
+	def button_press(self, widget, event):
+		if event.type != GDK.BUTTON_PRESS:
+			return
+		elif event.button == 2 or event.button == 3:
+			menu.popup(self, event)
+		return 1
+
+window = Window()
 
 window.show_all()
 window.connect("destroy", mainquit)

@@ -1,5 +1,5 @@
 import memos
-from gtk import gdk_beep
+from gtk import *
 from support import *
 
 current_alarm = None
