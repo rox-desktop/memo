@@ -1,7 +1,7 @@
 from __future__ import generators
 
 import rox, gobject
-from rox import g, choices, app_options, options
+from rox import g, app_options, options, basedir
 
 import time
 import os
@@ -110,7 +110,7 @@ class MasterList(MemoList):
 
 		self.visible = MemoList()
 
-		path = choices.load('Memo', 'Entries')
+		path = basedir.load_first_config('rox.sourceforge.net', 'Memo', 'Entries')
 		if path:
 			try:
 				from xml.dom import minidom, Node
@@ -151,7 +151,8 @@ class MasterList(MemoList):
 		self.add(memo)
 	
 	def save(self):
-  		path = choices.save('Memo', 'Entries.new')
+  		save_dir = basedir.save_config_path('rox.sourceforge.net', 'Memo')
+		path = os.path.join(save_dir, 'Entries.new')
 		if not path:
 			sys.stderr.write(
 				"Memo: Saving disabled by CHOICESPATH\n")
@@ -160,7 +161,7 @@ class MasterList(MemoList):
 			f = os.open(path, os.O_CREAT | os.O_WRONLY, 0600)
 			self.save_to_stream(os.fdopen(f, 'w'))
 
-			real_path = choices.save('Memo', 'Entries')
+			real_path = os.path.join(save_dir, 'Entries')
 			os.rename(path, real_path)
 		except:
   			rox.report_exception()

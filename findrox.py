@@ -11,9 +11,27 @@ import string
 def version(major, minor, micro):
 	"""Find ROX-Lib2, with a version >= (major, minor, micro), and
 	add it to sys.path. If version is missing or too old, either
-	prompt the user, or (if possible) upgrade it automatically."""
+	prompt the user, or (if possible) upgrade it automatically.
+	If 'rox' is already in PYTHONPATH, just use that (assume the injector
+	is being used)."""
+	try:
+		import rox
+	except ImportError:
+		pass
+	else:
+		#print "Using ROX-Lib in PYTHONPATH"
+		if (major, minor, micro) > rox.roxlib_version:
+			print >>sys.stderr, "WARNING: ROX-Lib version " \
+				"%d.%d.%d requested, but using version " \
+				"%d.%d.%d from %s" % \
+				(major, minor, micro,
+				 rox.roxlib_version[0],
+				 rox.roxlib_version[1],
+				 rox.roxlib_version[2],
+				 rox.__file__)
+		return
 
-	if os.path.exists('/uri/0install/rox.sourceforge.net'):
+	if not os.getenv('ROXLIB_DISABLE_ZEROINSTALL') and os.path.exists('/uri/0install/rox.sourceforge.net'):
 		# We're using ZeroInstall. Good :-)
 		zpath = '/uri/0install/rox.sourceforge.net/lib/ROX-Lib2/' \
 			'latest'
@@ -45,7 +63,7 @@ def version(major, minor, micro):
 				return	# Can't check version
 			if not hasattr(rox, 'roxlib_version'):
 				break
-			if (major, minor, micro) >= rox.roxlib_version:
+			if (major, minor, micro) <= rox.roxlib_version:
 				return	# OK
 	report_error("This program needs ROX-Lib2 (version %d.%d.%d) " % \
 		(major, minor, micro) + "to run.\n" + \

@@ -2,14 +2,17 @@
 
 import findrox; findrox.version(1, 9, 8)
 import rox
+from rox import choices
+
+choices.migrate('Memo', 'rox.sourceforge.net')
 
 import os
 __builtins__._ = rox.i18n.translation(os.path.join(rox.app_dir, 'Messages'))
 
-rox.setup_app_options('Memo')
+rox.setup_app_options('Memo', site = 'rox.sourceforge.net')
 
 from rox.Menu import set_save_name
-set_save_name('Memo')
+set_save_name('Memo', site = 'rox.sourceforge.net')
 
 import Window, memos
 

@@ -5,6 +5,11 @@
 TODO:
 - Option/button to speak the time
 
+20-Feb-2005
+~~~~~~~~~~~
+Use freedesktop.org basedir spec for storing config files, and use newer
+findrox (Thomas Leonard).
+
 07-Dec-2003
 ~~~~~~~~~~~
 Internationalization! Added italian translation (Yuri Bongiorno).
