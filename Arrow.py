@@ -1,5 +1,7 @@
 from rox import g
 
+refleak_bug_workaround = []
+
 class Arrow(g.EventBox):
 	def __init__(self, arrow_type, callback, data, time = 50):
 		g.EventBox.__init__(self)
@@ -22,6 +24,9 @@ class Arrow(g.EventBox):
 			lambda w, e: self.set_state(g.STATE_PRELIGHT))
 		self.connect('leave-notify-event',
 			lambda w, e: self.set_state(g.STATE_NORMAL))
+
+		self.connect('destroy', lambda w: refleak_bug_workaround.remove(self))
+		refleak_bug_workaround.append(self)
 	
 	def button_press(self, box, event):
 		if self.button != 0 or event.type != g.gdk.BUTTON_PRESS:
