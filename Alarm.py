@@ -56,8 +56,7 @@ class Alarm(GtkWindow):
 			button.set_flags(CAN_DEFAULT)
 			action_area.pack_start(button, TRUE, TRUE, 0)
 			button.connect('clicked', self.button, b)
-			if not default_button:
-				default_button = button
+			default_button = button
 		
 		default_button.grab_focus()
 		default_button.grab_default()

@@ -2,6 +2,10 @@
 			Reminds you about things
 			by Thomas Leonard
 
+09-Nov-2001
+~~~~~~~~~~~
+Make 'Edit' the default button when an alarm appears, not 'Remove'.
+
 25-Sep-2001 (Release 1.0.0)
 ~~~~~~~~~~~
 Bugfix: Messages with <, > or & characters didn't save correctly.
