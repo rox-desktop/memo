@@ -2,7 +2,7 @@
 			Reminds you about things
 			by Thomas Leonard
 
-25-Sep-2001
+25-Sep-2001 (Release 0.1.2)
 ~~~~~~~~~~~
 Bugfix: Messages with <, > or & characters didn't save correctly.
 
