@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Memo 1.9.4\n"
-"POT-Creation-Date: Sun Dec  7 21:37:23 2003\n"
+"POT-Creation-Date: Tue Dec  9 16:17:55 2003\n"
 "PO-Revision-Date: 2003-12-07 18:40+0200\n"
 "Last-Translator: Yuri Bongiorno http://yuri.webhop.org\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
@@ -328,3 +328,73 @@ msgstr "pm"
 #: pretty_time.py:75
 msgid "%s:%02d %s"
 msgstr "%s:%02d %s"
+
+#: tips:1
+msgid "Memo"
+msgstr ""
+
+#: tips:2
+msgid "Window"
+msgstr ""
+
+#: tips:3
+msgid "Stick to screen"
+msgstr ""
+
+#: tips:4 tips:5
+msgid ""
+"If you have multiple workspaces or viewports set up then this option can be "
+"used to make the Memo window follow you around (as if it was stuck to the "
+"screen).\n"
+"Requires a compliant window manager."
+msgstr ""
+
+#: tips:6
+msgid "Time display format"
+msgstr ""
+
+#: tips:7
+msgid "12 hour digital clock and date"
+msgstr ""
+
+#: tips:8
+msgid "Rough textual description"
+msgstr ""
+
+#: tips:9 tips:10 tips:11
+msgid "For people who take a more relaxed approach to time"
+msgstr ""
+
+#: tips:12
+msgid "Main window list display"
+msgstr ""
+
+#: tips:13
+msgid "Try to show at least"
+msgstr ""
+
+#: tips:14
+#, fuzzy
+msgid "memos"
+msgstr "Tutti i promemoria"
+
+#: tips:15
+msgid ""
+"This is the number of memos that will normally be shown under the time in "
+"the main window. However, only memos more than 24 hours in the future will "
+"ever be hidden, so the list can still get quite long."
+msgstr ""
+
+#: tips:16
+msgid "Only show memos within the next"
+msgstr ""
+
+#: tips:17
+msgid "months"
+msgstr ""
+
+#: tips:18 tips:19 tips:20 tips:21
+msgid ""
+"Any memos set for further in the future than this will never be shown in the "
+"main window."
+msgstr ""

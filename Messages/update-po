@@ -3,7 +3,8 @@
 echo Extracting messages from source files...
 echo
 
-(cd ..; pygettext -o "Messages/messages.pot" *.py  AppRun)
+python ./tips.py
+(cd ..; pygettext *.py tips)
 
 echo
 echo Updating all .po files...
@@ -12,5 +13,5 @@ echo
 for FILE in *.po; do
 	echo -n "Updating '$FILE' translation"
 	mv $FILE $FILE.old
-	msgmerge $FILE.old messages.pot > $FILE
+	msgmerge $FILE.old ../messages.pot > $FILE
 done
