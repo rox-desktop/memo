@@ -2,8 +2,6 @@
 			Reminds you about things
 			by Thomas Leonard
 
-		*** NOTE: This program is not finished! ***
-
 Brief
 ~~~~~
 Memo is a small utility which you can use to store appointments and 'TODO'
@@ -58,8 +56,6 @@ as seconds since a fixed date.
 Therefore, if you set an alarm for 7pm and then change timezones, the alarm
 may now appear to have changed time. It will go off when the time is 7pm IN
 THE ZONE WHERE YOU SET THE MEMO.
-
-TODO: Does BST affect things?
 
 
 Conditions
