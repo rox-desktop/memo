@@ -60,7 +60,11 @@ def rough_time(time_in_seconds):
 				   section_name[minute / 5],
 				   hour_name(hour), o_clock)
 
-def str_time(hour, min):
+def str_time(hour = None, min = None):
+	if hour == None:
+		t = time.localtime(time.time())
+		year, month, day, hour, min, second, weekday, julian, dst = t
+
 	h = hour % 12
 	if h == 0:
 		h = 12

@@ -5,6 +5,10 @@
 TODO:
 - Option/button to speak the time
 
+27-Jun-2003
+~~~~~~~~~~~
+Bugfix: '12 hour' clock option was showing 24 hour times.
+
 16-May-2003
 ~~~~~~~~~~~
 New icon (Geoff Youngs).

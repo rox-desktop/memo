@@ -106,7 +106,9 @@ class Window(g.Window):
 		if time_format.value == 'text':
 			text = pretty_time.rough_time(time.time())
 		else:
-			text = time.strftime('%a %d/%b/%Y %H:%M')
+			# Note: importing gtk breaks strftime for am/pm
+			text = time.strftime('%a %d-%b-%Y  ') + \
+					pretty_time.str_time()
 		self.time_label.set_text(text)
 		return TRUE
 	
