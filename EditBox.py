@@ -15,7 +15,6 @@ class EditBox(g.Dialog):
 	def __init__(self, memo = None):
 		g.Dialog.__init__(self)
 		self.set_has_separator(FALSE)
-		self.set_modal(TRUE)
 
 		self.add_button(g.STOCK_HELP, g.RESPONSE_HELP)
 

@@ -96,13 +96,8 @@ class ShowAll(g.Dialog):
 
 			box = g.MessageDialog(None, 0, g.MESSAGE_QUESTION,
 						g.BUTTONS_CANCEL, message)
-			box.set_title('Really delete memos?')
-			box.set_position(g.WIN_POS_MOUSE)
-			box.add_button(g.STOCK_DELETE, g.RESPONSE_OK)
-			box.set_default_response(g.RESPONSE_OK)
-			resp = box.run()
-			box.destroy()
-			if resp == g.RESPONSE_OK:
+			
+			if rox.confirm(message, g.STOCK_DELETE):
 				for m in memos:
 					memo_list.delete(m, update = 0)
 				memo_list.notify_changed()

@@ -44,8 +44,7 @@ class MemoList(g.ListStore):
 				if update:
 					self.notify_changed()
 				return
-		
-		raise Exception('Memo %s not found!' % memo)
+		# Not found. That's OK.
 	
 	def add(self, memo, update = 1):
 		assert isinstance(memo, Memo)
