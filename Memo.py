@@ -47,7 +47,7 @@ class Memo(gobject.GObject):
 
 		year, month, day, hour, min = time.localtime(self.time)[:5]
 		month = month - 1
-	
+
 		if year != now_y:
 			return '%s-%d' % (month_name[month][:3], year)
 

@@ -5,9 +5,15 @@
 TODO:
 - Option/button to speak the time
 
+01-Jul-2003
+~~~~~~~~~~~
+Bugfix: Dates didn't change format at midnight (eg 1 Jul -> Today)
+	(reported by Graham Borland).
+
 27-Jun-2003
 ~~~~~~~~~~~
 Bugfix: '12 hour' clock option was showing 24 hour times.
+	(reported by Graham Borland).
 
 16-May-2003
 ~~~~~~~~~~~

@@ -30,6 +30,7 @@ class Window(g.Window):
 			self.stick()
 
 		self.memo_list = memo_list
+		self.last_day = None
 
 		vbox = g.VBox(FALSE, 0)
 		self.add(vbox)
@@ -110,6 +111,14 @@ class Window(g.Window):
 			text = time.strftime('%a %d-%b-%Y  ') + \
 					pretty_time.str_time()
 		self.time_label.set_text(text)
+		
+		t = time.localtime()
+		year, month, day, hour, minute, second,	weekday, julian, dst = t
+		if self.last_day != day:
+			if self.last_day is not None:
+				self.memo_list.new_day()
+			self.last_day = day
+
 		return TRUE
 	
 	def new_memo(self, widget = None):

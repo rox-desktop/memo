@@ -42,6 +42,11 @@ class MemoList(g.ListStore):
 				return
 		# Not found. That's OK.
 	
+	def new_day(self):
+		"Recalculate the time display after midnight."
+		for memo in self:
+			self.set(memo, TIME, self.get_value(memo, MEMO).str_when())
+	
 	def add(self, memo, update = 1):
 		assert isinstance(memo, Memo)
 
@@ -125,6 +130,10 @@ class MasterList(MemoList):
 						errors = 1
 		self.update_visible()
 		app_options.add_notify(self.update_visible)
+	
+	def new_day(self):
+		MemoList.new_day(self)
+		self.visible.new_day()
 	
 	def toggle_hidden(self, path):
 		if g.pygtk_version == (1, 99, 12):
