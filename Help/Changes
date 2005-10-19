@@ -5,6 +5,10 @@
 TODO:
 - Option/button to speak the time
 
+19-Oct-2005
+~~~~~~~~~~~
+Added Chinese translations (Babyfai Cheung).
+
 20-Feb-2005 (Release 1.9.5)
 ~~~~~~~~~~~
 Use freedesktop.org basedir spec for storing config files, and use newer
