@@ -2,6 +2,8 @@
 <AppInfo>
   <Summary xml:lang="en">Shows the time and lets you set memos and alarms</Summary>
   <Summary xml:lang="it">Mostra l'ora, punta la sveglia e scrive promemoria</Summary>
+  <Summary xml:lang="zh_CN">时间显示及备忘录</Summary>
+  <Summary xml:lang="zh_TW">時間顯示及備忘錄</Summary>
   <About xml:lang="en">
     <Purpose>Alarm clock</Purpose>
     <Version>1.9.5 (26-Feb-2005)</Version>
