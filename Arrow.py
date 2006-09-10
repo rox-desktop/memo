@@ -1,4 +1,5 @@
 from rox import g
+import gobject
 
 refleak_bug_workaround = []
 
@@ -34,7 +35,7 @@ class Arrow(g.EventBox):
 		self.button = event.button
 		#g.grab_add(self)
 		self.arrow.set(self.arrow_type, g.SHADOW_IN)
-		self.cb = g.timeout_add(self.time * 2 + 300, self.incr)
+		self.cb = gobject.timeout_add(self.time * 2 + 300, self.incr)
 		self.incr(resched = 0)
 	
 	def button_release(self, box, event):
@@ -43,11 +44,11 @@ class Arrow(g.EventBox):
 		self.button = 0
 		#g.grab_remove(self)
 		self.arrow.set(self.arrow_type, g.SHADOW_OUT)
-		g.timeout_remove(self.cb)
+		gobject.source_remove(self.cb)
 	
 	def incr(self, resched = 1):
 		if resched:
-			g.timeout_remove(self.cb)
-			self.cb = g.timeout_add(self.time, self.incr)
+			gobject.source_remove(self.cb)
+			self.cb = gobject.timeout_add(self.time, self.incr)
 		self.callback(self.data)
 		return 0

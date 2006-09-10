@@ -2,6 +2,7 @@ import rox
 from rox import g, TRUE, FALSE, app_options
 from rox.Menu import Menu
 from rox.options import Option
+import gobject
 
 import dbus_notify
 import pretty_time, time
@@ -78,7 +79,7 @@ class Window(g.Window):
 		self.connect('destroy', lambda w: rox.toplevel_unref())
 
 		self.update()
-		g.timeout_add(10000, self.update)	# Update clock
+		gobject.timeout_add(10000, self.update)	# Update clock
 
 		self.timeout = None	# For next alarm
 		self.alert_box = None
@@ -177,17 +178,17 @@ class Window(g.Window):
 			self.schedule(delay)
 
 	def timeout_cb(self):
-		g.timeout_remove(self.timeout)
+		gobject.source_remove(self.timeout)
 		self.timeout = 0
 		self.prime()
 		return 0
 	
 	def schedule(self, delay):
 		if self.timeout:
-			g.timeout_remove(self.timeout)
+			gobject.source_remove(self.timeout)
 
 		# Avoid overflows - don't resched more than a day ahead
 		if delay > 60 * 60 * 24:
 			delay = 60 * 60 * 24
 
-		self.timeout = g.timeout_add(int(1000 * delay), self.timeout_cb)
+		self.timeout = gobject.timeout_add(int(1000 * delay), self.timeout_cb)
