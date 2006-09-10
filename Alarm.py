@@ -25,7 +25,7 @@ class Alarm(g.MessageDialog):
 		self.add_button(g.STOCK_OK, g.RESPONSE_OK)
 
 		self.set_title('Memo:')
-		self.set_modal(g.TRUE)
+		self.set_modal(True)
 		self.set_position(g.WIN_POS_CENTER)
 		memo.silent = 1
 		

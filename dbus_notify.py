@@ -1,5 +1,9 @@
 # Copyright (C) 2006, Thomas Leonard
 
+import sys
+
+# See http://www.galago-project.org/specs/notification/
+
 _avail = None	# Unknown
 notification_service = None
 
@@ -41,6 +45,16 @@ def is_available():
 					      
 		notification_service = dbus.Interface(remote_object, 
 						'org.freedesktop.Notifications')
+
+		# The Python bindings insist on printing a pointless introspection
+		# warning to stderr if the service is missing. Force it to be done
+		# now so we can skip it
+		old_stderr = sys.stderr
+		sys.stderr = None
+		try:
+			notification_service.GetCapabilities()
+		finally:
+			sys.stderr = old_stderr
 
 		notification_service.connect_to_signal('NotificationClosed', _NotificationClosed)
 		notification_service.connect_to_signal('ActionInvoked', _ActionInvoked)
