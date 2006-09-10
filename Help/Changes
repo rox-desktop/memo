@@ -2,12 +2,19 @@
 			Reminds you about things
 			by Thomas Leonard
 
-TODO:
-- Option/button to speak the time
+Changes in release 1.9.6:
 
-19-Oct-2005
-~~~~~~~~~~~
-Added Chinese translations (Babyfai Cheung).
+- Added Chinese translations (Babyfai Cheung).
+
+- Upgraded timeout calls to avoid deprecation warnings (Thomas Leonard).
+
+- Updated to latest findrox.py (Thomas Leonard).
+
+- If a D-BUS notification service is available, use that to display alarms
+  (Thomas Leonard).
+
+  See http://www.galago-project.org/specs/notification/
+
 
 20-Feb-2005 (Release 1.9.5)
 ~~~~~~~~~~~
