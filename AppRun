@@ -22,4 +22,8 @@ rox.app_options.notify()
 memo_list = memos.MasterList()
 Window.Window(memo_list)
 
-rox.mainloop()
+try:
+	rox.mainloop()
+finally:
+	import dbus_notify
+	dbus_notify.close_all()

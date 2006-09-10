@@ -70,6 +70,10 @@ def close(memo):
 		if _nid_to_memo[nid] is memo:
 			notification_service.CloseNotification(nid)
 
+def close_all():
+	for nid in _nid_to_memo:
+		notification_service.CloseNotification(nid)
+
 def notify(memo):
 	import time
 	import dbus.types
@@ -91,6 +95,10 @@ def notify(memo):
 		0)		# timeout
 	
 	_nid_to_memo[id] = memo
+
+	memo.silent = 1
+	from __main__ import memo_list
+	memo_list.notify_changed()
 
 if __name__ == '__main__':
 	__builtins__._ = lambda x: x
