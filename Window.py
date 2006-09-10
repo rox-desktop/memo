@@ -3,6 +3,7 @@ from rox import g, TRUE, FALSE, app_options
 from rox.Menu import Menu
 from rox.options import Option
 
+import dbus_notify
 import pretty_time, time
 from Alarm import Alarm
 
@@ -155,19 +156,23 @@ class Window(g.Window):
 			
 		missed, delay = self.memo_list.catch_up()
 		if missed:
-			# Show the first one.
-			self.alert_box = Alarm(missed[0])
-			def destroyed(widget):
-				self.alert_box = None
-				self.prime()
-			self.alert_box.connect('destroy', destroyed)
-			g.gdk.beep()
-			g.gdk.flush()
-			time.sleep(0.3)
-			g.gdk.beep()
-			g.gdk.flush()
-			time.sleep(1)
-			self.alert_box.show()
+			if dbus_notify.is_available():
+				for m in missed:
+					dbus_notify.notify(m)
+			else:
+				# Show the first one.
+				self.alert_box = Alarm(missed[0])
+				def destroyed(widget):
+					self.alert_box = None
+					self.prime()
+				self.alert_box.connect('destroy', destroyed)
+				g.gdk.beep()
+				g.gdk.flush()
+				time.sleep(0.3)
+				g.gdk.beep()
+				g.gdk.flush()
+				time.sleep(1)
+				self.alert_box.show()
 		if delay:
 			self.schedule(delay)
 

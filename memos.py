@@ -33,6 +33,8 @@ class MemoList(g.ListStore):
 			iter = self.iter_next(iter)
 	
 	def delete(self, memo, update = 1):
+		import dbus_notify
+		dbus_notify.close(memo)
 		for iter in self:
 			m = self.get_value(iter, MEMO)
 			if m is memo:
