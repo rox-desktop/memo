@@ -74,6 +74,9 @@ def close_all():
 	for nid in _nid_to_memo:
 		notification_service.CloseNotification(nid)
 
+def escape(s):
+	return s.replace('&', '&amp;').replace('<', '&lt;')
+
 def notify(memo):
 	import time
 	import dbus.types
@@ -81,11 +84,17 @@ def notify(memo):
 
 	close(memo)
 
+	parts = memo.message.split('\n', 1)
+	summary = escape(parts[0])
+	body = '<i>' + (_('Alarm set for %s') % time.ctime(memo.time)) + '</i>'
+	if len(parts) == 2:
+		body += '\n' + escape(parts[1])
+
 	id = notification_service.Notify('Memo',
 		0,		# replaces_id,
 		'',		# icon
-		memo.message.split('\n', 1)[0].strip(),	# summary
-		_('Alarm set for %s:\n%s') % (time.ctime(memo.time), memo.message),
+		summary,
+		body,
 		[
 			'hide', 'Hide memo',
 			'edit', 'Edit',
@@ -104,6 +113,6 @@ if __name__ == '__main__':
 	__builtins__._ = lambda x: x
 	from Memo import Memo
 	assert is_available()
-	notify(Memo(0, 'This is a message.\nMore details go here.', True))
+	notify(Memo(0, 'This is a <message>.\nMore <details> go <here>.', True))
 	from rox import g
 	g.main()
