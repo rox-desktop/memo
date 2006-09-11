@@ -16,6 +16,9 @@ class TimerButton(g.Button):
 		self.timeout = None
 		self.unset_flags(g.CAN_FOCUS)
 
+		tips = g.Tooltips()
+		tips.set_tip(self, _('Click here to set the count-down timer.'))
+
 		self.connect('clicked', edit_timer)
 	
 	def set_timer(self, secs):
