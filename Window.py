@@ -6,6 +6,7 @@ import gobject
 
 import dbus_notify
 import pretty_time, time
+import timer
 from Alarm import Alarm
 
 time_format = Option('time_format', 'text')
@@ -37,11 +38,16 @@ class Window(g.Window):
 		vbox = g.VBox(FALSE, 0)
 		self.add(vbox)
 
+		hbox = g.HBox(False, 0)
+		vbox.pack_start(hbox, expand = False)
+
 		self.time_label = g.Label('')
 		time_button = g.Button()
 		time_button.add(self.time_label)
 		time_button.unset_flags(g.CAN_FOCUS)
-		vbox.pack_start(time_button, expand = FALSE)
+		hbox.pack_start(time_button, expand = True)
+
+		hbox.pack_start(timer.TimerButton(), expand = False)
 
 		self.list = g.TreeView(memo_list.visible)
 		vbox.pack_start(self.list, expand = TRUE)
