@@ -1,0 +1,425 @@
+# Memo Spanish Translation.
+# Copyright @ 2006 Free Software Foundation, Inc.
+# Current translator: José Silva http://www.turturia.it/idel, 2006.
+# 
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: Memo 1.9.4\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-09-11 16:35+VET\n"
+"PO-Revision-Date: 2006-09-11 16:35-0400\n"
+"Last-Translator:  <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=\n"
+"Content-Transfer-Encoding: \n"
+
+#: Alarm.py:12
+msgid ""
+"Alarm set for %s:\n"
+"%s"
+msgstr ""
+"Activar alarma para %s:\n"
+"%s"
+
+#: Alarm.py:15
+msgid "_Hide memo"
+msgstr "Ocultar memo"
+
+#: Alarm.py:20 ShowAll.py:120
+msgid "_Edit"
+msgstr "Editar"
+
+#: EditBox.py:26
+msgid "_Hide"
+msgstr "Ocultar"
+
+#: EditBox.py:32
+msgid "_Set"
+msgstr "Configurar"
+
+#: EditBox.py:38
+msgid "Edit memo:"
+msgstr "Editar memo:"
+
+#: EditBox.py:41
+msgid "Create memo:"
+msgstr "Crear memo:"
+
+#: EditBox.py:96
+msgid "Message:"
+msgstr "Mensaje:"
+
+#: EditBox.py:127
+msgid "At..."
+msgstr "A las..."
+
+#: Memo.py:62
+msgid "Today"
+msgstr "Hoy"
+
+#: ShowAll.py:11
+msgid "All memos"
+msgstr "Todos los memos"
+
+#: ShowAll.py:35
+msgid "Hide"
+msgstr "Ocultar"
+
+#: ShowAll.py:41
+msgid "Time"
+msgstr "Hora"
+
+#: ShowAll.py:44
+msgid "Message"
+msgstr "Mensaje"
+
+#: ShowAll.py:89
+msgid "You need to select some memos first!"
+msgstr "Debe seleccionar un memo primero."
+
+#: ShowAll.py:93
+msgid "Really delete memo '%s'?"
+msgstr "¿Desea eliminar el memo '%s'?"
+
+#: ShowAll.py:95
+msgid "Really delete %d memos?"
+msgstr "¿Realmente desea eliminar %d memos?"
+
+#: ShowAll.py:116
+msgid "You need to select exactly one memo first!"
+msgstr "Debe seleccionar un memo.."
+
+#: Window.py:16
+msgid "/Add Memo..."
+msgstr "/Agregar memo..."
+
+#: Window.py:17
+msgid "/Show All..."
+msgstr "/Mostrar todo..."
+
+#: Window.py:19
+msgid "/Options..."
+msgstr "/Opciones"
+
+#: Window.py:20
+msgid "/Help"
+msgstr "/Ayuda"
+
+#: Window.py:21
+msgid "/Quit"
+msgstr "/Salir"
+
+#: dbus_notify.py:89
+msgid "Alarm set for %s"
+msgstr ""
+"Activar alarma para %s:\n"
+"%s"
+
+#: pretty_time.py:3
+msgid "Friday"
+msgstr "Viernes"
+
+#: pretty_time.py:3
+msgid "Monday"
+msgstr "Lunes"
+
+#: pretty_time.py:3
+msgid "Thursday"
+msgstr "Jueves"
+
+#: pretty_time.py:3
+msgid "Tuesday"
+msgstr "Martes"
+
+#: pretty_time.py:3
+msgid "Wednesday"
+msgstr "Miercoles"
+
+#: pretty_time.py:4
+msgid "Saturday"
+msgstr "Sábado"
+
+#: pretty_time.py:4
+msgid "Sunday"
+msgstr "Domingo"
+
+#: pretty_time.py:6
+msgid "April"
+msgstr "Abril"
+
+#: pretty_time.py:6
+msgid "February"
+msgstr "Febrero"
+
+#: pretty_time.py:6
+msgid "January"
+msgstr "Enero"
+
+#: pretty_time.py:6
+msgid "March"
+msgstr "Marzo"
+
+#: pretty_time.py:7
+msgid "August"
+msgstr "Agosto"
+
+#: pretty_time.py:7
+msgid "July"
+msgstr "Julio"
+
+#: pretty_time.py:7
+msgid "June"
+msgstr "Junio"
+
+#: pretty_time.py:7
+msgid "May"
+msgstr "Mayo"
+
+#: pretty_time.py:8
+msgid "December"
+msgstr "Diciembre"
+
+#: pretty_time.py:8
+msgid "November"
+msgstr "Noviembre"
+
+#: pretty_time.py:8
+msgid "October"
+msgstr "Octubre"
+
+#: pretty_time.py:8
+msgid "September"
+msgstr "Septiembre"
+
+#: pretty_time.py:10
+msgid "about"
+msgstr "cerca de"
+
+#: pretty_time.py:10
+msgid "just gone"
+msgstr "poco más de"
+
+#: pretty_time.py:10
+msgid "nearly"
+msgstr "casi"
+
+#: pretty_time.py:12
+msgid "a quarter past "
+msgstr "un cuarto luego de "
+
+#: pretty_time.py:12
+msgid "five past "
+msgstr "cinco minutos luego de "
+
+#: pretty_time.py:12
+msgid "ten past "
+msgstr "diez minutos luego de "
+
+#: pretty_time.py:13
+msgid "half past "
+msgstr "media hora luego de "
+
+#: pretty_time.py:13
+msgid "twenty past "
+msgstr "veinte minutos luego de "
+
+#: pretty_time.py:13
+msgid "twenty-five past "
+msgstr "venticinco minutos para "
+
+#: pretty_time.py:14
+msgid "a quarter to "
+msgstr "un cuarto para"
+
+#: pretty_time.py:14
+msgid "twenty to "
+msgstr "veinte para "
+
+#: pretty_time.py:14
+msgid "twenty-five to "
+msgstr "venticinco para "
+
+#: pretty_time.py:15
+msgid "five to "
+msgstr "cinco para "
+
+#: pretty_time.py:15
+msgid "ten to "
+msgstr "diez para "
+
+#: pretty_time.py:17
+msgid "five"
+msgstr "las cinco"
+
+#: pretty_time.py:17
+msgid "four"
+msgstr "las cuatro"
+
+#: pretty_time.py:17
+msgid "one"
+msgstr "la una"
+
+#: pretty_time.py:17
+msgid "six"
+msgstr "las seis"
+
+#: pretty_time.py:17
+msgid "three"
+msgstr "las tres"
+
+#: pretty_time.py:17
+msgid "two"
+msgstr "las dos"
+
+#: pretty_time.py:18
+msgid "eight"
+msgstr "las ocho"
+
+#: pretty_time.py:18
+msgid "eleven"
+msgstr "las once"
+
+#: pretty_time.py:18
+msgid "nine"
+msgstr "las nueve"
+
+#: pretty_time.py:18
+msgid "seven"
+msgstr "las siete"
+
+#: pretty_time.py:18
+msgid "ten"
+msgstr "las diez"
+
+#: pretty_time.py:24
+msgid "midnight"
+msgstr "medianoche"
+
+#: pretty_time.py:26
+msgid "noon"
+msgstr "mediodía"
+
+#: pretty_time.py:32 pretty_time.py:42
+msgid "%dth"
+msgstr "%d°"
+
+#: pretty_time.py:36
+msgid "%dst"
+msgstr "%d°"
+
+#: pretty_time.py:38
+msgid "%dnd"
+msgstr "%d°"
+
+#: pretty_time.py:40
+msgid "%drd"
+msgstr "%d°"
+
+#: pretty_time.py:55
+msgid " o'clock"
+msgstr " "
+
+#: pretty_time.py:59
+msgid "It's %s %s%s%s"
+msgstr "%s %s%s%s"
+
+#: pretty_time.py:72
+msgid "am"
+msgstr "am"
+
+#: pretty_time.py:74
+msgid "pm"
+msgstr "pm"
+
+#: pretty_time.py:75
+msgid "%s:%02d %s"
+msgstr "%s:%02d %s"
+
+#: timer.py:20
+msgid "Click here to set the count-down timer."
+msgstr "Presione para configurar el  temporizador."
+
+#: timer.py:82
+msgid "Set the count-down timer and click OK."
+msgstr "Configure el temporizador y presione Aceptar."
+
+#: timer.py:92
+msgid "min "
+msgstr "min "
+
+#: timer.py:99
+msgid "sec"
+msgstr "seg"
+
+#: tips:1
+msgid "Memo"
+msgstr "Memo"
+
+#: tips:2
+msgid "Window"
+msgstr "Ventana"
+
+#: tips:3
+msgid "Stick to screen"
+msgstr "Adherir a la pantalla"
+
+#: tips:4 tips:5
+msgid ""
+"If you have multiple workspaces or viewports set up then this option can be "
+"used to make the Memo window follow you around (as if it was stuck to the "
+"screen).\n"
+"Requires a compliant window manager."
+msgstr ""
+"Si tiene varios escritorios, con esta opción puede hacer que la ventana de Memo siga el escritorio activo ( Como si estuviera adherido a la pantalla).\n"
+"Requiere un manejador de ventanas compatible."
+
+#: tips:6
+msgid "Time display format"
+msgstr "Formato de visualización de la hora"
+
+#: tips:7
+msgid "12 hour digital clock and date"
+msgstr "Reloj digital de 12 horas"
+
+#: tips:8
+msgid "Rough textual description"
+msgstr "Descripción textual de la hora"
+
+#: tips:9 tips:10 tips:11
+msgid "For people who take a more relaxed approach to time"
+msgstr "Para personas que toman el  tiempo con tranquilidad"
+
+#: tips:12
+msgid "Main window list display"
+msgstr "Opciones de la lista de la ventana principal"
+
+#: tips:13
+msgid "Try to show at least"
+msgstr "Mostrar al menos"
+
+#: tips:14
+msgid "memos"
+msgstr "memos"
+
+#: tips:15
+msgid ""
+"This is the number of memos that will normally be shown under the time in "
+"the main window. However, only memos more than 24 hours in the future will "
+"ever be hidden, so the list can still get quite long."
+msgstr "Este es número de memos normalmente mostrados bajo la hora en la ventana principal. Sin embargo, los memos con más de 24 horas se ocultarán en adelante, ya que la lista puede ser un poco extensa."
+
+#: tips:16
+msgid "Only show memos within the next"
+msgstr "Mostrar memos en el rango de"
+
+#: tips:17
+msgid "months"
+msgstr "meses"
+
+#: tips:18 tips:19 tips:20 tips:21
+msgid ""
+"Any memos set for further in the future than this will never be shown in the "
+"main window."
+msgstr "Los memos configurados para un tiempo lejano no serán mostrados en la ventana principal."
