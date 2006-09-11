@@ -3,6 +3,7 @@
 from rox import g, Dialog, info, confirm
 import gobject
 import time
+import dbus_notify
 
 edit_timer_box = None
 
@@ -37,7 +38,10 @@ class TimerButton(g.Button):
 	
 	def alarm(self):
 		self.clear_timer()
-		info('Memo : Time is up!')
+		if dbus_notify.is_available():
+			dbus_notify.timer()
+		else:
+			info('Memo : Time is up!')
 	
 	def clear_timer(self):
 		self.set_label('T')

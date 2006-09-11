@@ -109,6 +109,20 @@ def notify(memo):
 	from __main__ import memo_list
 	memo_list.notify_changed()
 
+def timer():
+	import time
+	import dbus.types
+	assert _avail
+
+	notification_service.Notify('Memo',
+		0,		# replaces_id,
+		'',		# icon
+		'Time is up!',
+		'The Memo timer you set has expired.',
+		[],
+		{'urgency': dbus.types.Byte(CRITICAL)},
+		0)		# timeout
+
 if __name__ == '__main__':
 	__builtins__._ = lambda x: x
 	from Memo import Memo
