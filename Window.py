@@ -29,6 +29,8 @@ class Window(g.Window):
 		self.set_resizable(FALSE)
 		#self.set_type_hint(g.gdk.WINDOW_TYPE_HINT_DIALOG)
 
+		self.tips = g.Tooltips()
+
 		if main_sticky.int_value:
 			self.stick()
 
@@ -42,10 +44,10 @@ class Window(g.Window):
 		vbox.pack_start(hbox, expand = False)
 
 		self.time_label = g.Label('')
-		time_button = g.Button()
-		time_button.add(self.time_label)
-		time_button.unset_flags(g.CAN_FOCUS)
-		hbox.pack_start(time_button, expand = True)
+		self.time_button = g.Button()
+		self.time_button.add(self.time_label)
+		self.time_button.unset_flags(g.CAN_FOCUS)
+		hbox.pack_start(self.time_button, expand = True)
 
 		hbox.pack_start(timer.TimerButton(), expand = False)
 
@@ -75,8 +77,8 @@ class Window(g.Window):
 		self.add_events(g.gdk.BUTTON_PRESS_MASK)
 		self.list.connect('button-press-event', self.button_press)
 		self.list.connect('row-activated', activate)
-		time_button.connect('button-press-event', self.button_press)
-		time_button.connect('clicked', self.new_memo)
+		self.time_button.connect('button-press-event', self.button_press)
+		self.time_button.connect('clicked', self.new_memo)
 
 		menu.attach(self, self)
 
@@ -114,10 +116,13 @@ class Window(g.Window):
 	def update(self):
 		if time_format.value == 'text':
 			text = pretty_time.rough_time(time.time())
+			self.tips.set_tip(self.time_button,
+				time.strftime('%H:%M %a %Y-%m-%d'))
 		else:
 			# Note: importing gtk breaks strftime for am/pm
 			text = time.strftime('%a %d-%b-%Y  ') + \
 					pretty_time.str_time()
+			self.tips.set_tip(self.time_button, None)
 		self.time_label.set_text(text)
 		
 		t = time.localtime()
