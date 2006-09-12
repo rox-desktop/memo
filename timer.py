@@ -44,7 +44,7 @@ class TimerButton(g.Button):
 		if dbus_notify.is_available():
 			dbus_notify.timer()
 		else:
-			info('Memo : Time is up!')
+			info(_('Memo : Time is up!'))
 	
 	def clear_timer(self):
 		self.set_label('T')
@@ -59,11 +59,11 @@ def edit_timer(timer):
 		edit_timer_box.destroy()
 	
 	if timer.end_time:
-		if confirm('The timer is already set - clear it?', g.STOCK_CLEAR):
+		if confirm(_('The timer is already set - clear it?'), g.STOCK_CLEAR):
 			timer.clear_timer()
 		return
 
-	edit_timer_box = Dialog(title = 'Memo Timer', parent = timer.get_toplevel(), flags = g.DIALOG_NO_SEPARATOR)
+	edit_timer_box = Dialog(title = _('Memo Timer'), parent = timer.get_toplevel(), flags = g.DIALOG_NO_SEPARATOR)
 	def destroyed(box):
 		global edit_timer_box
 		assert edit_timer_box is box
