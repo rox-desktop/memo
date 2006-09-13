@@ -1,6 +1,7 @@
 # Copyright (C) 2006, Thomas Leonard
 
 import sys
+import rox
 
 # See http://www.galago-project.org/specs/notification/
 
@@ -17,18 +18,21 @@ def _NotificationClosed(nid, *unused):
 		#print "Closed"
 
 def _ActionInvoked(nid, action):
-	memo = _nid_to_memo.get(nid, None)
-	if memo:
-		if action == 'edit':
-			from EditBox import EditBox
-			EditBox(memo).show()
-		elif action == 'hide':
-			from __main__ import memo_list
-			memo_list.set_hidden(memo, 1)
-		elif action == 'ok':
-			pass
-		else:
-			raise Exception('Unknown action "%s"' % action)
+	try:
+		memo = _nid_to_memo.get(nid, None)
+		if memo:
+			if action == 'edit':
+				from EditBox import EditBox
+				EditBox(memo).show()
+			elif action == 'hide':
+				from __main__ import memo_list
+				memo_list.set_hidden(memo, 1)
+			elif action in ('ok', 'default'):
+				pass
+			else:
+				raise Exception('Unknown action "%s"' % action)
+	except Exception:
+		rox.report_exception()
 
 def is_available():
 	global _avail, notification_service
