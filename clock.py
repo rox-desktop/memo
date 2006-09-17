@@ -116,6 +116,7 @@ class ClockApplet(applet.Applet, Clock):
         Clock.__init__(self)
 
     def button_press(self, window, event):
+	if event.type != g.gdk.BUTTON_PRESS: return
         if event.button == 1:
 	    self.show_main()
         elif event.button == 3:
