@@ -18,6 +18,7 @@
 import rox, time, sys
 from rox import g, applet, Menu, options, processes
 import main
+import gobject
 
 menu = Menu.Menu('main', [
 	("/Show Main Window", "show_main", "", ""),
@@ -58,7 +59,7 @@ class Clock:
         self.connect("destroy", self.destroyed)
 
         self.update_clock()
-        self.timeout = g.timeout_add(1000, self.update_clock)
+        self.timeout = gobject.timeout_add(1000, self.update_clock)
 
         self.show_all()
 
@@ -69,7 +70,8 @@ class Clock:
         return True
 
     def destroyed(self, window):
-        g.timeout_remove(self.timeout)
+        gobject.source_remove(self.timeout)
+	main.main_window.destroy()
 
     def button_press(self, window, event):
         if event.button == 3:
@@ -95,7 +97,6 @@ class Clock:
 
     def quit(self):
         self.destroy()
-	main.main_window.destroy()
     
     def set_time(self):
         rox.processes.PipeThroughCommand(set_prog.value , None, None).wait()
