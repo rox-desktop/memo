@@ -106,9 +106,7 @@ class Clock:
 	    main.main_window.hide()
 	else:
 	    main.main_window.set_decorated(False) #should be done only once?
-	    w, h = main.main_window.get_size()
-	    x, y = self.socket.get_origin()
-	    main.main_window.move(x, y-h-2)
+	    self.position_window(main.main_window)
 	    main.main_window.present()
 
 class ClockApplet(applet.Applet, Clock):
@@ -123,3 +121,35 @@ class ClockApplet(applet.Applet, Clock):
         elif event.button == 3:
             menu.popup(window, event, self.position_menu)
 
+    def get_panel_orientation(self):
+        """Return the panel orientation ('Top', 'Bottom', 'Left', 'Right')
+        and the margin for displaying a popup menu"""
+        pos = self.socket.property_get('_ROX_PANEL_MENU_POS', 'STRING', False)
+        if pos: pos = pos[2]
+        if pos:
+            side, margin = pos.split(',')
+            margin = int(margin)
+        else:
+    	    side, margin = None, 2
+        return side, margin
+
+    def position_window(self, win):
+	    """Set the position of the popup"""
+	    side, margin = self.get_panel_orientation()
+	    x, y = self.socket.get_origin()
+	    w, h = win.get_size()
+
+	    # widget (x, y, w, h, bits)
+	    geometry = self.socket.get_geometry()
+
+	    if side == 'Bottom':
+		    win.move(x, y-h)
+	    elif side == 'Top':
+		    win.move(x, y+geometry[3])
+	    elif side == 'Left':
+		    win.move(x+geometry[2], y)
+	    elif side == 'Right':
+		    win.move(x-w, y)
+	    else:
+		    #shouldn't happen?
+		    self.thing.move(x,y) 
