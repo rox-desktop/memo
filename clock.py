@@ -58,7 +58,7 @@ class Clock:
         self.connect("destroy", self.destroyed)
 
         self.update_clock()
-        self.timeout = g.timeout_add(250, self.update_clock)
+        self.timeout = g.timeout_add(1000, self.update_clock)
 
         self.show_all()
 
