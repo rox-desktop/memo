@@ -104,6 +104,10 @@ class Clock:
 	if main.main_window.get_property('visible'):
 	    main.main_window.hide()
 	else:
+	    main.main_window.set_decorated(False) #should be done only once?
+	    w, h = main.main_window.get_size()
+	    x, y = self.socket.get_origin()
+	    main.main_window.move(x, y-h-2)
 	    main.main_window.present()
 
 class ClockApplet(applet.Applet, Clock):
