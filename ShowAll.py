@@ -1,7 +1,7 @@
 import rox
 from rox import g, TRUE, FALSE
 
-from __main__ import memo_list
+from main import memo_list
 import pretty_time, time
 import memos
 

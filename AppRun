@@ -1,29 +1,8 @@
 #!/usr/bin/env python
 
-import findrox; findrox.version(1, 9, 8)
-import rox
-from rox import choices
+import main
+import Window
 
-choices.migrate('Memo', 'rox.sourceforge.net')
+main.main_window.show()
 
-import os
-__builtins__._ = rox.i18n.translation(os.path.join(rox.app_dir, 'Messages'))
-
-rox.setup_app_options('Memo', site = 'rox.sourceforge.net')
-
-from rox.Menu import set_save_name
-set_save_name('Memo', site = 'rox.sourceforge.net')
-
-import Window, memos
-
-# All options must be registered by the time we get here
-rox.app_options.notify()
-
-memo_list = memos.MasterList()
-Window.Window(memo_list)
-
-try:
-	rox.mainloop()
-finally:
-	import dbus_notify
-	dbus_notify.close_all()
+main.main()

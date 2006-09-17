@@ -29,7 +29,7 @@ class Alarm(g.MessageDialog):
 		self.set_position(g.WIN_POS_CENTER)
 		memo.silent = 1
 		
-		from __main__ import memo_list
+		from main import memo_list
 		memo_list.notify_changed()
 
 		self.memo = memo
@@ -41,7 +41,7 @@ class Alarm(g.MessageDialog):
 		if response == g.RESPONSE_OK:
 			pass
 		elif response == HIDE:
-			from __main__ import memo_list
+			from main import memo_list
 			memo_list.set_hidden(self.memo, 1)
 		elif response == EDIT:
 			from EditBox import EditBox

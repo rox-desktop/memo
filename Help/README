@@ -27,6 +27,9 @@ information about notification services, see:
 
 The time display was inspired by Jon Ribbens' RoughtTime clock.
 
+Memo can also be run as a panel applet on a ROX-Filer panel. This code is
+based on code from MiniClock, by Edoardo Spadolini and Dennis Tomas.
+
 
 Instructions
 ~~~~~~~~~~~~

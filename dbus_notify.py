@@ -25,7 +25,7 @@ def _ActionInvoked(nid, action):
 				from EditBox import EditBox
 				EditBox(memo).show()
 			elif action == 'hide':
-				from __main__ import memo_list
+				from main import memo_list
 				memo_list.set_hidden(memo, 1)
 			elif action in ('ok', 'default'):
 				pass
@@ -110,7 +110,7 @@ def notify(memo):
 	_nid_to_memo[id] = memo
 
 	memo.silent = 1
-	from __main__ import memo_list
+	from main import memo_list
 	memo_list.notify_changed()
 
 def timer():

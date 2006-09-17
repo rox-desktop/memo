@@ -21,14 +21,16 @@ menu = Menu('main', [
                 (_('/Quit'),        'destroy',     ''),
                 ])
 
-class Window(g.Window):
+class Window(rox.Window):
 	drag_start = None
 
 	def __init__(self, memo_list):
-		g.Window.__init__(self)
+		rox.Window.__init__(self)
 		self.set_wmclass('Memo', 'Memo')
 		self.set_title('Memo')
-		self.set_resizable(FALSE)
+		self.set_resizable(False)
+		if hasattr(self, 'set_deletable'):
+			self.set_deletable(False)
 		#self.set_type_hint(g.gdk.WINDOW_TYPE_HINT_DIALOG)
 
 		self.tips = g.Tooltips()
@@ -86,10 +88,6 @@ class Window(g.Window):
 
 		menu.attach(self, self)
 
-		rox.toplevel_ref()
-
-		self.connect('destroy', lambda w: rox.toplevel_unref())
-
 		self.update()
 		gobject.timeout_add(10000, self.update)	# Update clock
 
@@ -103,7 +101,7 @@ class Window(g.Window):
 		memo_list.watchers.append(self.prime)
 		app_options.add_notify(self.options_changed)
 		
-		self.show_all()
+		vbox.show_all()
 	
 	def time_button_clicked(self, widget):
 		ev = g.get_current_event()

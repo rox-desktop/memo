@@ -4,7 +4,7 @@ import time
 
 from Arrow import Arrow
 from Memo import Memo
-from __main__ import memo_list
+from main import memo_list
 
 from pretty_time import str_time
 

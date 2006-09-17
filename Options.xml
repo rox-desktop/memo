@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <options>
-  <section title='Memo'>
+  <section title='Main window'>
     <frame label='Window'>
       <toggle name='main_sticky' label='Stick to screen'>
         If you have multiple workspaces or viewports set up then this option can be used to make the Memo window follow you around (as if it was stuck to the screen).
@@ -22,6 +22,55 @@ Requires a compliant window manager.</toggle>
       	      min='1' max='100' unit='months'>
   Any memos set for further in the future than this will never be shown in the main window.
       </numentry>
+    </frame>
+  </section>
+  <section title='Applet'>
+    <!-- Copied from MiniClock -->
+    <frame label="Clock type">
+      <radio-group name="clocktype">
+        <radio label="One line" value="1line">Show only one line</radio>
+        <radio label="Two lines" value="2lines">Show two lines vertically</radio>
+      </radio-group>
+      <toggle name="showtip" label="Tooltip">Show a tooltip</toggle>
+    </frame>
+    <frame label="Clock format">
+<!--      <entry name="line1" label="1st line's format">The time.strftime()'s format of the first line</entry>
+      <entry name="line2" label="2nd line's format">The time.strftime()'s format of the second line</entry>
+      <entry name="tip" label="Tooltip's format">The time.strftine()'s format of the tooltip</entry>
+-->
+        <menu name="line1" label="1st line's format">
+          <item value="%c" label="Complete Date and Time"/>
+          <item value="%x" label="Date"/>
+          <item value="%X" label="Time"/>
+          <item value="%R" label="Time (without seconds)"/>
+          <item value="%a" label="Weekday (short)"/>
+          <item value="%A" label="Weekday (long)"/>
+          <item value="%b" label="Month (short)"/>
+          <item value="%B" label="Month (long)"/>
+          </menu>
+        <menu name="line2" label="2nd line's format">
+          <item value="%c" label="Complete Date and Time"/>
+          <item value="%x" label="Date"/>
+          <item value="%X" label="Time"/>
+          <item value="%R" label="Time (without seconds)"/>
+          <item value="%a" label="Weekday (short)"/>
+          <item value="%A" label="Weekday (long)"/>
+          <item value="%b" label="Month (short)"/>
+          <item value="%B" label="Month (long)"/>
+        </menu>
+        <menu name="tip" label="Tooltip's format">
+          <item value="%c" label="Complete Date and Time"/>
+          <item value="%x" label="Date"/>
+          <item value="%X" label="Time"/>
+          <item value="%R" label="Time (without seconds)"/>
+          <item value="%a" label="Weekday (short)"/>
+          <item value="%A" label="Weekday (long)"/>
+          <item value="%b" label="Month (short)"/>
+          <item value="%B" label="Month (long)"/>
+        </menu>
+    </frame>
+    <frame label="Set Time">
+        <entry name='set_program' label='Command to set time and date:'>Command you'll use to set the time.</entry>
     </frame>
   </section>
 </options>
