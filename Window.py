@@ -22,6 +22,8 @@ menu = Menu('main', [
                 ])
 
 class Window(g.Window):
+	drag_start = None
+
 	def __init__(self, memo_list):
 		g.Window.__init__(self)
 		self.set_wmclass('Memo', 'Memo')
@@ -77,8 +79,10 @@ class Window(g.Window):
 		self.add_events(g.gdk.BUTTON_PRESS_MASK)
 		self.list.connect('button-press-event', self.button_press)
 		self.list.connect('row-activated', activate)
+		self.time_button.add_events(g.gdk.BUTTON1_MOTION_MASK)
 		self.time_button.connect('button-press-event', self.button_press)
-		self.time_button.connect('clicked', self.new_memo)
+		self.time_button.connect('motion-notify-event', self.button_motion)
+		self.time_button.connect('clicked', self.time_button_clicked)
 
 		menu.attach(self, self)
 
@@ -100,6 +104,15 @@ class Window(g.Window):
 		app_options.add_notify(self.options_changed)
 		
 		self.show_all()
+	
+	def time_button_clicked(self, widget):
+		ev = g.get_current_event()
+		if ev.type == g.gdk.MOTION_NOTIFY and self.drag_start:
+			# Fake release from motion handler
+			self.begin_move_drag(1, self.drag_start[0], self.drag_start[1], ev.time)
+			self.drag_start = None
+		else:
+			self.new_memo()
 	
 	def show_options(self):
 		rox.edit_options()
@@ -148,7 +161,17 @@ class Window(g.Window):
 		elif event.button == 2 or event.button == 3:
 			menu.popup(self, event)
 			return 1
+		self.drag_start = map(int, (event.x_root, event.y_root))
 		return 0
+	
+	def button_motion(self, widget, mev):
+		if self.drag_start is None: return
+		pos = map(int, (mev.x_root, mev.y_root))
+		if self.time_button.drag_check_threshold(*(self.drag_start + pos)):
+			self.time_button.released()
+			if self.drag_start:
+				# Release event was ignored (outside the button)
+				self.time_button_clicked(widget)
 	
 	def show_all_memos(self):
 		if self.show_all_box:
