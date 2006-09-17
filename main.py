@@ -32,7 +32,7 @@ try:
 			os._exit(1)
 		g.mainquit()
 	tasks.Task(check())
-	g.mainloop()
+	g.main()
 	print "Possible existing copy of Memo is not responding"
 except xxmlrpc.NoSuchService:
 	pass # Good
