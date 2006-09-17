@@ -13,6 +13,7 @@ instructed to bring up alert windows at set times.
 
   <group main='AppRun'>
     <requires interface="http://rox.sourceforge.net/2005/interfaces/ROX-Lib">
+      <version not-before='2.0.3'/>
       <environment insert="ROX-Lib2/python" name="PYTHONPATH"/>
     </requires>
 
