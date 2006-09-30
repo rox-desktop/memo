@@ -38,7 +38,7 @@ class Alarm(g.MessageDialog):
 		self.set_default_response(g.RESPONSE_OK)
 	
 	def response(self, widget, response):
-		if response == g.RESPONSE_OK:
+		if response == int(g.RESPONSE_OK):
 			pass
 		elif response == HIDE:
 			from main import memo_list
@@ -46,7 +46,7 @@ class Alarm(g.MessageDialog):
 		elif response == EDIT:
 			from EditBox import EditBox
 			EditBox(self.memo).show()
-		elif response == g.RESPONSE_DELETE_EVENT:
+		elif response == int(g.RESPONSE_DELETE_EVENT):
 			return
 		else:
 			print "Unknown response", response

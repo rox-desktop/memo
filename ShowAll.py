@@ -124,5 +124,5 @@ class ShowAll(g.Dialog):
 		self.show_all()
 	
 	def response(self, box, response):
-		if response == g.RESPONSE_CANCEL:
+		if response == int(g.RESPONSE_CANCEL):
 			self.destroy()

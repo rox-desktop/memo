@@ -71,7 +71,7 @@ def edit_timer(timer):
 	edit_timer_box.connect('destroy', destroyed)
 
 	def response(d, resp):
-		if resp == g.RESPONSE_OK:
+		if resp == int(g.RESPONSE_OK):
 			timer.set_timer(min.value * 60 + sec.value)
 		d.destroy()
 	edit_timer_box.connect('response', response)

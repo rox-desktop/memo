@@ -156,15 +156,15 @@ class EditBox(g.Dialog):
 				memo_list.delete(self.memo)
 			elif response == HIDE:
 				self.add(hide = 1)
-			elif response == g.RESPONSE_YES:
+			elif response == int(g.RESPONSE_YES):
 				self.add()
-			elif response == g.RESPONSE_HELP:
+			elif response == int(g.RESPONSE_HELP):
 				from rox import filer
 				filer.open_dir(rox.app_dir + '/Help')
 				return
-			elif response == g.RESPONSE_CANCEL:
+			elif response == int(g.RESPONSE_CANCEL):
 				pass
-			elif response == g.RESPONSE_DELETE_EVENT:
+			elif response == int(g.RESPONSE_DELETE_EVENT):
 				return
 			else:
 				raise Exception("Unknown response: %d" % response)
