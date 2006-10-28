@@ -2,6 +2,40 @@
 			Reminds you about things
 			by Thomas Leonard
 
+Changes in release 1.9.7:
+
+- Work around for a change in Python 2.5 (Stepen Watson).
+
+- Fixed some deprecation warnings (Thomas Leonard).
+
+- Quit correctly if the applet is destroyed, e.g. by ROX-Filer moving the panel
+  to a different edge of the screen (Thomas Leonard; reported by Ken Hayber).
+
+- Added support for running as an applet from MiniClock (Thomas Leonard and Ken
+  Hayber).
+
+- Memo now checks that an existing copy isn't running, and refuses to start if
+  so (Thomas Leonard).
+
+- Allow repositioning the main window by dragging the time button (Thomas
+  Leonard). Note: doesn't work with OroboROX.
+
+- When clicking on the notification text, not a button, some versions of the
+  notification deamon signal the "default" action. Don't display a warning in
+  this case (Thomas Leonard; reported by grim).
+
+- In 'rough' mode, show the exact time in a tooltip (Thomas Leonard; suggested
+  by José Silva).
+
+- Added Spanish Venezuelan translation (José Silva).
+
+- Added an "egg-timer" (Thomas Leonard; suggested by Lasse Pommerenke).
+
+- Improve display of notifications (Thomas Leonard):
+  - Show time in italics.
+  - Don't include summary in body.
+  - Escape mark-up characters.
+
 Changes in release 1.9.6:
 
 - Added Chinese translations (Babyfai Cheung).
