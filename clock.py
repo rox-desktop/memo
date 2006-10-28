@@ -15,14 +15,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-import rox, time, sys
-from rox import g, applet, Menu, options, processes
+import rox, time, sys, os
+from rox import g, applet, Menu, options, processes, filer
 import main
 import gobject
 
 menu = Menu.Menu('main', [
 	("/Show Main Window", "show_main", "", ""),
 	("/Set Time", "set_time", "<StockItem>", "", g.STOCK_PROPERTIES),
+	("/Help", "show_help", "<StockItem>", "", g.STOCK_HELP),
 	("/Options", "options", "<StockItem>", "", g.STOCK_PREFERENCES),
 	("/Quit",    "quit",    "<StockItem>", "", g.STOCK_QUIT)
 ])
@@ -94,6 +95,9 @@ class Clock:
 
     def options(self):
         rox.edit_options()
+
+    def show_help(self):
+        filer.open_dir(os.path.join(rox.app_dir, 'Help'))
 
     def quit(self):
         self.destroy()
