@@ -26,19 +26,12 @@ Requires a compliant window manager.</toggle>
   </section>
   <section title='Applet'>
     <!-- Copied from MiniClock -->
-    <frame label="Clock type">
-      <radio-group name="clocktype">
-        <radio label="One line" value="1line">Show only one line</radio>
-        <radio label="Two lines" value="2lines">Show two lines vertically</radio>
-      </radio-group>
-      <toggle name="showtip" label="Tooltip">Show a tooltip</toggle>
-    </frame>
-    <frame label="Clock format">
+    <frame label="Clock format" size-group='formats'>
 <!--      <entry name="line1" label="1st line's format">The time.strftime()'s format of the first line</entry>
       <entry name="line2" label="2nd line's format">The time.strftime()'s format of the second line</entry>
       <entry name="tip" label="Tooltip's format">The time.strftine()'s format of the tooltip</entry>
 -->
-        <menu name="line1" label="1st line's format">
+        <menu name="line1" label="1st line's format ">
           <item value="%c" label="Complete Date and Time"/>
           <item value="%x" label="Date"/>
           <item value="%X" label="Time"/>
@@ -47,8 +40,9 @@ Requires a compliant window manager.</toggle>
           <item value="%A" label="Weekday (long)"/>
           <item value="%b" label="Month (short)"/>
           <item value="%B" label="Month (long)"/>
+	  <item value=""   label="Disable" />
           </menu>
-        <menu name="line2" label="2nd line's format">
+        <menu name="line2" label="2nd line's format ">
           <item value="%c" label="Complete Date and Time"/>
           <item value="%x" label="Date"/>
           <item value="%X" label="Time"/>
@@ -57,8 +51,9 @@ Requires a compliant window manager.</toggle>
           <item value="%A" label="Weekday (long)"/>
           <item value="%b" label="Month (short)"/>
           <item value="%B" label="Month (long)"/>
+          <item value=""   label="Disable" />
         </menu>
-        <menu name="tip" label="Tooltip's format">
+        <menu name="tip" label="Tooltip's format ">
           <item value="%c" label="Complete Date and Time"/>
           <item value="%x" label="Date"/>
           <item value="%X" label="Time"/>
@@ -67,10 +62,27 @@ Requires a compliant window manager.</toggle>
           <item value="%A" label="Weekday (long)"/>
           <item value="%b" label="Month (short)"/>
           <item value="%B" label="Month (long)"/>
+          <item value=""   label="Disable" />
         </menu>
     </frame>
-    <frame label="Set Time">
-        <entry name='set_program' label='Command to set time and date:'>Command you'll use to set the time.</entry>
-    </frame>
+    <section title="Font and Color">
+      <frame label="Line 1 Display Options">
+	<hbox>
+	  <font name="line1_font" label="Font">
+	  </font>
+	  <colour name="line1_color" label="Color">
+	  </colour>
+	</hbox>
+      </frame>
+      <frame label="Line 2 Display Options">
+	<hbox>
+	  <font name="line2_font" label="Font"/>
+	<colour name="line2_color" label="Color"/>
+	</hbox>
+      </frame>
+    </section>
+  </section>
+  <section title="Time">
+    <entry name='set_program' label='Command to set time and date:'>Command you'll use to set the time.</entry>
   </section>
 </options>

@@ -19,6 +19,7 @@ import rox, time, sys, os
 from rox import g, applet, Menu, options, processes, filer
 import main
 import gobject
+import pango
 
 menu = Menu.Menu('main', [
 	("/Show Main Window", "show_main", "", ""),
@@ -28,25 +29,30 @@ menu = Menu.Menu('main', [
 	("/Quit",    "quit",    "<StockItem>", "", g.STOCK_QUIT)
 ])
 
-clocktype = options.Option("clocktype", "2lines")
-showtip = options.Option("showtip", True)
 set_prog = options.Option('set_program', "gksu time-admin")
 
 line1 = options.Option("line1", "%X")
 line2 = options.Option("line2", "%x")
 tip = options.Option("tip", "%c")
 
+line1_font = options.Option("line1_font", None)
+line1_color = options.Option("line1_color", "#000000")
+
+line2_font = options.Option("line2_font", None)
+line2_color = options.Option("line2_color", "#000000")
+
 class Clock:
     def __init__(self):
         self.tooltip = g.Tooltips()
-        if showtip.value == "False": self.tooltip.disable()
+        if tip.value == "": self.tooltip.disable()
         self.vbox = g.VBox(spacing = 2)
         
         self.line1_label = g.Label("")
-        self.vbox.add(self.line1_label)
+        if line1.value != "":
+	        self.vbox.add(self.line1_label)
 
         self.line2_label = g.Label("")
-        if clocktype.value == "2lines":
+        if line2.value != "":
             self.vbox.add(self.line2_label)
             
         self.set_border_width(5)
@@ -67,8 +73,26 @@ class Clock:
     def update_clock(self):
         self.line1_label.set_text(time.strftime(line1.value))
         self.line2_label.set_text(time.strftime(line2.value))
+	self.update_font()
+	self.update_color()
         self.tooltip.set_tip(self, time.strftime(tip.value))
         return True
+
+    def update_font(self):
+	    new_font1 = pango.FontDescription(line1_font.value)
+	    new_font2 = pango.FontDescription(line2_font.value)
+	    if new_font1:
+		    self.line1_label.modify_font(new_font1)
+            if new_font2:
+		    self.line2_label.modify_font(new_font2)
+
+    def update_color(self):
+	    new_color1 = g.gdk.color_parse(line1_color.value)
+	    new_color2 = g.gdk.color_parse(line2_color.value)
+	    if new_color1:
+		    self.line1_label.modify_fg(g.STATE_NORMAL, new_color1)
+	    if new_color2:
+		    self.line2_label.modify_fg(g.STATE_NORMAL, new_color2)
 
     def destroyed(self, window):
         gobject.source_remove(self.timeout)
@@ -79,17 +103,31 @@ class Clock:
             menu.popup(window, event)
 
     def options_changed(self):
-        if clocktype.has_changed:
-            if clocktype.value == "1line":
-                self.vbox.remove(self.line2_label)
-            else:
-                self.vbox.add(self.line2_label)
+	if line1.has_changed:
+		if line1.value == '':
+			self.vbox.remove(self.line1_label)
+		else:
+			self.vbox.add(self.line1_label)
+			if line2.value:
+				self.vbox.remove(self.line2_label)
+				self.vbox.add(self.line2_label)
 
-        if showtip.has_changed:
-            if showtip.value == "True":
-                self.tooltip.enable()
-            else:
-                self.tooltip.disable()
+	if line2.has_changed:
+		if line2.value == '':
+			self.vbox.remove(self.line2_label)
+		else:
+			self.vbox.add(self.line2_label)
+
+	if tip.has_changed:
+		if tip.value == '':
+			self.tooltip.disable()
+		else:
+			self.tooltip.enable()
+
+	if line1_font.has_changed or line2_font.has_changed:
+		self.update_font()
+	if line1_color.has_changed or line2_color.has_changed:
+		self.update_color()
 
         self.update_clock()
 
