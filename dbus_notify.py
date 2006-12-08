@@ -2,6 +2,7 @@
 
 import sys
 import rox
+from os import path
 
 # See http://www.galago-project.org/specs/notification/
 
@@ -24,6 +25,9 @@ def _ActionInvoked(nid, action):
 			if action == 'edit':
 				from EditBox import EditBox
 				EditBox(memo).show()
+			elif action == 'delete':
+				from main import memo_list
+				memo_list.delete(memo)
 			elif action == 'hide':
 				from main import memo_list
 				memo_list.set_hidden(memo, 1)
@@ -96,11 +100,12 @@ def notify(memo):
 
 	id = notification_service.Notify('Memo',
 		0,		# replaces_id,
-		'',		# icon
+		path.join(rox.app_dir, ".DirIcon"),		# icon
 		summary,
 		body,
 		[
 			'hide', 'Hide memo',
+			'delete', 'Delete',
 			'edit', 'Edit',
 			'ok', 'OK',
 		],
@@ -120,7 +125,7 @@ def timer():
 
 	notification_service.Notify('Memo',
 		0,		# replaces_id,
-		'',		# icon
+		path.join(rox.app_dir, ".DirIcon"),		# icon
 		'Time is up!',
 		'The Memo timer you set has expired.',
 		[],
