@@ -155,6 +155,7 @@ class ClockApplet(applet.Applet, Clock):
     def __init__(self):
         applet.Applet.__init__(self, sys.argv[1])
         Clock.__init__(self)
+	main.main_window.memo_list.watchers.append(self.memo_list_changed)
 
     def button_press(self, window, event):
 	if event.type != g.gdk.BUTTON_PRESS: return
@@ -175,11 +176,18 @@ class ClockApplet(applet.Applet, Clock):
     	    side, margin = None, 2
         return side, margin
 
+    def memo_list_changed(self):
+	def reposition():
+    	    if main.main_window.get_property('visible'):
+	        self.position_window(main.main_window)
+	# Give the window a chance to resize itself first...
+	gobject.idle_add(reposition)
+
     def position_window(self, win):
 	    """Set the position of the popup"""
 	    side, margin = self.get_panel_orientation()
 	    x, y = self.socket.get_origin()
-	    w, h = win.get_size()
+	    w, h = win.size_request()
 
 	    # widget (x, y, w, h, bits)
 	    geometry = self.socket.get_geometry()
