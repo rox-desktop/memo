@@ -2,6 +2,19 @@
 			Reminds you about things
 			by Thomas Leonard
 
+Changes in release 2.0:
+
+- Reposition the memo list next to the applet when the list changes (Thomas Leonard).
+
+- Added Memo's .DirIcon to the popup for DBUS notification, and a "Delete"
+  button to the dbus notification popup beside the existing hide/edit/ok
+  buttons (Jim Ramsay).
+
+- Improvements to options (Lucas Hazel):
+  - The fonts and text sizes can be set for the applet.
+  - Some options simplified.
+  - Improved layout, and split time setting into its own section.
+
 Changes in release 1.9.7:
 
 - Work around for a change in Python 2.5 (Stepen Watson).

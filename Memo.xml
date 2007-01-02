@@ -17,6 +17,6 @@ instructed to bring up alert windows at set times.
       <environment insert="ROX-Lib2/python" name="PYTHONPATH"/>
     </requires>
 
-    <implementation id="." stability="testing" version="1.9.7"/>
+    <implementation id="." stability="testing" version="2.0"/>
   </group>
 </interface>
