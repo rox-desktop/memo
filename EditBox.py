@@ -50,12 +50,15 @@ class EditBox(g.Dialog):
 		self.cal.select_day(day)
 
 		at_box = self.make_at_box()
+		self.advanced_box = self.make_advanced_box()
 
 		text_frame = self.make_text_view()
 
 		# Time/Date on the left, Text on the right
 		hbox = g.HBox(FALSE, 0)
 		self.vbox.pack_start(hbox, TRUE, TRUE, 0)
+
+		self.vbox.pack_start(self.advanced_box, FALSE, TRUE, 0)
 
 		# Date above time
 		vbox = g.VBox(FALSE, 0)
@@ -80,8 +83,21 @@ class EditBox(g.Dialog):
 				buffer.insert_at_cursor(memo.message, -1)
 		if memo and memo.at:
 			self.at.set_active(TRUE)
+			self.at.set_label( _('At') )
+			self.advanced_box.set_sensitive(TRUE)
 		if memo == None or memo.at == 0:
 			self.at_box.hide()
+			self.at.set_label( _('At') + "..." )
+			self.advanced_box.set_sensitive(FALSE)
+		if memo:
+			if memo.nosound:
+				self.sound_choice.set_active(2)
+			elif memo.soundfile is not None and memo.soundfile != "":
+				self.sound_choice.set_active(1)
+				self.sound_entry.set_filename( memo.soundfile )
+				self.sound_entry.set_sensitive(TRUE)
+			else:
+				self.sound_choice.set_active(0)
 
 		self.connect('response', self.response)
 		self.text.grab_focus()
@@ -124,7 +140,7 @@ class EditBox(g.Dialog):
 		# The time of day setting
 		hbox = g.HBox(FALSE, 0)
 
-		self.at = g.CheckButton(_('At...'))
+		self.at = g.CheckButton(_('At'))
 		hbox.pack_start(self.at, FALSE, TRUE, 4)
 		self.at.connect('toggled', self.at_toggled)
 
@@ -149,6 +165,44 @@ class EditBox(g.Dialog):
 		at_box.pack_start(arrow, FALSE, TRUE, 0)
 
 		return hbox
+
+	def make_advanced_box(self):
+		# The advanced settings
+		expander = g.Expander(_('Advanced Options'))
+		expandvbox = g.VBox(FALSE, 4)
+		expander.add( expandvbox )
+
+		sound_frame = g.Frame(_('Sound'))
+		#sound_frame.set_shadow_type(g.SHADOW_NONE)
+		label_widget = sound_frame.get_label_widget()
+		label_widget.set_markup('<b>' + _('Sound') + '</b>')
+
+		expandvbox.pack_start( sound_frame, FALSE, TRUE, 0 )
+
+		sound_box = g.HBox(FALSE, 4)
+		sound_box.set_border_width(8)
+		sound_frame.add(sound_box)
+
+		sound_choice = g.combo_box_new_text()
+		self.sound_choice = sound_choice
+		sound_choice.append_text( _('Use default sound') )
+		sound_choice.append_text( _('Use custom sound') )
+		sound_choice.append_text( _('Disabled') )
+		sound_choice.set_active(0)
+		sound_box.pack_start( sound_choice, FALSE, FALSE, 0 )
+
+		#sound_entry = g.Entry()
+		sound_entry = g.FileChooserButton('Sound File')
+		self.sound_entry = sound_entry
+		sound_entry.set_sensitive( False )
+		sound_box.pack_start( sound_entry, TRUE, TRUE, 0 )
+
+		sound_choice.connect('changed', self.sound_choice_changed)
+
+		# TODO: More advanced options can be added to the 'expandbox' vbox, each
+		# in its own frame.
+
+		return expander
 	
 	def response(self, widget, response):
 		try:
@@ -181,7 +235,18 @@ class EditBox(g.Dialog):
 		start = buffer.get_start_iter()
 		end = buffer.get_end_iter()
 		message = buffer.get_text(start, end, TRUE)
-		memo = Memo(t, message, at = at != 0, hidden = hide)
+		soundval = self.sound_choice.get_active()
+		if soundval == 2: # Sound disabled
+			sfile = None
+			senabled = True
+		elif soundval == 1: # Custom sound
+			sfile = self.sound_entry.get_filename()
+			senabled = False
+		else: # Default sound
+			sfile = None
+			senabled = False
+		memo = Memo(t, message, at = at != 0, hidden = hide, \
+				soundfile = sfile, nosound = senabled )
 		if self.memo:
 			memo_list.delete(self.memo, update = 0)
 		memo_list.add(memo)
@@ -201,9 +266,17 @@ class EditBox(g.Dialog):
 			self.hour = self.hour + 1
 		self.min = min
 		self.time_display.set_text(str_time(self.hour, self.min))
-	
+
 	def at_toggled(self, at):
 		if at.get_active():
 			self.at_box.show()
+			self.at.set_label( _('At'))
+			self.advanced_box.set_sensitive(TRUE)
 		else:
 			self.at_box.hide()
+			self.at.set_label( _('At') + "..." )
+			self.advanced_box.set_sensitive(FALSE)
+
+	def sound_choice_changed(self, choice):
+		value = choice.get_active()
+		self.sound_entry.set_sensitive( value == 1 )

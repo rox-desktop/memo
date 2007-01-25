@@ -25,6 +25,9 @@ information about notification services, see:
 
 	http://www.galago-project.org/specs/notification/
 
+Using D-BUS notification is the recommended, as it gives you the new features
+including early notification and custom Memo sounds.
+
 The time display was inspired by Jon Ribbens' RoughtTime clock.
 
 Memo can also be run as a panel applet on a ROX-Filer panel. This code is
@@ -54,6 +57,9 @@ To create a new memo:
   Memos with a time are alarms and will cause a box to appear when they go
   off. If Memo is not running when the alarm goes off, it will be shown next
   time Memo is run.
+  
+  You may select the "Advanced Options" area for memos with a time for extra
+  customization of the alarm.
 
   Memos without times are just TODO items. They are displayed under the time
   until you get rid of them, but don't bring up an alert box.
@@ -62,24 +68,8 @@ To create a new memo:
 
 Changes are automatically saved.
 
-If you set a time, then Memo will beep twice and display the message in
-a box when the time is up. The alert box that appears has three buttons:
-
-  Hide memo
-
-	Removes the message from the main window. You can still retrieve
-	it later.
-
-  Edit
-
-	Returns you to the box used to create the memo. You can use this to
-	move the memo to a later date (useful for repeating memos) or delete
-	it.
-
-  OK
-
-	The memo remains displayed in the main window until you get rid of it.
-	No futher alarm boxes will appear for it unless you edit it again.
+If you set a time, then Memo will display the message in the best way it can.
+See the "Dbus Notifications" and "Old Popup" sections below.
 
 To edit (or hide or delete) a memo from the main window, double-click on it in
 the list.
@@ -106,6 +96,68 @@ By choosing 'Options...' from the popup menu you can configure various
 things about Memo. Hold the pointer over an option to find out what it does.
 
 
+New Notifications
+~~~~~~~~~~~~~~~~~
+If you have dbus and notification-daemon installed on your system (which is
+recommended!), Memo will use this to popup the message when the time is up, but
+only for Memos that have a time set.
+
+You may configure a sound file in the Options pane, or for a specific Memo.
+This is passed to the notification-daemon as the 'sound-file' hint, and not
+actually played directly by the Memo program.  This means that unless your
+notification-daemon has sound support (Versions 0.3.6 and lower do not), you
+will not hear the sound.
+
+If you have configured an "early" reminder in the Options pane (by default this
+is disabled), the Memo will first be displayed with "normal" urgency at the
+specified number of minutes before the actual Memo time.
+
+When the Memo time arrives, the Memo will be displayed with "critical" urgency.
+The notification popup has four buttons:
+
+  Hide memo
+  	Removes the message from the main window.  You can still retrieve it
+	later.  If you hide an early reminder, you will NOT be notified when the
+	real Memo time is reached.
+
+  Delete
+  	Removes the message from the main window and deletes it.  You will not
+	be able to retrieve it.   If you hide an early reminder, you will NOT be
+	notified when the real Memo time is reached.
+
+  Edit
+	Returns you to the box used to create the memo. You can use this to
+	move the memo to a later date (useful for repeating memos) or delete
+	it.
+
+  Ok/Later
+  	This simply closes the notification.  In the case of early notification,
+	you will be notified by a critical alert when the actual Memo time is
+	reached.  The button is labeled 'Later' for early notifications, or
+	'Ok' otherwise.
+
+
+Old Popups
+~~~~~~~~~~
+The 'Old Popups' method does not play sounds or support early notifications.
+
+If dbus is not avialable, then Memo will beep twice and display the message in
+a dialog box when the time is up. The alert box that appears has three buttons:
+
+  Hide memo
+	Removes the message from the main window. You can still retrieve
+	it later.
+
+  Edit
+	Returns you to the box used to create the memo. You can use this to
+	move the memo to a later date (useful for repeating memos) or delete
+	it.
+
+  OK
+	The memo remains displayed in the main window until you get rid of it.
+	No futher alarm boxes will appear for it unless you edit it again.
+
+
 Timezones
 ~~~~~~~~~
 All times are displayed and input in your local time, but stored internally
@@ -114,6 +166,21 @@ as seconds since a fixed date.
 Therefore, if you set an alarm for 7pm and then change timezones, the alarm
 may now appear to have changed time. It will go off when the time is 7pm IN
 THE ZONE WHERE YOU SET THE MEMO.
+
+
+Troubleshooting
+~~~~~~~~~~~~~~~
+Problem: "None of the sound files I have specified are playing!"
+
+Reason:  Sounds are only supported with D-BUS and notification-daemon, and will
+not be played with the old-style dialog popup.
+
+Furthermore, at the time of this writing, notification-daemon does not yet play
+sounds (notification-daemon-0.3.6 and earlier).
+
+There is a trac ticket against notification-daemon at http://trac.galago-project.org/ticket/111 with a patch against the current SVN version, which will
+hopefully be applied and available in a later release.  This patch uses
+gstreamer to play any 'sound-file' hint specified
 
 
 Conditions

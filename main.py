@@ -1,6 +1,35 @@
 import findrox; findrox.version(2, 0, 3)
 import rox
-from rox import choices
+from rox import choices, OptionsBox
+
+def build_filechooser(self, node, label, option):
+	"""<filechooser name='...' label='...'/>Tooltip</filechooser>.
+	Lets the user choose a file (using a GtkFileChooser or by drag-and-drop).
+	Note: Since the FileChooserButton widget requires GTK >= 2.6, lesser GTK
+	versions will just show a normal text entry box, which should work with DND.
+	"""
+	if g.gtk_version >= (2,6,0):
+		filebutton = g.FileChooserButton(label)
+		eb = g.EventBox()
+		eb.add(filebutton)
+		clearbutton = g.Button("Clear")
+		self.may_add_tip(eb, node)
+		hbox = g.HBox(False, 4)
+		if label:
+			hbox.pack_start(g.Label(label + ":"), False, True, 0)
+		hbox.pack_start(eb, True, True, 0)
+		hbox.pack_start(clearbutton, False, True, 0)
+		self.handlers[option] = (
+			lambda: filebutton.get_filename(),
+			lambda: filebutton.set_filename(option.value))
+		filebutton.connect('selection-changed', lambda w: self.check_widget(option))
+		clearbutton.connect('clicked', lambda w: filebutton.set_filename("") )
+		return [hbox]
+	else:
+		# Fallback to text input
+		return self.build_entry(node, label, option)
+
+OptionsBox.widget_registry['filechooser'] = build_filechooser
 
 choices.migrate('Memo', 'rox.sourceforge.net')
 
@@ -30,7 +59,7 @@ try:
 			pid = call.get_response()
 			rox.alert('Memo is already running (PID = %d)!' % pid)
 			os._exit(1)
-		g.mainquit()
+		g.main_quit()
 	tasks.Task(check())
 	g.main()
 	print "Possible existing copy of Memo is not responding"

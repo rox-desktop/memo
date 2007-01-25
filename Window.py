@@ -11,6 +11,7 @@ from Alarm import Alarm
 
 time_format = Option('time_format', 'text')
 main_sticky = Option('main_sticky', 1)
+alert_early = Option('alert_early', 0)
 
 menu = Menu('main', [
                 (_('/Add Memo...'), 'new_memo',    ''),
@@ -40,6 +41,7 @@ class Window(rox.Window):
 
 		self.memo_list = memo_list
 		self.last_day = None
+		self.prime_in_progress = False
 
 		vbox = g.VBox(FALSE, 0)
 		self.add(vbox)
@@ -186,8 +188,13 @@ class Window(rox.Window):
 	def prime(self):
 		if self.alert_box:
 			return		# Don't do anything until closed
+
+		if self.prime_in_progress:
+			return		# Make this method atomic
+		else:
+			self.prime_in_progress = True
 			
-		missed, delay = self.memo_list.catch_up()
+		missed, delay = self.memo_list.catch_up( alert_early.int_value )
 		if missed:
 			if dbus_notify.is_available():
 				for m in missed:
@@ -208,6 +215,7 @@ class Window(rox.Window):
 				self.alert_box.show()
 		if delay:
 			self.schedule(delay)
+		self.prime_in_progress = False
 
 	def timeout_cb(self):
 		gobject.source_remove(self.timeout)

@@ -12,6 +12,10 @@ class Alarm(g.MessageDialog):
 					 _('Alarm set for %s:\n%s') %
 					 (time.ctime(memo.time), memo.message))
 
+		now = time.time()
+		delay = memo.time - now
+		earlyAlert = delay > 0
+
 		button = rox.ButtonMixed(g.STOCK_ZOOM_OUT, _('_Hide memo'))
 		button.set_flags(g.CAN_DEFAULT)
 		self.add_action_widget(button, HIDE)
@@ -27,8 +31,12 @@ class Alarm(g.MessageDialog):
 		self.set_title('Memo:')
 		self.set_modal(True)
 		self.set_position(g.WIN_POS_CENTER)
-		memo.silent = 1
-		
+
+		if earlyAlert:
+			memo.state = Memo.EARLY
+		else:
+			memo.state = Memo.DONE
+
 		from main import memo_list
 		memo_list.notify_changed()
 

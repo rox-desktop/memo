@@ -2,7 +2,12 @@
 
 import sys
 import rox
+from Memo import Memo
+from rox import options
 from os import path
+
+memo_soundfile = options.Option('memo_sound', "")
+timer_soundfile = options.Option('timer_sound', "")
 
 # See http://www.galago-project.org/specs/notification/
 
@@ -11,6 +16,8 @@ notification_service = None
 
 _nid_to_memo = {}
 
+LOW = 0
+NORMAL = 1
 CRITICAL = 2
 
 def _NotificationClosed(nid, *unused):
@@ -92,12 +99,32 @@ def notify(memo):
 
 	close(memo)
 
+	now = time.time()
+	delay = memo.time - now
+	earlyAlert = delay > 0
+
 	parts = memo.message.split('\n', 1)
 	summary = escape(parts[0])
 	body = '<i>' + (_('Alarm set for %s') % time.ctime(memo.time)) + '</i>'
 	if len(parts) == 2:
 		body += '\n' + escape(parts[1])
 
+	hints = {}
+	if earlyAlert:
+		okText = "Later"
+		hints['urgency'] = dbus.types.Byte(NORMAL)
+	else:
+		okText = "Ok"
+		hints['urgency'] = dbus.types.Byte(CRITICAL)
+
+	if memo.nosound:
+		hints['suppress-sound'] = dbus.types.Boolean(True)
+	elif memo.soundfile is not None and memo.soundfile != "":
+		hints['suppress-sound'] = dbus.types.Boolean(False)
+		hints['sound-file'] = dbus.types.String(memo.soundfile)
+	elif memo_soundfile.value != "":
+		hints['suppress-sound'] = dbus.types.Boolean(False)
+		hints['sound-file'] = dbus.types.String(memo_soundfile.value)
 	id = notification_service.Notify('Memo',
 		0,		# replaces_id,
 		path.join(rox.app_dir, ".DirIcon"),		# icon
@@ -107,14 +134,17 @@ def notify(memo):
 			'hide', 'Hide memo',
 			'delete', 'Delete',
 			'edit', 'Edit',
-			'ok', 'OK',
+			'ok', okText,
 		],
-		{'urgency': dbus.types.Byte(CRITICAL)},
+		hints,
 		0)		# timeout
 	
 	_nid_to_memo[id] = memo
 
-	memo.silent = 1
+	if earlyAlert:
+		memo.state = Memo.EARLY
+	else:
+		memo.state = Memo.DONE
 	from main import memo_list
 	memo_list.notify_changed()
 
@@ -123,13 +153,18 @@ def timer():
 	import dbus.types
 	assert _avail
 
+	hints = {}
+	hints['urgency'] = dbus.types.Byte(CRITICAL)
+	if timer_soundfile.value != "":
+		hints['sound-file'] = timer_soundfile.value
+
 	notification_service.Notify('Memo',
 		0,		# replaces_id,
 		path.join(rox.app_dir, ".DirIcon"),		# icon
 		'Time is up!',
 		'The Memo timer you set has expired.',
 		[],
-		{'urgency': dbus.types.Byte(CRITICAL)},
+		hints,
 		0)		# timeout
 
 if __name__ == '__main__':

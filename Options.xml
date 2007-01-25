@@ -1,5 +1,15 @@
 <?xml version='1.0'?>
 <options>
+  <section title='Alerts'>
+    <frame label='General'>
+      <numentry name='alert_early' label='Remind about events' min='0' max='60'
+	      unit='minutes early'>This will only be used if D-Bus and notification-daemon are available.</numentry>
+    </frame>
+    <frame label='Sound'>
+      <filechooser name='memo_sound' label='Alarm sound'>This sound filename will be passed via the 'sound-file' hint to the notification-daemon, and not played by Memo.  It may be overridden or disabled by individual Memos.</filechooser>
+      <filechooser name='timer_sound' label='Timer sound'>This sound filename will be passed via the 'sound-file' hint to the notification-daemon, and not played by Memo.</filechooser>
+    </frame>
+  </section>
   <section title='Main window'>
     <frame label='Window'>
       <toggle name='main_sticky' label='Stick to screen'>

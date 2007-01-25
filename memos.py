@@ -85,26 +85,40 @@ class MemoList(g.ListStore):
 	def get_memo_by_iter(self, iter):
 		return self.get_value(iter, MEMO)
 
-	def catch_up(self):
+	def catch_up(self, early = 0):
 		"Returns a list of alarms to go off, and the time until the "
 		"next alarm (in seconds) or None."
 		
 		missed = []
 		now = time.time()
 
+		minDelay = None
 		for iter in self:
 			m = self.get_value(iter, MEMO)
 
-			if m.silent or m.hidden or not m.at:
+			if m.hidden or not m.at or m.state == Memo.DONE:
 				continue
 
 			delay = m.time - now
+			earlyDelay = delay - (early*60)
 
-			if delay <= 0:
+			if (delay <= 0) or (m.state == Memo.READY and earlyDelay <= 0):
 				missed.append(m)
-			else:
-				return (missed, delay)
-		return (missed, None)
+
+			if earlyDelay > 0 and (minDelay is None or earlyDelay < minDelay):
+				minDelay = earlyDelay
+			elif delay > 0 and (minDelay is None or delay < minDelay):
+				minDelay = delay
+			elif minDelay is not None and \
+					earlyDelay > minDelay and delay > minDelay:
+				# Memos are sorted by delay time, so if you hit one that has both
+				# delay and early delay after the lowest registered delay time, you
+				# can stop looking.
+				# This will no longer be true if we allow custom per-memo early
+				# delay times.  Which would be ugly.
+				break;
+
+		return (missed, minDelay)
 
 class MasterList(MemoList):
 	def __init__(self):
