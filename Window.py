@@ -14,13 +14,13 @@ main_sticky = Option('main_sticky', 1)
 alert_early = Option('alert_early', 0)
 
 menu = Menu('main', [
-                (_('/Add Memo...'), 'new_memo',    ''),
-                (_('/Show All...'), 'show_all_memos', ''),
-		('/',		 '',		'<Separator>'),
-                (_('/Options...'),  'show_options',''),
-                (_('/Help'),        'help',	''),
-                (_('/Quit'),        'destroy',     ''),
-                ])
+	(_('/Add Memo...'), 'new_memo', "<StockItem>", "", g.STOCK_ADD),
+	(_('/Show All...'), 'show_all_memos', '<StockItem>', "", g.STOCK_EDIT),
+	('/',		 '',		'<Separator>'),
+	(_('/Options...'),  'show_options', "<StockItem>", "", g.STOCK_PREFERENCES),
+	(_('/Help'),        'help',	"<StockItem>", "", g.STOCK_HELP),
+	(_('/Quit'),        'destroy', "<StockItem>", "", g.STOCK_QUIT),
+])
 
 class Window(rox.Window):
 	drag_start = None
