@@ -18,12 +18,15 @@ MEMO = 2
 HIDDEN = 3
 
 class MemoList(g.ListStore):
+	__gsignals__ = {
+			'MemoListChanged' : (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, [])
+	}
+
 	def __init__(self):
 		g.ListStore.__init__(self, gobject.TYPE_STRING,	# Time
 					gobject.TYPE_STRING,	# Brief
 					gobject.TYPE_OBJECT,	# Memo
 					gobject.TYPE_BOOLEAN)	# Deleted
-		self.watchers = []
 	
 	def __iter__(self):
 		"When used as a python iterator, return a list of TreeIters"
@@ -48,6 +51,7 @@ class MemoList(g.ListStore):
 		"Recalculate the time display after midnight."
 		for memo in self:
 			self.set(memo, TIME, self.get_value(memo, MEMO).str_when())
+		self.notify_changed()
 	
 	def add(self, memo, update = 1):
 		assert isinstance(memo, Memo)
@@ -76,7 +80,7 @@ class MemoList(g.ListStore):
 	
 	def notify_changed(self):
 		"Called after a Memo is added, removed or updated."
-		map(apply, self.watchers)
+		self.emit( "MemoListChanged" );
 	
 	def get_memo_by_path(self, path):
 		iter = self.get_iter(path)
@@ -199,7 +203,31 @@ class MasterList(MemoList):
 		MemoList.notify_changed(self)
 		self.update_visible()
 		self.save()
-	
+
+	def count_today(self):
+		"Return the count of memos with today's date in a tuple: (all,hidden)"
+		# TODO: Could be more efficient and just return an int that is
+		# automatically kept up-to-date by all add/remove/new_day routines instead
+		# of counting all memos every time.
+		import datetime
+		now = datetime.datetime.now()
+		todayStart = now.replace(hour=0, minute=0, second=0, microsecond=0)
+		todayEnd = now.replace(hour=23, minute=59, second=59, microsecond=999999)
+		START_OF_TODAY = time.mktime(todayStart.timetuple())
+		END_OF_TODAY = time.mktime(todayEnd.timetuple())
+		all = 0
+		hidden = 0
+		for iter in self:
+			memo = self.get_value(iter, MEMO)
+			if memo.time < START_OF_TODAY:
+				continue
+			if memo.time > END_OF_TODAY:
+				break
+			all += 1
+			if memo.hidden:
+				hidden += 1
+		return (all, hidden)
+
 	def choose_visible(self):
 		"Return a list of Memos which should be made/kept visible."
 		now = time.time()

@@ -57,10 +57,6 @@ class ShowAll(g.Dialog):
 		self.add_events(g.gdk.BUTTON_PRESS_MASK)
 		self.list.connect('row-activated', activate)
 
-		#memo_list.watchers.append(self.prime)
-		#def destroyed(widget): memo_list.watchers.remove(self.prime)
-		#self.connect('destroy', destroyed)
-
 		self.connect('response', self.response)
 
 		self.set_default_response(g.RESPONSE_CANCEL)

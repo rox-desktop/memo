@@ -1,8 +1,23 @@
 #!/usr/bin/env python
 
+import sys
 import main
 import Window
 
-main.main_window.show()
+try:
+	import Systray
+	systray = Systray.HideableSystray()
+	def delete_main(window, dev):
+		if systray.is_present():
+			# Only allow hiding the main window if the system tray icon is present
+			# and visible
+			window.hide()
+			return True
+		return False
+	main.main_window.connect('delete-event', delete_main)
+except AssertionError:
+	# No Systray available, due to GTK version (requires 2.10 or better)
+	main.main_window.show()
+	pass
 
 main.main()

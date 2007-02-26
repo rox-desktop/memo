@@ -42,6 +42,11 @@ from rox.Menu import set_save_name
 set_save_name('Memo', site = 'rox.sourceforge.net')
 
 import Window, memos, clock
+try:
+	# Need this for the Systray options
+	import Systray
+except AssertionError:
+	pass
 
 # All options must be registered by the time we get here
 rox.app_options.notify()

@@ -4,6 +4,7 @@ from rox.Menu import Menu
 from rox.options import Option
 import gobject
 
+from MenuWindow import MenuWindow
 import dbus_notify
 import pretty_time, time
 import timer
@@ -13,20 +14,12 @@ time_format = Option('time_format', 'text')
 main_sticky = Option('main_sticky', 1)
 alert_early = Option('alert_early', 0)
 
-menu = Menu('main', [
-	(_('/Add Memo...'), 'new_memo', "<StockItem>", "", g.STOCK_ADD),
-	(_('/Show All...'), 'show_all_memos', '<StockItem>', "", g.STOCK_EDIT),
-	('/',		 '',		'<Separator>'),
-	(_('/Options...'),  'show_options', "<StockItem>", "", g.STOCK_PREFERENCES),
-	(_('/Help'),        'help',	"<StockItem>", "", g.STOCK_HELP),
-	(_('/Quit'),        'destroy', "<StockItem>", "", g.STOCK_QUIT),
-])
-
-class Window(rox.Window):
+class Window(rox.Window, MenuWindow):
 	drag_start = None
 
 	def __init__(self, memo_list):
 		rox.Window.__init__(self)
+		MenuWindow.__init__(self)
 		self.set_wmclass('Memo', 'Memo')
 		self.set_title('Memo')
 		self.set_resizable(False)
@@ -88,8 +81,6 @@ class Window(rox.Window):
 		self.time_button.connect('motion-notify-event', self.button_motion)
 		self.time_button.connect('clicked', self.time_button_clicked)
 
-		menu.attach(self, self)
-
 		self.update()
 		gobject.timeout_add(10000, self.update)	# Update clock
 
@@ -100,7 +91,7 @@ class Window(rox.Window):
 		self.prime()
 
 		# If we had more than one window, we'd need a remove too...
-		memo_list.watchers.append(self.prime)
+		memo_list.connect("MemoListChanged", self.prime)
 		app_options.add_notify(self.options_changed)
 		
 		vbox.show_all()
@@ -113,9 +104,6 @@ class Window(rox.Window):
 			self.drag_start = None
 		else:
 			self.new_memo()
-	
-	def show_options(self):
-		rox.edit_options()
 	
 	def options_changed(self):
 		if time_format.has_changed:
@@ -147,19 +135,11 @@ class Window(rox.Window):
 
 		return TRUE
 	
-	def new_memo(self, widget = None):
-		from EditBox import EditBox
-		EditBox().show()
-	
-	def help(self):
-		from rox import filer
-		filer.open_dir(rox.app_dir + '/Help')
-
 	def button_press(self, widget, event):
 		if event.type != g.gdk.BUTTON_PRESS:
 			return
 		elif event.button == 2 or event.button == 3:
-			menu.popup(self, event)
+			self.popup_menu(event)
 			return 1
 		self.drag_start = map(int, (event.x_root, event.y_root))
 		return 0
@@ -173,19 +153,9 @@ class Window(rox.Window):
 				# Release event was ignored (outside the button)
 				self.time_button_clicked(widget)
 	
-	def show_all_memos(self):
-		if self.show_all_box:
-			self.show_all_box.present()
-			return
-		def destroyed(widget): self.show_all_box = None
-		from ShowAll import ShowAll
-		self.show_all_box = ShowAll()
-		self.show_all_box.connect('destroy', destroyed)
-		self.show_all_box.show()
-
 	# Deal with any missed alarms
 	# Set a timeout for the next alarm
-	def prime(self):
+	def prime(self, memo_list = None):
 		if self.alert_box:
 			return		# Don't do anything until closed
 

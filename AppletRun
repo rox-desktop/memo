@@ -8,5 +8,6 @@ def delete_main(window, dev):
 	window.hide()
 	return True
 main.main_window.connect('delete-event', delete_main)
+main.main_window.set_menu( full=False )
 
 main.main()

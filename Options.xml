@@ -33,6 +33,13 @@ Requires a compliant window manager.</toggle>
   Any memos set for further in the future than this will never be shown in the main window.
       </numentry>
     </frame>
+	 <section title='Systray Icon'>
+      <frame label='General'>
+        <toggle name='systray_enable' label='Enable System Tray icon'>If you are running Memo in standalone mode (ie, no applet), turning this option on will create an icon in your system tray.  Requires gtk+-2.10 or better.</toggle>
+		  <toggle name='systray_hide_on_startup' label='Start main window hidden'>If you have enabled the system tray icon, this will cause Memo to show only the system tray icon, not the main window, at startup.</toggle>
+		  <toggle name='systray_workaround' label='Workaround for broken systray'>Enable this option if the systray icon does not show up after being disabled and reenabled.</toggle>
+      </frame>
+    </section>
   </section>
   <section title='Applet'>
     <!-- Copied from MiniClock -->
