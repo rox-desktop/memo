@@ -1,4 +1,5 @@
 <?xml version="1.0" ?>
+<?xml-stylesheet type='text/xsl' href='interface.xsl'?>
 <interface xmlns="http://zero-install.sourceforge.net/2004/injector/interface">
   <name>Memo</name>
   <summary>alarm clock and reminder list</summary>
@@ -7,9 +8,9 @@ Memo is a small utility which you can use to store appointments and 'TODO'
 items. It displays the next few entries in a small window, and can also be
 instructed to bring up alert windows at set times.
   </description>
-  <icon type='image/png' href='http://rox.sourceforge.net/Icons/Memo.png'/>
+  <icon href="http://rox.sourceforge.net/Icons/Memo.png" type="image/png"/>
   <homepage>http://rox.sourceforge.net/desktop/Memo</homepage>
-  <feed-for interface='http://rox.sourceforge.net/2005/interfaces/Memo'/>
+  <feed-for interface="http://rox.sourceforge.net/2005/interfaces/Memo"/>
 
   <release:management xmlns:release="http://zero-install.sourceforge.net/2007/namespaces/0release">
     <release:action phase="commit-release">sed -i &quot;s/&lt;Version&gt;.*&lt;\/Version&gt;$/&lt;Version&gt;$RELEASE_VERSION&lt;\/Version&gt;/&quot; AppInfo.xml</release:action>
@@ -17,12 +18,12 @@ instructed to bring up alert windows at set times.
     <release:action phase="generate-archive">cd Memo/Messages &amp;&amp; ./dist</release:action>
   </release:management>
 
-  <group main='AppRun'>
+  <group main="AppRun">
     <requires interface="http://rox.sourceforge.net/2005/interfaces/ROX-Lib">
-      <version not-before='2.0.3'/>
+      <version not-before="2.0.3"/>
       <environment insert="ROX-Lib2/python" name="PYTHONPATH"/>
     </requires>
 
-    <implementation id="." version="2.0-post"/>
+    <implementation id="." released="2008-08-17" version="2.1"/>
   </group>
 </interface>
