@@ -11,12 +11,18 @@ instructed to bring up alert windows at set times.
   <homepage>http://rox.sourceforge.net/desktop/Memo</homepage>
   <feed-for interface='http://rox.sourceforge.net/2005/interfaces/Memo'/>
 
+  <release:management xmlns:release="http://zero-install.sourceforge.net/2007/namespaces/0release">
+    <release:action phase="commit-release">sed -i &quot;s/&lt;Version&gt;.*&lt;\/Version&gt;$/&lt;Version&gt;$RELEASE_VERSION&lt;\/Version&gt;/&quot; AppInfo.xml</release:action>
+    <release:add-toplevel-directory/>
+    <release:action phase="generate-archive">cd Memo/Messages &amp;&amp; ./dist</release:action>
+  </release:management>
+
   <group main='AppRun'>
     <requires interface="http://rox.sourceforge.net/2005/interfaces/ROX-Lib">
       <version not-before='2.0.3'/>
       <environment insert="ROX-Lib2/python" name="PYTHONPATH"/>
     </requires>
 
-    <implementation id="." stability="testing" version="2.0"/>
+    <implementation id="." version="2.0-post"/>
   </group>
 </interface>
