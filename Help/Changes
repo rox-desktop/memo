@@ -2,6 +2,21 @@
 			Reminds you about things
 			by Thomas Leonard
 
+Changes in release 2.1:
+
+- Added support for 0release.
+
+- Added a system tray icon in 'standalone' (ie, non-applet) mode. This will
+  only appear if you have gtk-2.10 or better installed. Users with earlier
+  versions of gtk will see the options to enable/disable/etc, but these options
+  will have no effect (Jim Ramsay).
+
+- Added stock icons to main window menu (Jim Ramsay).
+
+- Added 'early alert' and sound capabilities. See Help/README for
+  details (Jim Ramsay).
+
+
 Changes in release 2.0:
 
 - Reposition the memo list next to the applet when the list changes (Thomas Leonard).
