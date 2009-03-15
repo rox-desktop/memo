@@ -1,6 +1,7 @@
 from rox import g
 import rox
 import time
+from Memo import Memo
 
 HIDE = 1
 EDIT = 2
