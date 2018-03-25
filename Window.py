@@ -1,5 +1,5 @@
 import rox
-from rox import g, TRUE, FALSE, app_options
+from rox import g, app_options
 from rox.Menu import Menu
 from rox.options import Option
 import gobject
@@ -38,7 +38,7 @@ class Window(rox.Window, MenuWindow):
         self.last_day = None
         self.prime_in_progress = False
 
-        vbox = g.VBox(FALSE, 0)
+        vbox = g.VBox(False, 0)
         self.add(vbox)
 
         hbox = g.HBox(False, 0)
@@ -53,7 +53,7 @@ class Window(rox.Window, MenuWindow):
         hbox.pack_start(timer.TimerButton(), expand=False)
 
         self.list = g.TreeView(memo_list.visible)
-        vbox.pack_start(self.list, expand=TRUE)
+        vbox.pack_start(self.list, expand=True)
         self.list.unset_flags(g.CAN_FOCUS)
 
         cell = g.CellRendererText()
@@ -65,7 +65,7 @@ class Window(rox.Window, MenuWindow):
         column = g.TreeViewColumn('Message', cell, text=1)
         self.list.append_column(column)
 
-        self.list.set_headers_visible(FALSE)
+        self.list.set_headers_visible(False)
 
         sel = self.list.get_selection()
         sel.set_mode(g.SELECTION_NONE)
@@ -136,7 +136,7 @@ class Window(rox.Window, MenuWindow):
                 self.memo_list.new_day()
             self.last_day = day
 
-        return TRUE
+        return True
 
     def button_press(self, widget, event):
         if event.type != g.gdk.BUTTON_PRESS:

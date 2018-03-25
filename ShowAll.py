@@ -1,5 +1,5 @@
 import rox
-from rox import g, TRUE, FALSE
+from rox import g
 
 from main import memo_list
 import pretty_time
@@ -11,22 +11,22 @@ class ShowAll(g.Dialog):
     def __init__(self):
         g.Dialog.__init__(self)
         self.set_title(_('All memos'))
-        self.set_has_separator(FALSE)
+        self.set_has_separator(False)
 
         self.add_button(g.STOCK_CLOSE, g.RESPONSE_CANCEL)
 
         frame = g.Frame()
-        self.vbox.pack_start(frame, TRUE, TRUE, 0)
+        self.vbox.pack_start(frame, True, True, 0)
         frame.set_shadow_type(g.SHADOW_IN)
 
-        hbox = g.HBox(FALSE, 0)
+        hbox = g.HBox(False, 0)
         frame.add(hbox)
 
         scroll = g.VScrollbar()
-        hbox.pack_end(scroll, FALSE, TRUE, 0)
+        hbox.pack_end(scroll, False, True, 0)
 
         self.list = g.TreeView(memo_list)
-        hbox.pack_start(self.list, TRUE, TRUE, 0)
+        hbox.pack_start(self.list, True, True, 0)
         self.list.set_scroll_adjustments(None, scroll.get_adjustment())
         self.list.set_size_request(-1, 12)
         self.set_default_size(-1, 300)
@@ -46,7 +46,7 @@ class ShowAll(g.Dialog):
         column = g.TreeViewColumn(_('Message'), text, text=memos.BRIEF)
         self.list.append_column(column)
 
-        self.list.set_headers_visible(TRUE)
+        self.list.set_headers_visible(True)
 
         sel = self.list.get_selection()
         sel.set_mode(g.SELECTION_MULTIPLE)
@@ -64,7 +64,7 @@ class ShowAll(g.Dialog):
         self.set_default_response(g.RESPONSE_CANCEL)
 
         actions = g.HButtonBox()
-        self.vbox.pack_start(actions, FALSE, TRUE, 0)
+        self.vbox.pack_start(actions, False, True, 0)
         actions.set_layout(g.BUTTONBOX_END)
         actions.set_border_width(5)
         actions.set_spacing(4)

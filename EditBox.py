@@ -1,5 +1,5 @@
 import rox
-from rox import g, FALSE, TRUE
+from rox import g
 import time
 
 from Arrow import Arrow
@@ -17,7 +17,7 @@ refleak_bug_workaround = []
 class EditBox(g.Dialog):
     def __init__(self, memo=None):
         g.Dialog.__init__(self)
-        self.set_has_separator(FALSE)
+        self.set_has_separator(False)
 
         self.add_button(g.STOCK_HELP, g.RESPONSE_HELP)
 
@@ -56,23 +56,23 @@ class EditBox(g.Dialog):
         text_frame = self.make_text_view()
 
         # Time/Date on the left, Text on the right
-        hbox = g.HBox(FALSE, 0)
-        self.vbox.pack_start(hbox, TRUE, TRUE, 0)
+        hbox = g.HBox(False, 0)
+        self.vbox.pack_start(hbox, True, True, 0)
 
-        self.vbox.pack_start(self.advanced_box, FALSE, TRUE, 0)
+        self.vbox.pack_start(self.advanced_box, False, True, 0)
 
         # Date above time
-        vbox = g.VBox(FALSE, 0)
-        hbox.pack_start(vbox, FALSE, TRUE, 0)
+        vbox = g.VBox(False, 0)
+        hbox.pack_start(vbox, False, True, 0)
         vbox.set_border_width(4)
-        vbox.pack_start(self.cal, FALSE, TRUE, 0)
+        vbox.pack_start(self.cal, False, True, 0)
 
         spacer = g.Alignment()
-        vbox.pack_start(spacer, FALSE, TRUE, 2)
+        vbox.pack_start(spacer, False, True, 2)
 
-        vbox.pack_start(at_box, FALSE, TRUE, 0)
+        vbox.pack_start(at_box, False, True, 0)
 
-        hbox.pack_start(text_frame, TRUE, TRUE, 0)
+        hbox.pack_start(text_frame, True, True, 0)
 
         self.vbox.show_all()
 
@@ -83,20 +83,20 @@ class EditBox(g.Dialog):
             except TypeError:
                 buffer.insert_at_cursor(memo.message, -1)
         if memo and memo.at:
-            self.at.set_active(TRUE)
+            self.at.set_active(True)
             self.at.set_label(_('At'))
-            self.advanced_box.set_sensitive(TRUE)
+            self.advanced_box.set_sensitive(True)
         if memo == None or memo.at == 0:
             self.at_box.hide()
             self.at.set_label(_('At') + "...")
-            self.advanced_box.set_sensitive(FALSE)
+            self.advanced_box.set_sensitive(False)
         if memo:
             if memo.nosound:
                 self.sound_choice.set_active(2)
             elif memo.soundfile is not None and memo.soundfile != "":
                 self.sound_choice.set_active(1)
                 self.sound_entry.set_filename(memo.soundfile)
-                self.sound_entry.set_sensitive(TRUE)
+                self.sound_entry.set_sensitive(True)
             else:
                 self.sound_choice.set_active(0)
 
@@ -109,27 +109,27 @@ class EditBox(g.Dialog):
 
     def make_text_view(self):
         # The TextView / time of day settings
-        vbox = g.VBox(FALSE, 0)
+        vbox = g.VBox(False, 0)
         l = g.Label(_('Message:'))
         l.set_alignment(0, 1)
         l.set_padding(0, 4)
-        vbox.pack_start(l, FALSE, TRUE, 0)
+        vbox.pack_start(l, False, True, 0)
 
         frame = g.Frame()
-        vbox.pack_start(frame, TRUE, TRUE, 0)
+        vbox.pack_start(frame, True, True, 0)
         frame.set_shadow_type(g.SHADOW_IN)
 
-        hbox = g.HBox(FALSE, 0)
+        hbox = g.HBox(False, 0)
         frame.add(hbox)
 
         text = g.TextView()
-        hbox.pack_start(text, TRUE, TRUE, 0)
+        hbox.pack_start(text, True, True, 0)
         text.set_wrap_mode(g.WRAP_WORD)
 
         scrollbar = g.VScrollbar()
         adj = scrollbar.get_adjustment()
         text.set_scroll_adjustments(None, adj)
-        hbox.pack_start(scrollbar, FALSE, TRUE, 0)
+        hbox.pack_start(scrollbar, False, True, 0)
 
         text.set_size_request(200, 200)
 
@@ -139,38 +139,38 @@ class EditBox(g.Dialog):
 
     def make_at_box(self):
         # The time of day setting
-        hbox = g.HBox(FALSE, 0)
+        hbox = g.HBox(False, 0)
 
         self.at = g.CheckButton(_('At'))
-        hbox.pack_start(self.at, FALSE, TRUE, 4)
+        hbox.pack_start(self.at, False, True, 4)
         self.at.connect('toggled', self.at_toggled)
 
-        at_box = g.HBox(FALSE, 0)
+        at_box = g.HBox(False, 0)
         self.at_box = at_box
-        hbox.pack_start(at_box, FALSE, TRUE, 0)
+        hbox.pack_start(at_box, False, True, 0)
 
         arrow = Arrow(g.ARROW_LEFT, self.adj_time, -60)
-        at_box.pack_start(arrow, FALSE, TRUE, 0)
+        at_box.pack_start(arrow, False, True, 0)
         arrow = Arrow(g.ARROW_RIGHT, self.adj_time, 60)
-        at_box.pack_start(arrow, FALSE, TRUE, 0)
+        at_box.pack_start(arrow, False, True, 0)
 
         self.time_display = g.Label(str_time(self.hour, self.min))
         self.time_display.set_padding(4, 0)
         frame = g.Frame()
         frame.add(self.time_display)
-        at_box.pack_start(frame, FALSE, TRUE, 0)
+        at_box.pack_start(frame, False, True, 0)
 
         arrow = Arrow(g.ARROW_LEFT, self.adj_time, -1)
-        at_box.pack_start(arrow, FALSE, TRUE, 0)
+        at_box.pack_start(arrow, False, True, 0)
         arrow = Arrow(g.ARROW_RIGHT, self.adj_time, 1)
-        at_box.pack_start(arrow, FALSE, TRUE, 0)
+        at_box.pack_start(arrow, False, True, 0)
 
         return hbox
 
     def make_advanced_box(self):
         # The advanced settings
         expander = g.Expander(_('Advanced Options'))
-        expandvbox = g.VBox(FALSE, 4)
+        expandvbox = g.VBox(False, 4)
         expander.add(expandvbox)
 
         sound_frame = g.Frame(_('Sound'))
@@ -178,9 +178,9 @@ class EditBox(g.Dialog):
         label_widget = sound_frame.get_label_widget()
         label_widget.set_markup('<b>' + _('Sound') + '</b>')
 
-        expandvbox.pack_start(sound_frame, FALSE, TRUE, 0)
+        expandvbox.pack_start(sound_frame, False, True, 0)
 
-        sound_box = g.HBox(FALSE, 4)
+        sound_box = g.HBox(False, 4)
         sound_box.set_border_width(8)
         sound_frame.add(sound_box)
 
@@ -190,13 +190,13 @@ class EditBox(g.Dialog):
         sound_choice.append_text(_('Use custom sound'))
         sound_choice.append_text(_('Disabled'))
         sound_choice.set_active(0)
-        sound_box.pack_start(sound_choice, FALSE, FALSE, 0)
+        sound_box.pack_start(sound_choice, False, False, 0)
 
         #sound_entry = g.Entry()
         sound_entry = g.FileChooserButton('Sound File')
         self.sound_entry = sound_entry
         sound_entry.set_sensitive(False)
-        sound_box.pack_start(sound_entry, TRUE, TRUE, 0)
+        sound_box.pack_start(sound_entry, True, True, 0)
 
         sound_choice.connect('changed', self.sound_choice_changed)
 
@@ -235,7 +235,7 @@ class EditBox(g.Dialog):
         buffer = self.text.get_buffer()
         start = buffer.get_start_iter()
         end = buffer.get_end_iter()
-        message = buffer.get_text(start, end, TRUE)
+        message = buffer.get_text(start, end, True)
         soundval = self.sound_choice.get_active()
         if soundval == 2:  # Sound disabled
             sfile = None
@@ -272,11 +272,11 @@ class EditBox(g.Dialog):
         if at.get_active():
             self.at_box.show()
             self.at.set_label(_('At'))
-            self.advanced_box.set_sensitive(TRUE)
+            self.advanced_box.set_sensitive(True)
         else:
             self.at_box.hide()
             self.at.set_label(_('At') + "...")
-            self.advanced_box.set_sensitive(FALSE)
+            self.advanced_box.set_sensitive(False)
 
     def sound_choice_changed(self, choice):
         value = choice.get_active()
