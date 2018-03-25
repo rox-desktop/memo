@@ -1,7 +1,7 @@
 import findrox
 findrox.version(2, 0, 3)
 import rox
-from rox import choices, OptionsBox
+from rox import OptionsBox
 
 
 def build_filechooser(self, node, label, option):
@@ -34,8 +34,6 @@ def build_filechooser(self, node, label, option):
 
 
 OptionsBox.widget_registry['filechooser'] = build_filechooser
-
-choices.migrate('Memo', 'rox.sourceforge.net')
 
 import os
 import builtins
