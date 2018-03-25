@@ -141,12 +141,12 @@ class Window(rox.Window, MenuWindow):
 		elif event.button == 2 or event.button == 3:
 			self.popup_menu(event)
 			return 1
-		self.drag_start = map(int, (event.x_root, event.y_root))
+		self.drag_start = list(map(int, (event.x_root, event.y_root)))
 		return 0
 	
 	def button_motion(self, widget, mev):
 		if self.drag_start is None: return
-		pos = map(int, (mev.x_root, mev.y_root))
+		pos = list(map(int, (mev.x_root, mev.y_root)))
 		if self.time_button.drag_check_threshold(*(self.drag_start + pos)):
 			self.time_button.released()
 			if self.drag_start:

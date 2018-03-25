@@ -58,6 +58,6 @@ class Alarm(g.MessageDialog):
 		elif response == int(g.RESPONSE_DELETE_EVENT):
 			return
 		else:
-			print "Unknown response", response
+			print("Unknown response", response)
 			return
 		self.destroy()

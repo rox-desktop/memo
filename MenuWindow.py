@@ -41,8 +41,8 @@ class MenuWindow( object ):
 
 	def addAdditions(self, additions):
 		changed = False
-		for (key, list) in self.additions.items():
-			if additions.has_key(key):
+		for (key, list) in list(self.additions.items()):
+			if key in additions:
 				changed = True
 				list.extend(additions[key])
 		if changed:
@@ -50,8 +50,8 @@ class MenuWindow( object ):
 
 	def removeAdditions(self, additions):
 		changed = False
-		for (key, list) in self.additions.items():
-			if additions.has_key(key):
+		for (key, list) in list(self.additions.items()):
+			if key in additions:
 				toRemove = additions[key]
 				for item in toRemove:
 					try:

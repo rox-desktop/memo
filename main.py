@@ -33,8 +33,8 @@ OptionsBox.widget_registry['filechooser'] = build_filechooser
 
 choices.migrate('Memo', 'rox.sourceforge.net')
 
-import os, __builtin__
-__builtin__._ = rox.i18n.translation(os.path.join(rox.app_dir, 'Messages'))
+import os, builtins
+builtins._ = rox.i18n.translation(os.path.join(rox.app_dir, 'Messages'))
 
 rox.setup_app_options('Memo', site = 'rox.sourceforge.net')
 
@@ -67,7 +67,7 @@ try:
 		g.main_quit()
 	tasks.Task(check())
 	g.main()
-	print "Possible existing copy of Memo is not responding"
+	print("Possible existing copy of Memo is not responding")
 except xxmlrpc.NoSuchService:
 	pass # Good
 server = xxmlrpc.XXMLRPCServer(memo_service)

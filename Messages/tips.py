@@ -3,14 +3,14 @@
 from xmllib import *
 import string, os
 
-print "Extracting translatable bits from Options.xml..."
+print("Extracting translatable bits from Options.xml...")
 
 class Parser(XMLParser):
 	data = ""
 
 	def unknown_starttag(self, tag, attrs):
 		for x in ['title', 'label', 'end', 'unit']:
-			if attrs.has_key(x):
+			if x in attrs:
 				self.trans(attrs[x])
 		self.data = ""
 	

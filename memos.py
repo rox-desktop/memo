@@ -1,4 +1,4 @@
-from __future__ import generators
+
 
 import rox, gobject
 from rox import g, app_options, options, basedir
@@ -178,7 +178,7 @@ class MasterList(MemoList):
 				"Memo: Saving disabled by CHOICESPATH\n")
 			return
 		try:
-			f = os.open(path, os.O_CREAT | os.O_WRONLY, 0600)
+			f = os.open(path, os.O_CREAT | os.O_WRONLY, 0o600)
 			self.save_to_stream(os.fdopen(f, 'w'))
 
 			real_path = os.path.join(save_dir, 'Entries')
