@@ -1,37 +1,40 @@
 # Grab the tips from Options.xml
 
 from xmllib import *
-import string, os
+import string
+import os
 
 print("Extracting translatable bits from Options.xml...")
 
-class Parser(XMLParser):
-	data = ""
 
-	def unknown_starttag(self, tag, attrs):
-		for x in ['title', 'label', 'end', 'unit']:
-			if x in attrs:
-				self.trans(attrs[x])
-		self.data = ""
-	
-	def handle_data(self, data):
-		self.data = self.data + data
-	
-	def unknown_endtag(self, tag):
-		data = string.strip(self.data)
-		if data:
-			self.trans(data)
-	
-	def trans(self, data):
-		data = string.join(string.split(data, '\n'), '\\n')
-		if data:
-			out.write('_("%s")\n' % data)
+class Parser(XMLParser):
+    data = ""
+
+    def unknown_starttag(self, tag, attrs):
+        for x in ['title', 'label', 'end', 'unit']:
+            if x in attrs:
+                self.trans(attrs[x])
+        self.data = ""
+
+    def handle_data(self, data):
+        self.data = self.data + data
+
+    def unknown_endtag(self, tag):
+        data = string.strip(self.data)
+        if data:
+            self.trans(data)
+
+    def trans(self, data):
+        data = string.join(string.split(data, '\n'), '\\n')
+        if data:
+            out.write('_("%s")\n' % data)
+
 
 try:
-	os.chdir("po")
+    os.chdir("po")
 except OSError:
-	pass
-	
+    pass
+
 file = open('../Options.xml', 'rb')
 out = open('../tips', 'wb')
 parser = Parser()
