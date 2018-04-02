@@ -1,8 +1,6 @@
-
-
+from gi.repository import Gtk, GObject
 import rox
-import gobject
-from rox import g, app_options, options, basedir
+from rox import app_options, options, basedir
 
 import time
 import os
@@ -19,16 +17,16 @@ MEMO = 2
 HIDDEN = 3
 
 
-class MemoList(g.ListStore):
+class MemoList(Gtk.ListStore):
     __gsignals__ = {
-        'MemoListChanged': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, [])
+        'MemoListChanged': (GObject.SIGNAL_RUN_LAST, GObject.TYPE_NONE, [])
     }
 
     def __init__(self):
-        g.ListStore.__init__(self, gobject.TYPE_STRING,  # Time
-                             gobject.TYPE_STRING,  # Brief
-                             gobject.TYPE_OBJECT,  # Memo
-                             gobject.TYPE_BOOLEAN)  # Deleted
+        Gtk.ListStore.__init__(self, GObject.TYPE_STRING,  # Time
+                               GObject.TYPE_STRING,  # Brief
+                               GObject.TYPE_OBJECT,  # Memo
+                               GObject.TYPE_BOOLEAN)  # Deleted
 
     def __iter__(self):
         "When used as a python iterator, return a list of TreeIters"
@@ -160,11 +158,7 @@ class MasterList(MemoList):
         self.visible.new_day()
 
     def toggle_hidden(self, path):
-        if g.pygtk_version == (1, 99, 12):
-            iter = self.get_iter_first()
-            self.get_iter_from_string(iter, path)
-        else:
-            iter = self.get_iter_from_string(path)
+        iter = self.get_iter_from_string(path)
 
         memo = self.get_memo_by_iter(iter)
         self.set_hidden(memo, not memo.hidden)

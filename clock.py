@@ -19,11 +19,10 @@ import rox
 import time
 import sys
 import os
-from rox import g, applet, Menu, options, processes, filer
+from gi.repository import Gtk, Gdk, GObject, Pango
+from rox import applet, Menu, options, processes, filer
 from MenuWindow import MenuWindow
 import main
-import gobject
-import pango
 
 menuAdditions = {
     'topActions': [
@@ -31,7 +30,7 @@ menuAdditions = {
     ],
     'bottomActions': [
         ('/', "", "<Separator>"),
-        (_('/Set Time'), "set_time", "<StockItem>", "", g.STOCK_PROPERTIES),
+        (_('/Set Time'), "set_time", "<StockItem>", "", Gtk.STOCK_PROPERTIES),
     ]}
 
 set_prog = options.Option('set_program', "gksu time-admin")
@@ -49,16 +48,15 @@ line2_color = options.Option("line2_color", "#000000")
 
 class Clock:
     def __init__(self):
-        self.tooltip = g.Tooltips()
-        if tip.value == "":
-            self.tooltip.disable()
-        self.vbox = g.VBox(spacing=2)
+        #if tip.value == "":
+        #    self.tooltip.disable()
+        self.vbox = Gtk.VBox(spacing=2)
 
-        self.line1_label = g.Label("")
+        self.line1_label = Gtk.Label("")
         if line1.value != "":
             self.vbox.add(self.line1_label)
 
-        self.line2_label = g.Label("")
+        self.line2_label = Gtk.Label("")
         if line2.value != "":
             self.vbox.add(self.line2_label)
 
@@ -67,13 +65,13 @@ class Clock:
 
         rox.app_options.add_notify(self.options_changed)
 
-        self.add_events(g.gdk.BUTTON_PRESS_MASK)
+        self.add_events(Gdk.EventMask.BUTTON_PRESS_MASK)
         self.connect("button-press-event", self.button_press)
 
         self.connect("destroy", self.destroyed)
 
         self.update_clock()
-        self.timeout = gobject.timeout_add(1000, self.update_clock)
+        self.timeout = GObject.timeout_add(1000, self.update_clock)
 
         self.show_all()
 
@@ -82,27 +80,27 @@ class Clock:
         self.line2_label.set_text(time.strftime(line2.value))
         self.update_font()
         self.update_color()
-        self.tooltip.set_tip(self, time.strftime(tip.value))
+        self.set_tooltip_text(time.strftime(tip.value))
         return True
 
     def update_font(self):
-        new_font1 = pango.FontDescription(line1_font.value)
-        new_font2 = pango.FontDescription(line2_font.value)
+        new_font1 = Pango.FontDescription(line1_font.value)
+        new_font2 = Pango.FontDescription(line2_font.value)
         if new_font1:
             self.line1_label.modify_font(new_font1)
         if new_font2:
             self.line2_label.modify_font(new_font2)
 
     def update_color(self):
-        new_color1 = g.gdk.color_parse(line1_color.value)
-        new_color2 = g.gdk.color_parse(line2_color.value)
+        new_color1 = Gdk.color_parse(line1_color.value)
+        new_color2 = Gdk.color_parse(line2_color.value)
         if new_color1:
-            self.line1_label.modify_fg(g.STATE_NORMAL, new_color1)
+            self.line1_label.modify_fg(Gtk.StateType.NORMAL, new_color1)
         if new_color2:
-            self.line2_label.modify_fg(g.STATE_NORMAL, new_color2)
+            self.line2_label.modify_fg(Gtk.StateType.NORMAL, new_color2)
 
     def destroyed(self, window):
-        gobject.source_remove(self.timeout)
+        GObject.source_remove(self.timeout)
         main.main_window.destroy()
 
     def button_press(self, window, event):
@@ -125,12 +123,6 @@ class Clock:
             else:
                 self.vbox.add(self.line2_label)
 
-        if tip.has_changed:
-            if tip.value == '':
-                self.tooltip.disable()
-            else:
-                self.tooltip.enable()
-
         if line1_font.has_changed or line2_font.has_changed:
             self.update_font()
         if line1_color.has_changed or line2_color.has_changed:
@@ -142,7 +134,7 @@ class Clock:
         rox.processes.PipeThroughCommand(set_prog.value, None, None).wait()
 
     def toggle_main(self):
-        if main.main_window.get_property('visible'):
+        if main.main_window.is_visible():
             main.main_window.hide()
         else:
             main.main_window.set_decorated(False)  # should be done only once?
@@ -159,38 +151,26 @@ class ClockApplet(applet.Applet, Clock, MenuWindow):
             "MemoListChanged", self.memo_list_changed)
 
     def button_press(self, window, event):
-        if event.type != g.gdk.BUTTON_PRESS:
+        if event.type != Gdk.EventType.BUTTON_PRESS:
             return
         if event.button == 1:
             self.toggle_main()
         elif event.button == 3:
             self.popup_menu(event, self.position_menu)
 
-    def get_panel_orientation(self):
-        """Return the panel orientation ('Top', 'Bottom', 'Left', 'Right')
-        and the margin for displaying a popup menu"""
-        pos = self.socket.property_get('_ROX_PANEL_MENU_POS', 'STRING', False)
-        if pos:
-            pos = pos[2]
-        if pos:
-            side, margin = pos.split(',')
-            margin = int(margin)
-        else:
-            side, margin = None, 2
-        return side, margin
-
     def memo_list_changed(self, memo_list=None):
         def reposition():
-            if main.main_window.get_property('visible'):
+            if main.main_window.is_visible():
                 self.position_window(main.main_window)
         # Give the window a chance to resize itself first...
-        gobject.idle_add(reposition)
+        GObject.idle_add(reposition)
 
     def position_window(self, win):
         """Set the position of the popup"""
-        side, margin = self.get_panel_orientation()
-        x, y = self.socket.get_origin()
-        w, h = win.size_request()
+        side, margin = self.get_panel_menu_pos()
+        __, x, y = self.socket.get_origin()
+        req = win.size_request()
+        w, h = req.width, req.height
 
         # widget (x, y, w, h, bits)
         geometry = self.socket.get_geometry()

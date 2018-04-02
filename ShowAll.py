@@ -1,5 +1,5 @@
+from gi.repository import Gtk, Gdk
 import rox
-from rox import g
 
 from main import memo_list
 import pretty_time
@@ -7,72 +7,72 @@ import time
 import memos
 
 
-class ShowAll(g.Dialog):
+class ShowAll(Gtk.Dialog):
     def __init__(self):
-        g.Dialog.__init__(self)
+        Gtk.Dialog.__init__(self)
         self.set_title(_('All memos'))
-        self.set_has_separator(False)
+        #self.set_has_separator(False)
 
-        self.add_button(g.STOCK_CLOSE, g.RESPONSE_CANCEL)
+        self.add_button(Gtk.STOCK_CLOSE, Gtk.ResponseType.CANCEL)
 
-        frame = g.Frame()
+        frame = Gtk.Frame()
         self.vbox.pack_start(frame, True, True, 0)
-        frame.set_shadow_type(g.SHADOW_IN)
+        frame.set_shadow_type(Gtk.ShadowType.IN)
 
-        hbox = g.HBox(False, 0)
+        hbox = Gtk.HBox(False, 0)
         frame.add(hbox)
 
-        scroll = g.VScrollbar()
+        scroll = Gtk.VScrollbar()
         hbox.pack_end(scroll, False, True, 0)
 
-        self.list = g.TreeView(memo_list)
+        self.list = Gtk.TreeView(memo_list)
         hbox.pack_start(self.list, True, True, 0)
-        self.list.set_scroll_adjustments(None, scroll.get_adjustment())
+        self.list.set_vadjustment(scroll.get_adjustment())
         self.list.set_size_request(-1, 12)
         self.set_default_size(-1, 300)
 
-        text = g.CellRendererText()
+        text = Gtk.CellRendererText()
 
-        toggle = g.CellRendererToggle()
-        column = g.TreeViewColumn(_('Hide'), toggle,
+        toggle = Gtk.CellRendererToggle()
+        column = Gtk.TreeViewColumn(_('Hide'), toggle,
                                   active=memos.HIDDEN)
         self.list.append_column(column)
         toggle.connect('toggled',
                        lambda t, path: memo_list.toggle_hidden(path))
 
-        column = g.TreeViewColumn(_('Time'), text, text=memos.TIME)
+        column = Gtk.TreeViewColumn(_('Time'), text, text=memos.TIME)
         self.list.append_column(column)
 
-        column = g.TreeViewColumn(_('Message'), text, text=memos.BRIEF)
+        column = Gtk.TreeViewColumn(_('Message'), text, text=memos.BRIEF)
         self.list.append_column(column)
 
         self.list.set_headers_visible(True)
 
         sel = self.list.get_selection()
-        sel.set_mode(g.SELECTION_MULTIPLE)
+        sel.set_mode(Gtk.SelectionMode.MULTIPLE)
 
         def activate(view, path, column):
             memo = memo_list.get_memo_by_path(path)
             from EditBox import EditBox
             EditBox(memo).show()
 
-        self.add_events(g.gdk.BUTTON_PRESS_MASK)
+        self.add_events(Gdk.EventMask.BUTTON_PRESS_MASK)
         self.list.connect('row-activated', activate)
 
         self.connect('response', self.response)
 
-        self.set_default_response(g.RESPONSE_CANCEL)
+        self.set_default_response(Gtk.ResponseType.CANCEL)
 
-        actions = g.HButtonBox()
+        actions = Gtk.HButtonBox()
         self.vbox.pack_start(actions, False, True, 0)
-        actions.set_layout(g.BUTTONBOX_END)
+        actions.set_layout(Gtk.ButtonBoxStyle.END)
         actions.set_border_width(5)
         actions.set_spacing(4)
 
         def new(b):
             from EditBox import EditBox
             EditBox().show()
-        button = g.Button(stock=g.STOCK_NEW)
+        button = Gtk.Button(stock=Gtk.STOCK_NEW)
         actions.add(button)
         button.connect('clicked', new)
 
@@ -92,14 +92,14 @@ class ShowAll(g.Dialog):
             else:
                 message = _('Really delete %d memos?') % l
 
-            box = g.MessageDialog(None, 0, g.MESSAGE_QUESTION,
-                                  g.BUTTONS_CANCEL, message)
+            box = Gtk.MessageDialog(None, 0, Gtk.MessageType.QUESTION,
+                                  Gtk.ButtonsType.CANCEL, message)
 
-            if rox.confirm(message, g.STOCK_DELETE):
+            if rox.confirm(message, Gtk.STOCK_DELETE):
                 for m in memos:
                     memo_list.delete(m, update=0)
                 memo_list.notify_changed()
-        button = g.Button(stock=g.STOCK_DELETE)
+        button = Gtk.Button(stock=Gtk.STOCK_DELETE)
         actions.add(button)
         button.connect('clicked', delete)
 
@@ -115,12 +115,12 @@ class ShowAll(g.Dialog):
                 return
             from EditBox import EditBox
             EditBox(memos[0]).show()
-        button = rox.ButtonMixed(g.STOCK_PROPERTIES, _('_Edit'))
+        button = rox.ButtonMixed(Gtk.STOCK_PROPERTIES, _('_Edit'))
         actions.add(button)
         button.connect('clicked', edit)
 
         self.show_all()
 
     def response(self, box, response):
-        if response == int(g.RESPONSE_CANCEL):
+        if response == int(Gtk.ResponseType.CANCEL):
             self.destroy()

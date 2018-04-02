@@ -1,5 +1,6 @@
 # Copyright (C) 2006, Thomas Leonard
 
+from gi.repository import Gtk
 import sys
 import rox
 from Memo import Memo
@@ -185,4 +186,4 @@ if __name__ == '__main__':
     assert is_available()
     notify(Memo(0, 'This is a <message>.\nMore <details> go <here>.', True))
     from rox import g
-    g.main()
+    Gtk.main()

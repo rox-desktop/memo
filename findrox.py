@@ -16,6 +16,7 @@ def version(major, minor, micro):
     prompt the user, or (if possible) upgrade it automatically.
     If 'rox' is already in PYTHONPATH, just use that (assume the injector
     is being used)."""
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'rox-lib', 'ROX-Lib2', 'python'))
     try:
         import rox
     except ImportError:

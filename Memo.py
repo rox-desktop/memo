@@ -1,8 +1,7 @@
+from gi.repository import GObject
 import os
 import string
 import time
-
-import gobject
 
 from pretty_time import month_name, str_time
 
@@ -44,7 +43,7 @@ def memo_from_node(node):
                 message, flag('at'), state, flag('hidden'), soundfile, nosound)
 
 
-class Memo(gobject.GObject):
+class Memo(GObject.GObject):
 
     # Constants for memo 'state' attribute:
     READY = 'ready'
@@ -55,7 +54,7 @@ class Memo(gobject.GObject):
     # 'at' is TRUE if the time of day matters
     def __init__(self, time, message, at, state=READY, hidden=0,
                  soundfile=None, nosound=False):
-        self.__gobject_init__()
+        super().__init__()
 
         assert at == 0 or at == 1
         assert state == Memo.READY or state == Memo.EARLY or state == Memo.DONE

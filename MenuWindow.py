@@ -1,16 +1,16 @@
+from gi.repository import Gtk
 import rox
-from rox import g
 from rox.Menu import Menu
 
 actionsMenu = [
-    (_('/Add Memo...'), 'new_memo', "<StockItem>", "", g.STOCK_ADD),
-    (_('/Show All...'), 'show_all_memos', '<StockItem>', "", g.STOCK_EDIT),
+    (_('/Add Memo...'), 'new_memo', "<StockItem>", "", Gtk.STOCK_ADD),
+    (_('/Show All...'), 'show_all_memos', '<StockItem>', "", Gtk.STOCK_EDIT),
 ]
 
 mainMenu = [
-    (_('/Options...'),  'show_options', "<StockItem>", "", g.STOCK_PREFERENCES),
-    (_('/Help'),        'show_help',	"<StockItem>", "", g.STOCK_HELP),
-    (_('/Quit'),        'quit', "<StockItem>", "", g.STOCK_QUIT),
+    (_('/Options...'),  'show_options', "<StockItem>", "", Gtk.STOCK_PREFERENCES),
+    (_('/Help'),        'show_help',	"<StockItem>", "", Gtk.STOCK_HELP),
+    (_('/Quit'),        'quit', "<StockItem>", "", Gtk.STOCK_QUIT),
 ]
 
 SEPARATOR = ('/', '', '<Separator>')
@@ -42,10 +42,10 @@ class MenuWindow(object):
 
     def addAdditions(self, additions):
         changed = False
-        for (key, list) in list(self.additions.items()):
+        for (key, lst) in list(self.additions.items()):
             if key in additions:
                 changed = True
-                list.extend(additions[key])
+                lst.extend(additions[key])
         if changed:
             self.set_menu()
 

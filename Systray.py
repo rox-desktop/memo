@@ -1,5 +1,6 @@
+from gi.repository import Gtk
 import rox
-from rox import g, options, app_options
+from rox import options, app_options
 from MenuWindow import MenuWindow
 import main
 
@@ -13,7 +14,7 @@ systrayHideOnStartup = options.Option('systray_hide_on_startup', False)
 systrayWorkaround = options.Option('systray_workaround', False)
 
 # Require gtk version 2.10.x or better for the 'StatusIcon' widget
-assert(g.gtk_version >= (2, 10, 0))
+#assert(Gtk.gtk_version >= (2, 10, 0))
 
 menuAdditions = {
     'topActions': [
@@ -26,9 +27,9 @@ mainAdditions = {'topMain': [
 ]}
 
 
-class Systray(g.StatusIcon, MenuWindow):
+class Systray(Gtk.StatusIcon, MenuWindow):
     def __init__(self, showOnStartup=None):
-        g.StatusIcon.__init__(self)
+        Gtk.StatusIcon.__init__(self)
         MenuWindow.__init__(self, attach=False, additions=menuAdditions)
         icon = os.path.join(rox.app_dir, '.DirIcon')
         self.set_from_file(icon)
@@ -40,11 +41,7 @@ class Systray(g.StatusIcon, MenuWindow):
         self.connect("popup-menu", self.popup)
         self.connect("activate", self.toggle_main)
         self.connect("notify::visible", self.visibility)
-        if g.gtk_version >= (2, 12, 0):
-            self.connect("notify::embedded", self.check_embed)
-        else:
-            self.connect("size-changed", self.size_change)
-            self.timeout = gobject.timeout_add(500, self.check_embed)
+        self.connect("notify::embedded", self.check_embed)
 
     def tooltip_refresh(self, memo_list):
         (all, hidden) = memo_list.count_today()
@@ -52,10 +49,10 @@ class Systray(g.StatusIcon, MenuWindow):
         vplural = "s"
         if visible == 1:
             vplural = ""
-        self.set_tooltip("Memo - %d reminder%s today" % (visible, vplural))
+        self.set_tooltip_text("Memo - %d reminder%s today" % (visible, vplural))
 
-    def position_menu(self, menu):
-        return g.status_icon_position_menu(menu, self)
+    def position_menu(self, menu, x, y, *args):
+        return Gtk.StatusIcon.position_menu(menu, x, y, self)
 
     def popup(self, status_icon, button, activate_time):
         # Rox's 'menu' class doesn't actually need a 'gtk.gdk.Event', just an object

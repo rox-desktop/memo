@@ -1,5 +1,5 @@
+from gi.repository import Gtk
 import rox
-from rox import g
 import time
 
 from Arrow import Arrow
@@ -14,25 +14,25 @@ HIDE = 2
 refleak_bug_workaround = []
 
 
-class EditBox(g.Dialog):
+class EditBox(Gtk.Dialog):
     def __init__(self, memo=None):
-        g.Dialog.__init__(self)
-        self.set_has_separator(False)
+        Gtk.Dialog.__init__(self)
+        #self.set_has_separator(False)
 
-        self.add_button(g.STOCK_HELP, g.RESPONSE_HELP)
+        self.add_button(Gtk.STOCK_HELP, Gtk.ResponseType.HELP)
 
         if memo:
-            self.add_button(g.STOCK_DELETE, DELETE)
+            self.add_button(Gtk.STOCK_DELETE, DELETE)
 
-            button = rox.ButtonMixed(g.STOCK_ZOOM_OUT, _('_Hide'))
-            button.set_flags(g.CAN_DEFAULT)
+            button = rox.ButtonMixed(Gtk.STOCK_ZOOM_OUT, _('_Hide'))
+            button.set_can_default(True)
             self.add_action_widget(button, HIDE)
 
-        self.add_button(g.STOCK_CANCEL, g.RESPONSE_CANCEL)
+        self.add_button(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL)
 
-        button = rox.ButtonMixed(g.STOCK_YES, _('_Set'))
-        button.set_flags(g.CAN_DEFAULT)
-        self.add_action_widget(button, g.RESPONSE_YES)
+        button = rox.ButtonMixed(Gtk.STOCK_YES, _('_Set'))
+        button.set_can_default(True)
+        self.add_action_widget(button, Gtk.ResponseType.YES)
 
         self.memo = memo
         if memo:
@@ -46,7 +46,7 @@ class EditBox(g.Dialog):
         self.hour = hour
         self.min = minute
 
-        self.cal = g.Calendar()
+        self.cal = Gtk.Calendar()
         self.cal.select_month(month - 1, year)
         self.cal.select_day(day)
 
@@ -56,18 +56,18 @@ class EditBox(g.Dialog):
         text_frame = self.make_text_view()
 
         # Time/Date on the left, Text on the right
-        hbox = g.HBox(False, 0)
+        hbox = Gtk.HBox(False, 0)
         self.vbox.pack_start(hbox, True, True, 0)
 
         self.vbox.pack_start(self.advanced_box, False, True, 0)
 
         # Date above time
-        vbox = g.VBox(False, 0)
+        vbox = Gtk.VBox(False, 0)
         hbox.pack_start(vbox, False, True, 0)
         vbox.set_border_width(4)
         vbox.pack_start(self.cal, False, True, 0)
 
-        spacer = g.Alignment()
+        spacer = Gtk.Alignment()
         vbox.pack_start(spacer, False, True, 2)
 
         vbox.pack_start(at_box, False, True, 0)
@@ -102,33 +102,34 @@ class EditBox(g.Dialog):
 
         self.connect('response', self.response)
         self.text.grab_focus()
-        self.set_default_response(g.RESPONSE_YES)
+        self.set_default_response(Gtk.ResponseType.YES)
 
         self.connect('destroy', lambda w: refleak_bug_workaround.remove(self))
         refleak_bug_workaround.append(self)
 
     def make_text_view(self):
         # The TextView / time of day settings
-        vbox = g.VBox(False, 0)
-        l = g.Label(_('Message:'))
+        vbox = Gtk.VBox(False, 0)
+        l = Gtk.Label(_('Message:'))
         l.set_alignment(0, 1)
         l.set_padding(0, 4)
         vbox.pack_start(l, False, True, 0)
 
-        frame = g.Frame()
+        frame = Gtk.Frame()
         vbox.pack_start(frame, True, True, 0)
-        frame.set_shadow_type(g.SHADOW_IN)
+        frame.set_shadow_type(Gtk.ShadowType.IN)
 
-        hbox = g.HBox(False, 0)
+        hbox = Gtk.HBox(False, 0)
         frame.add(hbox)
 
-        text = g.TextView()
+        text = Gtk.TextView()
         hbox.pack_start(text, True, True, 0)
-        text.set_wrap_mode(g.WRAP_WORD)
+        text.set_wrap_mode(Gtk.WrapMode.WORD)
 
-        scrollbar = g.VScrollbar()
+        scrollbar = Gtk.VScrollbar()
         adj = scrollbar.get_adjustment()
-        text.set_scroll_adjustments(None, adj)
+        # FIXME
+        #text.set_scroll_adjustments(None, adj)
         hbox.pack_start(scrollbar, False, True, 0)
 
         text.set_size_request(200, 200)
@@ -139,52 +140,52 @@ class EditBox(g.Dialog):
 
     def make_at_box(self):
         # The time of day setting
-        hbox = g.HBox(False, 0)
+        hbox = Gtk.HBox(False, 0)
 
-        self.at = g.CheckButton(_('At'))
+        self.at = Gtk.CheckButton(_('At'))
         hbox.pack_start(self.at, False, True, 4)
         self.at.connect('toggled', self.at_toggled)
 
-        at_box = g.HBox(False, 0)
+        at_box = Gtk.HBox(False, 0)
         self.at_box = at_box
         hbox.pack_start(at_box, False, True, 0)
 
-        arrow = Arrow(g.ARROW_LEFT, self.adj_time, -60)
+        arrow = Arrow(Gtk.ArrowType.LEFT, self.adj_time, -60)
         at_box.pack_start(arrow, False, True, 0)
-        arrow = Arrow(g.ARROW_RIGHT, self.adj_time, 60)
+        arrow = Arrow(Gtk.ArrowType.RIGHT, self.adj_time, 60)
         at_box.pack_start(arrow, False, True, 0)
 
-        self.time_display = g.Label(str_time(self.hour, self.min))
+        self.time_display = Gtk.Label(str_time(self.hour, self.min))
         self.time_display.set_padding(4, 0)
-        frame = g.Frame()
+        frame = Gtk.Frame()
         frame.add(self.time_display)
         at_box.pack_start(frame, False, True, 0)
 
-        arrow = Arrow(g.ARROW_LEFT, self.adj_time, -1)
+        arrow = Arrow(Gtk.ArrowType.LEFT, self.adj_time, -1)
         at_box.pack_start(arrow, False, True, 0)
-        arrow = Arrow(g.ARROW_RIGHT, self.adj_time, 1)
+        arrow = Arrow(Gtk.ArrowType.RIGHT, self.adj_time, 1)
         at_box.pack_start(arrow, False, True, 0)
 
         return hbox
 
     def make_advanced_box(self):
         # The advanced settings
-        expander = g.Expander(_('Advanced Options'))
-        expandvbox = g.VBox(False, 4)
+        expander = Gtk.Expander(label=_('Advanced Options'))
+        expandvbox = Gtk.VBox(False, 4)
         expander.add(expandvbox)
 
-        sound_frame = g.Frame(_('Sound'))
-        # sound_frame.set_shadow_type(g.SHADOW_NONE)
+        sound_frame = Gtk.Frame(label=_('Sound'))
+        # sound_frame.set_shadow_type(Gtk.SHADOW_NONE)
         label_widget = sound_frame.get_label_widget()
         label_widget.set_markup('<b>' + _('Sound') + '</b>')
 
         expandvbox.pack_start(sound_frame, False, True, 0)
 
-        sound_box = g.HBox(False, 4)
+        sound_box = Gtk.HBox(False, 4)
         sound_box.set_border_width(8)
         sound_frame.add(sound_box)
 
-        sound_choice = g.combo_box_new_text()
+        sound_choice = Gtk.ComboBoxText()
         self.sound_choice = sound_choice
         sound_choice.append_text(_('Use default sound'))
         sound_choice.append_text(_('Use custom sound'))
@@ -192,8 +193,8 @@ class EditBox(g.Dialog):
         sound_choice.set_active(0)
         sound_box.pack_start(sound_choice, False, False, 0)
 
-        #sound_entry = g.Entry()
-        sound_entry = g.FileChooserButton('Sound File')
+        #sound_entry = Gtk.Entry()
+        sound_entry = Gtk.FileChooserButton('Sound File')
         self.sound_entry = sound_entry
         sound_entry.set_sensitive(False)
         sound_box.pack_start(sound_entry, True, True, 0)
@@ -211,15 +212,15 @@ class EditBox(g.Dialog):
                 memo_list.delete(self.memo)
             elif response == HIDE:
                 self.add(hide=1)
-            elif response == int(g.RESPONSE_YES):
+            elif response == int(Gtk.ResponseType.YES):
                 self.add()
-            elif response == int(g.RESPONSE_HELP):
+            elif response == int(Gtk.ResponseType.HELP):
                 from rox import filer
                 filer.open_dir(rox.app_dir + '/Help')
                 return
-            elif response == int(g.RESPONSE_CANCEL):
+            elif response == int(Gtk.ResponseType.CANCEL):
                 pass
-            elif response == int(g.RESPONSE_DELETE_EVENT):
+            elif response == int(Gtk.ResponseType.DELETE_EVENT):
                 return
             else:
                 raise Exception("Unknown response: %d" % response)
@@ -231,7 +232,7 @@ class EditBox(g.Dialog):
         (y, m, d) = self.cal.get_date()
         t = time.mktime((y, m + 1, d, self.hour, self.min,
                          0, -1, -1, -1))
-        at = self.at_box.flags() & g.VISIBLE
+        at = self.at_box.is_visible()
         buffer = self.text.get_buffer()
         start = buffer.get_start_iter()
         end = buffer.get_end_iter()

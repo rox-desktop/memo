@@ -61,7 +61,7 @@ def rough_time(time_in_seconds):
         o_clock = ""
 
     return _("It's %s %s%s%s") % (about_message[minute % 5],
-                                  section_name[minute / 5],
+                                  section_name[minute // 5],
                                   hour_name(hour), o_clock)
 
 
