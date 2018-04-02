@@ -53,37 +53,38 @@ except AssertionError:
 # All options must be registered by the time we get here
 rox.app_options.notify()
 
+# FIXME: This does not work reliably, it raises BadAtom sometimes.
 # This is just to prevent us from loading two copies...
-memo_service = 'net.sourceforge.rox.Memo'
-from rox import xxmlrpc, tasks
-try:
-    proxy = xxmlrpc.XXMLProxy(memo_service)
-    # Check to make sure it really is running...
-
-    def check():
-        call = proxy.get_object('/').get_pid()
-        yield call, tasks.TimeoutBlocker(2)
-        if call.happened:
-            pid = call.get_response()
-            rox.alert('Memo is already running (PID = %d)!' % pid)
-            os._exit(1)
-        Gtk.main_quit()
-    tasks.Task(check())
-    Gtk.main()
-    print("Possible existing copy of Memo is not responding")
-except xxmlrpc.NoSuchService:
-    pass  # Good
-server = xxmlrpc.XXMLRPCServer(memo_service)
-
-
-class MemoObject:
-    allowed_methods = ['get_pid']
-
-    def get_pid(self):
-        return os.getpid()
-
-
-server.add_object('/', MemoObject())
+#memo_service = 'net.sourceforge.rox.Memo'
+#from rox import xxmlrpc, tasks
+#try:
+#    proxy = xxmlrpc.XXMLProxy(memo_service)
+#    # Check to make sure it really is running...
+#
+#    def check():
+#        call = proxy.get_object('/').get_pid()
+#        yield call, tasks.TimeoutBlocker(2)
+#        if call.happened:
+#            pid = call.get_response()
+#            rox.alert('Memo is already running (PID = %d)!' % pid)
+#            os._exit(1)
+#        Gtk.main_quit()
+#    tasks.Task(check())
+#    Gtk.main()
+#    print("Possible existing copy of Memo is not responding")
+#except xxmlrpc.NoSuchService:
+#    pass  # Good
+#server = xxmlrpc.XXMLRPCServer(memo_service)
+#
+#
+#class MemoObject:
+#    allowed_methods = ['get_pid']
+#
+#    def get_pid(self):
+#        return os.getpid()
+#
+#
+#server.add_object('/', MemoObject())
 
 memo_list = memos.MasterList()
 
