@@ -4,9 +4,6 @@ from rox import options, app_options
 from MenuWindow import MenuWindow
 import main
 
-import gobject
-
-import sys
 import os.path
 
 systrayEnable = options.Option('systray_enable', True)

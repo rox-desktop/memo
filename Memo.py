@@ -1,6 +1,4 @@
 from gi.repository import GObject
-import os
-import string
 import time
 
 from pretty_time import month_name, str_time

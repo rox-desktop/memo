@@ -1,10 +1,14 @@
+import os
+import builtins
+
 import gi
-gi.require_version('Gtk', '3.0')
+gi.require_version('Gtk', '3.0')  # noqa
 from gi.repository import Gtk
 import findrox
-findrox.version(2, 0, 3)
+findrox.version(2, 0, 3)  # noqa
 import rox
 from rox import OptionsBox
+from rox.Menu import set_save_name
 
 
 def build_filechooser(self, node, label, option):
@@ -34,21 +38,20 @@ def build_filechooser(self, node, label, option):
 
 OptionsBox.widget_registry['filechooser'] = build_filechooser
 
-import os
-import builtins
 builtins._ = rox.i18n.translation(os.path.join(rox.app_dir, 'Messages'))
 
 rox.setup_app_options('Memo', site='rox.sourceforge.net')
 
-from rox.Menu import set_save_name
 set_save_name('Memo', site='rox.sourceforge.net')
 
-import Window
-import memos
-import clock
+import Window  # noqa
+import memos  # noqa
+
+# Need this for the Clock options
+import clock  # noqa
 try:
     # Need this for the Systray options
-    import Systray
+    import Systray  # noqa
 except AssertionError:
     pass
 

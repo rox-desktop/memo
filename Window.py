@@ -1,7 +1,6 @@
 from gi.repository import Gtk, Gdk, GObject
 import rox
 from rox import app_options
-from rox.Menu import Menu
 from rox.options import Option
 
 from MenuWindow import MenuWindow

@@ -18,9 +18,8 @@
 import rox
 import time
 import sys
-import os
 from gi.repository import Gtk, Gdk, GObject, Pango
-from rox import applet, Menu, options, processes, filer
+from rox import applet, options, processes
 from MenuWindow import MenuWindow
 import main
 
@@ -131,7 +130,7 @@ class Clock:
         self.update_clock()
 
     def set_time(self):
-        rox.processes.PipeThroughCommand(set_prog.value, None, None).wait()
+        processes.PipeThroughCommand(set_prog.value, None, None).wait()
 
     def toggle_main(self):
         if main.main_window.is_visible():

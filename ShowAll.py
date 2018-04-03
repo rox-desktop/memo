@@ -2,8 +2,6 @@ from gi.repository import Gtk, Gdk
 import rox
 
 from main import memo_list
-import pretty_time
-import time
 import memos
 
 

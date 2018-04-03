@@ -161,7 +161,6 @@ def notify(memo):
 
 
 def timer():
-    import time
     import dbus.types
     assert _avail
 
@@ -182,8 +181,6 @@ def timer():
 
 if __name__ == '__main__':
     __builtins__._ = lambda x: x
-    from Memo import Memo
     assert is_available()
     notify(Memo(0, 'This is a <message>.\nMore <details> go <here>.', True))
-    from rox import g
     Gtk.main()
