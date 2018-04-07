@@ -5,7 +5,7 @@ import gi
 gi.require_version('Gtk', '3.0')  # noqa
 from gi.repository import Gtk
 import findrox
-findrox.version(2, 0, 3)  # noqa
+findrox.version(3, 0, 0)  # noqa
 import rox
 from rox import OptionsBox
 from rox.Menu import set_save_name
