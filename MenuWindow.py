@@ -51,12 +51,12 @@ class MenuWindow(object):
 
     def removeAdditions(self, additions):
         changed = False
-        for (key, list) in list(self.additions.items()):
+        for (key, items) in list(self.additions.items()):
             if key in additions:
                 toRemove = additions[key]
                 for item in toRemove:
                     try:
-                        list.remove(item)
+                        items.remove(item)
                         changed = True
                     except ValueError:
                         # If they're not already in the list, that's okay
