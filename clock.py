@@ -29,7 +29,7 @@ menuAdditions = {
     ],
     'bottomActions': [
         ('/', "", "<Separator>"),
-        (_('/Set Time'), "set_time", "<StockItem>", "", Gtk.STOCK_PROPERTIES),
+        (_('/Set Time'), "set_time"),
     ]}
 
 set_prog = options.Option('set_program', "gksu time-admin")

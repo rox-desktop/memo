@@ -3,14 +3,14 @@ import rox
 from rox.Menu import Menu
 
 actionsMenu = [
-    (_('/Add Memo...'), 'new_memo', "<StockItem>", "", Gtk.STOCK_ADD),
-    (_('/Show All...'), 'show_all_memos', '<StockItem>', "", Gtk.STOCK_EDIT),
+    (_('/Add Memo...'), 'new_memo'),
+    (_('/Show All...'), 'show_all_memos'),
 ]
 
 mainMenu = [
-    (_('/Options...'),  'show_options', "<StockItem>", "", Gtk.STOCK_PREFERENCES),
-    (_('/Help'),        'show_help',	"<StockItem>", "", Gtk.STOCK_HELP),
-    (_('/Quit'),        'quit', "<StockItem>", "", Gtk.STOCK_QUIT),
+    (_('/Options...'),  'show_options'),
+    (_('/Help'),        'show_help'),
+    (_('/Quit'),        'quit'),
 ]
 
 SEPARATOR = ('/', '', '<Separator>')
